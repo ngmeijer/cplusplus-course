@@ -1,0 +1,15 @@
+﻿  main.cpp
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(28,25): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(28,14): error C2146: syntax error: missing ';' before identifier 'spriteArray'
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(48,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(51,28): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(53,3): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(55,15): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(56,15): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(75,16): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(79,5): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(81,5): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(83,5): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(85,5): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(88,5): error C2065: 'spriteArray': undeclared identifier
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\main.cpp(91,5): error C2065: 'spriteArray': undeclared identifier
