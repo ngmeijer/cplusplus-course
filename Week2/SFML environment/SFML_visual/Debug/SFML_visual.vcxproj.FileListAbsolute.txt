@@ -1,2 +1,4 @@
 C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\Debug\SFML_visual.exe
 C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\Week2\SFML environment\SFML_visual\Debug\SFML_visual.pdb
+D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\Debug\SFML_visual.exe
+D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\Debug\SFML_visual.pdb
