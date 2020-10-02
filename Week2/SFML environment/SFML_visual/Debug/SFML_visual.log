@@ -1,12 +1,36 @@
 ﻿  main.cpp
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(31,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(92,74): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(92,60): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(94,74): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(94,60): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(96,71): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(96,45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(98,71): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(98,45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  SFML_visual.vcxproj -> D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\Debug\SFML_visual.exe
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(31,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(31,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(86,22): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(87,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(89,22): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(90,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(122,106): warning C4244: '-=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(126,106): warning C4244: '+=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(130,127): warning C4244: '+=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(134,127): warning C4244: '-=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  SFML_visual.vcxproj -> C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\Debug\SFML_visual.exe
