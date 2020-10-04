@@ -5,47 +5,12 @@
 #include <conio.h>
 #include <ctime>
 #include <time.h>
+#include "Player.h"
 
 #define KEY_UP 72
 #define KEY_DOWN 80
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
-
-class PlayerSprite
-{
-public:
-	int _xPosition;
-	int _yPosition;
-	sf::Sprite _sprite;
-	sf::Texture texture;
-
-	PlayerSprite(int x, int y, sf::Sprite sprite) {
-		_xPosition = x;
-		_yPosition = y;
-		_sprite = sprite;
-		texture.loadFromFile("PixelTexture.png");
-		sprite.setTexture(texture);
-	}
-
-	void setSpritePosition(int xPosition, int yPosition) {
-		_sprite.setPosition(xPosition, yPosition);
-	}
-
-	double* normalizeMoveSpeed(sf::Vector2<float> axisPosition) {
-		double length = sqrt((axisPosition.x * axisPosition.x) + (axisPosition.y * axisPosition.y));
-		return &length;
-	}
-
-	void disappear() {
-		sf::Color originalColor = _sprite.getColor();
-		if (_sprite.getColor() != sf::Color::Transparent)
-			_sprite.setColor(sf::Color::Transparent);
-	}
-
-	void show(sf::Color color) {
-		_sprite.setColor(color);
-	}
-};
 
 float moveVelocity = 1000000.0f;
 
@@ -55,7 +20,7 @@ bool movingUp = false;
 bool movingDown = false;
 
 sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML_visual");
-const int MAX_SPRITES = 5;
+const int MAX_SPRITES = 7;
 
 int randomXosition;
 
@@ -67,14 +32,61 @@ int xPositionsArray[MAX_SPRITES];
 int yPositionsArray[MAX_SPRITES];
 float xPosition;
 float yPosition;
-vector<PlayerSprite> spriteArray;
+vector<Player> spriteArray;
 int CURRENT_SPRITE;
+
+
+void movePlayer() {
+	sf::Clock clock;
+	clock.restart();
+	float deltaTime = clock.restart().asSeconds();
+
+	for (int index = 0; index < MAX_SPRITES; index++) {
+		sf::Vector2f velocity(0.0f, 0.0f);
+		sf::Vector2f acceleration(moveVelocity, moveVelocity);
+
+		int* xPositionsArrayPtr = &xPositionsArray[index];
+		int* yPositionsArrayPtr = &yPositionsArray[index];
+
+		window.draw(spriteArray[index]._sprite);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			spriteArray[index].setSpritePosition(*xPositionsArrayPtr -= (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			spriteArray[index].setSpritePosition(*xPositionsArrayPtr += (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr += (velocity.y = acceleration.y * deltaTime));
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr -= (velocity.y = acceleration.y * deltaTime));
+		}
+
+	}
+}
+
+void changeColor() {
+	for (int index = 0; index < MAX_SPRITES; index++) {
+		sf::Color originalColor = spriteArray[0]._sprite.getColor();
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			spriteArray[index].disappear();
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab)) {
+			spriteArray[index].show(originalColor);
+		}
+	}
+
+
+}
 
 int main()
 {
-	sf::Vector2f velocity(0.0f, 0.0f);
-	sf::Vector2f acceleration(moveVelocity, moveVelocity);
-
 	texture.loadFromFile("PixelTexture.png");
 	sf::Texture* texturePtr = &texture;
 
@@ -91,7 +103,7 @@ int main()
 
 		sprite.setTexture(*texturePtr);
 
-		spriteArray.push_back(PlayerSprite(*xPositionPtr, *yPositionPtr, sprite));
+		spriteArray.push_back(Player(*xPositionPtr, *yPositionPtr, sprite));
 		spriteArray[CURRENT_SPRITE].setSpritePosition(*xPositionPtr, *yPositionPtr);
 	}
 
@@ -99,10 +111,6 @@ int main()
 
 	while (window.isOpen())
 	{
-		sf::Clock clock;
-		clock.restart();
-		float deltaTime = clock.restart().asSeconds();
-
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
@@ -111,36 +119,9 @@ int main()
 		}
 		window.clear();
 
-		for (int index = 0; index < MAX_SPRITES; index++) {
-			int* xPositionsArrayPtr = &xPositionsArray[index];
-			int* yPositionsArrayPtr = &yPositionsArray[index];
+		movePlayer();
+		changeColor();
 
-			window.draw(spriteArray[index]._sprite);
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			{
-				spriteArray[index].setSpritePosition(*xPositionsArrayPtr -= (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			{
-				spriteArray[index].setSpritePosition(*xPositionsArrayPtr += (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-			{
-				spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr += (velocity.y = acceleration.y * deltaTime));
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-			{
-				spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr -= (velocity.y = acceleration.y * deltaTime));
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-				spriteArray[index].disappear();
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab)) {
-				spriteArray[index].show(originalColor);
-			}
-		}
 		window.display();
 
 	}
