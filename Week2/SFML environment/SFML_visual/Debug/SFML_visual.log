@@ -1,34 +1,43 @@
 ﻿  main.cpp
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(55,105): warning C4244: '-=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(59,105): warning C4244: '+=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(63,126): warning C4244: '+=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(67,126): warning C4244: '-=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(98,22): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(73,22): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=unsigned int
           ]
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(99,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(101,22): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(74,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(76,22): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=unsigned int
           ]
-D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(102,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  SFML_visual.vcxproj -> D:\Github\cplusplus-course\Week2\SFML environment\SFML_visual\Debug\SFML_visual.exe
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(77,34): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(101,105): warning C4244: '-=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(102,15): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(104,43): warning C4244: '+=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(108,105): warning C4244: '+=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(109,15): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(115,126): warning C4244: '+=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(116,15): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(122,126): warning C4244: '-=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\main.cpp(123,15): warning C4553: '==': result of expression not used; did you intend '='?
+  SFML_visual.vcxproj -> C:\Users\meije\OneDrive\Bureaublad\Year2\C++\C++\cplusplus-course\Week2\SFML environment\SFML_visual\Debug\SFML_visual.exe

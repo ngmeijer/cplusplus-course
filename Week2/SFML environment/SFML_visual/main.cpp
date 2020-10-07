@@ -12,6 +12,17 @@
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
+enum MOVEMENT_SWITCH {
+	MOVE_LEFT = sf::Keyboard::A,
+	MOVE_RIGHT = sf::Keyboard::D,
+	MOVE_UP = sf::Keyboard::W,
+	MOVE_DOWN = sf::Keyboard::S
+};
+
+Keyboard::Key currentKey;
+int currentKeyIndex;
+Color originalColor;
+
 float moveVelocity = 1000000.0f;
 
 bool movingLeft = false;
@@ -19,74 +30,39 @@ bool movingRight = false;
 bool movingUp = false;
 bool movingDown = false;
 
-sf::RenderWindow window(sf::VideoMode(1000, 1000), "SFML_visual");
+RenderWindow window(sf::VideoMode(1000, 1000), "SFML_visual");
 const int MAX_SPRITES = 7;
 
 int randomXosition;
 
 using namespace std;
+using namespace sf;
 
-sf::Texture texture;
-sf::Sprite sprite;
+Texture texture;
+Sprite sprite;
 int xPositionsArray[MAX_SPRITES];
 int yPositionsArray[MAX_SPRITES];
 float xPosition;
 float yPosition;
 vector<Player> spriteArray;
-int CURRENT_SPRITE;
+vector<Vector2f> movementHistory;
+unsigned int CURRENT_SPRITE;
+int movementX = 0;
+int movementY = 0;
 
+Vector2f velocity(0.0f, 0.0f);
+Vector2f acceleration(moveVelocity, moveVelocity);
 
-void movePlayer() {
-	sf::Clock clock;
-	clock.restart();
-	float deltaTime = clock.restart().asSeconds();
+Event event;
 
-	for (int index = 0; index < MAX_SPRITES; index++) {
-		sf::Vector2f velocity(0.0f, 0.0f);
-		sf::Vector2f acceleration(moveVelocity, moveVelocity);
+bool CurrentKeyState[sf::Keyboard::KeyCount];
+bool PreviousKeyState[sf::Keyboard::KeyCount];
 
-		int* xPositionsArrayPtr = &xPositionsArray[index];
-		int* yPositionsArrayPtr = &yPositionsArray[index];
+bool KeyReleased(sf::Keyboard::Key Key);
 
-		window.draw(spriteArray[index]._sprite);
+MOVEMENT_SWITCH moveSwitch;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			spriteArray[index].setSpritePosition(*xPositionsArrayPtr -= (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			spriteArray[index].setSpritePosition(*xPositionsArrayPtr += (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr += (velocity.y = acceleration.y * deltaTime));
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		{
-			spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr -= (velocity.y = acceleration.y * deltaTime));
-		}
-
-	}
-}
-
-void changeColor() {
-	for (int index = 0; index < MAX_SPRITES; index++) {
-		sf::Color originalColor = spriteArray[0]._sprite.getColor();
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			spriteArray[index].disappear();
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab)) {
-			spriteArray[index].show(originalColor);
-		}
-	}
-
-
-}
-
-int main()
-{
+void drawPlayer() {
 	texture.loadFromFile("PixelTexture.png");
 	sf::Texture* texturePtr = &texture;
 
@@ -106,8 +82,98 @@ int main()
 		spriteArray.push_back(Player(*xPositionPtr, *yPositionPtr, sprite));
 		spriteArray[CURRENT_SPRITE].setSpritePosition(*xPositionPtr, *yPositionPtr);
 	}
+}
 
-	sf::Color originalColor = spriteArray[0]._sprite.getColor();
+void movePlayer() {
+	Clock clock;
+	clock.restart();
+	float deltaTime = clock.restart().asSeconds();
+
+	for (unsigned int index = 0; index < MAX_SPRITES; index++) {
+
+		int* xPositionsArrayPtr = &xPositionsArray[index];
+		int* yPositionsArrayPtr = &yPositionsArray[index];
+
+		window.draw(spriteArray[index]._sprite);
+
+		switch (3) {
+			if (Keyboard::isKeyPressed(Keyboard::A))
+			{
+				spriteArray[index].setSpritePosition(*xPositionsArrayPtr -= (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
+				currentKey == Keyboard::A;
+				currentKeyIndex = 0;
+				movementX += (velocity.x / MAX_SPRITES);
+			}
+			if (Keyboard::isKeyPressed(Keyboard::D))
+			{
+				spriteArray[index].setSpritePosition(*xPositionsArrayPtr += (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
+				currentKey == Keyboard::D;
+				currentKeyIndex = 3;
+			}
+			if (Keyboard::isKeyPressed(Keyboard::S))
+			{
+				spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr += (velocity.y = acceleration.y * deltaTime));
+				currentKey == Keyboard::S;
+				currentKeyIndex = 18;
+
+			}
+			if (Keyboard::isKeyPressed(Keyboard::W))
+			{
+				spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr -= (velocity.y = acceleration.y * deltaTime));
+				currentKey == Keyboard::W;
+				currentKeyIndex = 22;
+			}
+		}
+	}
+}
+
+bool KeyReleased(Keyboard::Key key) {
+	return (!CurrentKeyState[key] && PreviousKeyState[key]);
+}
+
+void trackMovement() {
+	for (unsigned int i = 0; i < Keyboard::KeyCount; ++i) {
+		PreviousKeyState[i] = CurrentKeyState[i];
+
+		CurrentKeyState[i] = Keyboard::isKeyPressed((Keyboard::Key)i);
+	}
+
+	if (KeyReleased(currentKey))
+	{
+		switch (22) {
+		case 0:
+			cout << "released A." << endl;
+			break;
+		case 3:
+			cout << "released D." << endl;
+			break;
+		case 18:
+			cout << "released S." << endl;
+			break;
+		case 22:
+			cout << "released W." << endl;
+			break;
+		}
+	}
+}
+
+void changeColor() {
+	for (int index = 0; index < MAX_SPRITES; index++) {
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			spriteArray[index].disappear();
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab)) {
+			spriteArray[index].show(originalColor);
+		}
+	}
+}
+
+int main()
+{
+	drawPlayer();
+
+	originalColor = spriteArray[0]._sprite.getColor();
 
 	while (window.isOpen())
 	{
@@ -120,6 +186,7 @@ int main()
 		window.clear();
 
 		movePlayer();
+		trackMovement();
 		changeColor();
 
 		window.display();
