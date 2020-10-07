@@ -12,6 +12,9 @@
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
+using namespace std;
+using namespace sf;
+
 enum MOVEMENT_SWITCH {
 	MOVE_LEFT = sf::Keyboard::A,
 	MOVE_RIGHT = sf::Keyboard::D,
@@ -34,9 +37,6 @@ RenderWindow window(sf::VideoMode(1000, 1000), "SFML_visual");
 const int MAX_SPRITES = 7;
 
 int randomXosition;
-
-using namespace std;
-using namespace sf;
 
 Texture texture;
 Sprite sprite;
@@ -96,33 +96,31 @@ void movePlayer() {
 
 		window.draw(spriteArray[index]._sprite);
 
-		switch (3) {
-			if (Keyboard::isKeyPressed(Keyboard::A))
-			{
-				spriteArray[index].setSpritePosition(*xPositionsArrayPtr -= (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
-				currentKey == Keyboard::A;
-				currentKeyIndex = 0;
-				movementX += (velocity.x / MAX_SPRITES);
-			}
-			if (Keyboard::isKeyPressed(Keyboard::D))
-			{
-				spriteArray[index].setSpritePosition(*xPositionsArrayPtr += (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
-				currentKey == Keyboard::D;
-				currentKeyIndex = 3;
-			}
-			if (Keyboard::isKeyPressed(Keyboard::S))
-			{
-				spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr += (velocity.y = acceleration.y * deltaTime));
-				currentKey == Keyboard::S;
-				currentKeyIndex = 18;
+		if (Keyboard::isKeyPressed(Keyboard::A))
+		{
+			spriteArray[index].setSpritePosition(*xPositionsArrayPtr -= (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
+			currentKey == Keyboard::A;
+			currentKeyIndex = 0;
+			movementX += (velocity.x / MAX_SPRITES);
+		}
+		if (Keyboard::isKeyPressed(Keyboard::D))
+		{
+			spriteArray[index].setSpritePosition(*xPositionsArrayPtr += (velocity.x = acceleration.x * deltaTime), *yPositionsArrayPtr);
+			currentKey == Keyboard::D;
+			currentKeyIndex = 3;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::S))
+		{
+			spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr += (velocity.y = acceleration.y * deltaTime));
+			currentKey == Keyboard::S;
+			currentKeyIndex = 18;
 
-			}
-			if (Keyboard::isKeyPressed(Keyboard::W))
-			{
-				spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr -= (velocity.y = acceleration.y * deltaTime));
-				currentKey == Keyboard::W;
-				currentKeyIndex = 22;
-			}
+		}
+		if (Keyboard::isKeyPressed(Keyboard::W))
+		{
+			spriteArray[index].setSpritePosition(*xPositionsArrayPtr, *yPositionsArrayPtr -= (velocity.y = acceleration.y * deltaTime));
+			currentKey == Keyboard::W;
+			currentKeyIndex = 22;
 		}
 	}
 }
@@ -136,24 +134,6 @@ void trackMovement() {
 		PreviousKeyState[i] = CurrentKeyState[i];
 
 		CurrentKeyState[i] = Keyboard::isKeyPressed((Keyboard::Key)i);
-	}
-
-	if (KeyReleased(currentKey))
-	{
-		switch (22) {
-		case 0:
-			cout << "released A." << endl;
-			break;
-		case 3:
-			cout << "released D." << endl;
-			break;
-		case 18:
-			cout << "released S." << endl;
-			break;
-		case 22:
-			cout << "released W." << endl;
-			break;
-		}
 	}
 }
 
