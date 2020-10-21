@@ -22,18 +22,35 @@ int main() {
 	Scene scene1("menu");
 
 	Button playButton;
+	Text playText;
 	playButton.setSize(200, 100);
+	playButton.setPosition(1600, 300);
 	playButton.setColour(Color::Red);
-	playButton.setString("Play", font, 100, Color::Blue);
+	playButton.setString("Play", font, 100, Color::White);
+	playText.setString("Play");
+	playText.setPosition(1600, 300);
+
+	Button quitButton;
+	quitButton.setSize(200, 100);
+	quitButton.setPosition(1600, 550);
+	quitButton.setColour(Color::Yellow);
+	quitButton.setString("Quit", font, 100, Color::White);
+
+	Button eraseButton;
+	eraseButton.setSize(200, 100);
+	eraseButton.setPosition(1600, 800);
+	eraseButton.setColour(Color::Blue);
+	eraseButton.setString("Quit", font, 100, Color::White);
 
 	scene1.addGameObject(playButton);
-
+	scene1.addGameObject(eraseButton);
+	scene1.addGameObject(quitButton);
 
 	Menu menu;
 
 	Scene scene2("scene02");
 
-	
+
 
 	SpriteObject sprite2("soldierSprite", "head_hurt.png");
 	sprite2.setPosition(sf::Vector2f(70.0f, 70.0f));

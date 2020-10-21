@@ -32,7 +32,7 @@ void Button::setColour(Color buttonColour) {
 void Button::render(RenderWindow& window) {
 	
 	window.draw(this->buttonShape);
-	window.draw(this->buttonText);
+	//window.draw(this->buttonText);
 }
 
 void Button::update() { }
