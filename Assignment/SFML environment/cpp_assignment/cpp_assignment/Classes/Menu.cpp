@@ -1,18 +1,19 @@
-#include "Menu.h"
+//Libraries//
 #include <SFML/Graphics.hpp>
 #include <iostream>
+
+//Header inclusion//
+#include "../Headers/Menu.hpp"
+#include "../Headers/Button.hpp"
 
 using namespace std;
 using namespace sf;
 
-Texture playButtonTexture;
-Sprite playButtonSprite;
-
 RectangleShape selectionRect;
 RectangleShape selectionRect2;
 
-int xPos = 400;
-int yPos;
+int xPos = 1150;
+int yPos = -200;
 
 //Play button
 int playButtonLeft;
@@ -23,6 +24,15 @@ int playButtonBottom;
 int playButtonWidth;
 int playButtonHeight;
 
+//Erase data button
+int eraseButtonLeft;
+int eraseButtonRight;
+int eraseButtonTop;
+int eraseButtonBottom;
+
+int eraseButtonWidth;
+int eraseButtonHeight;
+
 //Quit button
 int quitButtonLeft;
 int quitButtonRight;
@@ -32,8 +42,12 @@ int quitButtonBottom;
 int quitButtonWidth;
 int quitButtonHeight;
 
+Menu::Menu() {}
+
 Menu::Menu(float width, float height)
 {
+	Scene mainMenu;
+
 	if (!font.loadFromFile("font.ttf")) {
 		cout << "Couldn't load font." << endl;
 	}
@@ -43,21 +57,29 @@ Menu::Menu(float width, float height)
 		menuText[index].setFont(font);
 		menuText[index].setCharacterSize(100);
 		menuText[index].setOutlineColor(Color::White);
-		yPos += 200;
+		yPos += 350;
 		menuText[index].setPosition(xPos, yPos);
 		menuText[index].setOrigin(menuText[index].getLocalBounds().width / 2, menuText[index].getLocalBounds().height / 2);
 	}
 
+	Button playButton;
+	playButton.setSize(200, 100);
+	playButton.setString("Play", font, 100, Color::Red);
+
 
 	menuText[0].setString("Play");
-	menuText[1].setString("Quit");
+	menuText[1].setString("Erase Data");
+	menuText[2].setString("Quit");
 
 
 	playButtonWidth = menuText[0].getLocalBounds().width;
 	playButtonHeight = menuText[0].getLocalBounds().height;
 
-	quitButtonWidth = menuText[1].getLocalBounds().width;
-	quitButtonHeight = menuText[1].getLocalBounds().height;
+	eraseButtonWidth = menuText[1].getLocalBounds().width;
+	eraseButtonHeight = menuText[1].getLocalBounds().height;
+
+	quitButtonWidth = menuText[2].getLocalBounds().width;
+	quitButtonHeight = menuText[2].getLocalBounds().height;
 
 	defineButtons();
 
@@ -66,8 +88,9 @@ Menu::Menu(float width, float height)
 	selectionRect.setFillColor(Color::Transparent);
 
 	selectionRect2.setSize(Vector2f(quitButtonWidth, quitButtonHeight));
-	selectionRect2.setPosition(Vector2f(menuText[1].getGlobalBounds().left, menuText[1].getGlobalBounds().top));
+	selectionRect2.setPosition(Vector2f(menuText[2].getGlobalBounds().left, menuText[2].getGlobalBounds().top));
 	selectionRect2.setFillColor(Color::Transparent);
+	selectionRect2.setScale(Vector2f(1.3, 1.3));
 }
 
 Menu::~Menu()
@@ -93,24 +116,19 @@ void Menu::defineButtons() {
 	playButtonRight = (playButtonLeft + playButtonWidth);
 	playButtonBottom = (playButtonTop + playButtonHeight);
 
+	//Erase data button
+	eraseButtonLeft = menuText[1].getGlobalBounds().left;
+	eraseButtonTop = menuText[1].getGlobalBounds().top;
+
+	eraseButtonRight = (eraseButtonLeft + eraseButtonWidth);
+	eraseButtonBottom = (eraseButtonTop + eraseButtonHeight);
+
 	//Quit button
-	quitButtonLeft = menuText[1].getGlobalBounds().left;
-	quitButtonTop = menuText[1].getGlobalBounds().top;
+	quitButtonLeft = menuText[2].getGlobalBounds().left;
+	quitButtonTop = menuText[2].getGlobalBounds().top;
 
 	quitButtonRight = (quitButtonLeft + quitButtonWidth);
 	quitButtonBottom = (quitButtonTop + quitButtonHeight);
-}
-
-void Menu::calculateButtonBorders(int index, int x1, int y1, int x2, int y2, int width, int height) {
-	x1 = menuText[index].getGlobalBounds().left;
-	y1 = menuText[index].getGlobalBounds().top;
-
-	width = menuText[index].getLocalBounds().width;
-	height = menuText[index].getLocalBounds().height;
-
-	x2 = (x1 + width);
-	y2 = (y1 + height);
-	cout << x1 << endl;
 }
 
 void Menu::checkInput(RenderWindow& window)
