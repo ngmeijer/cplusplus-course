@@ -9,8 +9,15 @@
 Font font;
 
 Text menuText[3];
-int yPosText;
-int xPosText;
+
+int yPosText = 65;
+int xPosText = 1620;
+
+void draw(RenderWindow& window) {
+	for (int i = 0; i < maxText; i++) {
+		window.draw(menuText[i]);
+	}
+}
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Arena game!");
@@ -19,25 +26,36 @@ int main() {
 		cout << "Missing font." << endl;
 	}
 
+	for (int index = 0; index < maxText; index++)
+	{
+		menuText[index].setFont(font);
+		menuText[index].setCharacterSize(50);
+		menuText[index].setOutlineColor(Color::White);
+		yPosText += 250;
+		menuText[index].setPosition(xPosText, yPosText);
+		menuText[index].setOrigin(menuText[index].getLocalBounds().width / 2, menuText[index].getLocalBounds().height / 2);
+	}
+
+	menuText[0].setString("Play");
+	menuText[1].setString("Erase Data");
+	menuText[2].setString("Quit");
+
 	Scene scene1("menu");
 
 	Button playButton;
-	Text playText;
-	playButton.setSize(200, 100);
+	playButton.setSize(250, 100);
 	playButton.setPosition(1600, 300);
 	playButton.setColour(Color::Red);
 	playButton.setString("Play", font, 100, Color::White);
-	playText.setString("Play");
-	playText.setPosition(1600, 300);
 
 	Button quitButton;
-	quitButton.setSize(200, 100);
+	quitButton.setSize(250, 100);
 	quitButton.setPosition(1600, 550);
-	quitButton.setColour(Color::Yellow);
+	quitButton.setColour(Color::Magenta);
 	quitButton.setString("Quit", font, 100, Color::White);
 
 	Button eraseButton;
-	eraseButton.setSize(200, 100);
+	eraseButton.setSize(250, 100);
 	eraseButton.setPosition(1600, 800);
 	eraseButton.setColour(Color::Blue);
 	eraseButton.setString("Quit", font, 100, Color::White);
@@ -49,8 +67,6 @@ int main() {
 	Menu menu;
 
 	Scene scene2("scene02");
-
-
 
 	SpriteObject sprite2("soldierSprite", "head_hurt.png");
 	sprite2.setPosition(sf::Vector2f(70.0f, 70.0f));
@@ -81,9 +97,14 @@ int main() {
 				}
 			}
 		}
+		float mousePositionX = Mouse::getPosition().x;
+		float mousePositionY = Mouse::getPosition().y;
+		Vector2f mousePosition = Vector2f(mousePositionX, mousePositionY);
+		playButton.onClick(mousePosition);
 		window.clear();
 		handler.update();
 		handler.render(window);
+		draw(window);
 		window.display();
 	}
 

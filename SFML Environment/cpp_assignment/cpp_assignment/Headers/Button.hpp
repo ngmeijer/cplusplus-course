@@ -26,4 +26,5 @@ public:
 	void setSize(int width, int height);
 	void setColour(Color buttonColour);
 	void setString(string text, Font font, int fontSize, Color colour);
+	void onClick(Vector2f mousePosition);
 };
