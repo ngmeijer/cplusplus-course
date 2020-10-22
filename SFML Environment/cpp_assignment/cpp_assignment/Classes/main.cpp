@@ -97,10 +97,17 @@ int main() {
 				}
 			}
 		}
-		float mousePositionX = Mouse::getPosition().x;
-		float mousePositionY = Mouse::getPosition().y;
+		float mousePositionX = Mouse::getPosition(window).x;
+		float mousePositionY = Mouse::getPosition(window).y;
 		Vector2f mousePosition = Vector2f(mousePositionX, mousePositionY);
-		playButton.onClick(mousePosition);
+
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			if (event.mouseButton.button == Mouse::Left) {
+				playButton.onClick(mousePosition);
+			}
+		}
+
 		window.clear();
 		handler.update();
 		handler.render(window);

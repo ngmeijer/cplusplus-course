@@ -38,12 +38,12 @@ void Button::update() { }
 
 void Button::onClick(Vector2f mousePosition) {
 	FloatRect buttonBorders = buttonShape.getGlobalBounds();
+	float buttonRight = (buttonBorders.left + buttonBorders.width);
+	float buttonBottom = (buttonBorders.top + buttonBorders.height);
 
-	if ((mousePosition.x > buttonBorders.left) && (mousePosition.x < buttonBorders.width)){
-		cout << "running";
-		cout << "clicked!";
-	}
-
-	if (Mouse::isButtonPressed(Mouse::Left)) {
+	if ((mousePosition.x > buttonBorders.left) && (mousePosition.x < buttonRight)) {
+		if ((mousePosition.y > buttonBorders.top) && (mousePosition.y < buttonBottom)) {
+			cout << "clicked!" << endl;
+		}
 	}
 }
