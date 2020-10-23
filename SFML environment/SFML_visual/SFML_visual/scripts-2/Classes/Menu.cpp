@@ -5,6 +5,7 @@
 //Header inclusion//
 #include "../Headers/Menu.hpp"
 #include "../Headers/Button.hpp"
+#include "../Headers/gameObject.hpp"
 
 using namespace std;
 
@@ -43,7 +44,7 @@ int quitButtonHeight;
 
 Menu::Menu() {}
 
-Menu::Menu(float width, float height)
+Menu::Menu(float width, float height) : GameObject()
 {
 	Scene mainMenu;
 
@@ -97,7 +98,7 @@ Menu::~Menu()
 
 }
 
-void Menu::draw(RenderWindow& window)
+void Menu::render(RenderWindow& window)
 {
 	window.draw(selectionRect);
 	window.draw(selectionRect2);
@@ -106,6 +107,8 @@ void Menu::draw(RenderWindow& window)
 		window.draw(menuText[i]);
 	}
 }
+
+void Menu::update() { }
 
 void Menu::defineButtons() {
 	//Play button

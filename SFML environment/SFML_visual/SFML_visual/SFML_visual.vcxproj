@@ -160,7 +160,6 @@
     <ClInclude Include="scripts-2\Headers\scene.hpp" />
     <ClInclude Include="scripts-2\Headers\sceneHandler.hpp" />
     <ClInclude Include="scripts-2\Headers\spriteObject.hpp" />
-    <ClInclude Include="scripts-2\sceneManager\scene.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="scripts-2\sceneManager\head.png" />

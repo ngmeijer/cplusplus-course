@@ -26,7 +26,7 @@ int main() {
 		cout << "Missing font." << endl;
 	}
 
-	for (int index = 0; index < maxText; index++)
+	/*for (int index = 0; index < maxText; index++)
 	{
 		menuText[index].setFont(font);
 		menuText[index].setCharacterSize(50);
@@ -34,7 +34,7 @@ int main() {
 		yPosText += 250;
 		menuText[index].setPosition(xPosText, yPosText);
 		menuText[index].setOrigin(menuText[index].getLocalBounds().width / 2, menuText[index].getLocalBounds().height / 2);
-	}
+	}*/
 
 	menuText[1].setString("Erase Data");
 	menuText[2].setString("Quit");
@@ -53,11 +53,6 @@ int main() {
 	quitButton.setPosition(1600, 550);
 	quitButton.setColour(Color::Magenta);
 	quitButton.setString("Quit", font, 100, Color::White);
-	
-
-	/*float buttonTextX = quitButton.buttonText.getPosition().x;
-	float buttonTextY = quitButton.buttonText.getPosition().y;
-	cout << "{ " << buttonTextX << ", " << buttonTextY << " } ";*/
 
 	Button eraseButton;
 	eraseButton.setSize(250, 100);
@@ -71,8 +66,11 @@ int main() {
 	scene1.addGameObject(quitButton);
 
 	Menu menu;
+	scene1.addGameObject(menu);
+
 
 	Scene scene2("scene02");
+	
 
 	SceneHandler handler;
 	handler.addScene(scene1);
@@ -113,7 +111,6 @@ int main() {
 		handler.update();
 		handler.render(window);
 		draw(window);
-		window.draw(menuText[0]);
 		window.display();
 	}
 

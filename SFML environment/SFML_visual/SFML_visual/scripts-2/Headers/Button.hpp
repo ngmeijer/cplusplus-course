@@ -12,6 +12,7 @@ class Button : public GameObject
 private:
 	RectangleShape buttonShape;
 	Text buttonText;
+	Font font;
 
 public:
 	Button();
@@ -25,6 +26,6 @@ public:
 	void setPosition(int xPos, int yPos);
 	void setSize(int width, int height);
 	void setColour(Color buttonColour);
-	void setString(string text, Font font, int fontSize, Color colour);
+	void setString(string text, const Font& font, int fontSize, Color colour);
 	void onClick(Vector2f mousePosition);
 };

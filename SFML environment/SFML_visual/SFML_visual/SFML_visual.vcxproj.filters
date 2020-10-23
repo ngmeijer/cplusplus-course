@@ -56,9 +56,6 @@
     <ClInclude Include="scripts-2\Headers\spriteObject.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scripts-2\sceneManager\scene.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="scripts-2\sceneManager\head.png">
