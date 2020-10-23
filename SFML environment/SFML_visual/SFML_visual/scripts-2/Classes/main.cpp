@@ -36,7 +36,6 @@ int main() {
 		menuText[index].setOrigin(menuText[index].getLocalBounds().width / 2, menuText[index].getLocalBounds().height / 2);
 	}
 
-	menuText[0].setString("Play");
 	menuText[1].setString("Erase Data");
 	menuText[2].setString("Quit");
 
@@ -48,17 +47,24 @@ int main() {
 	playButton.setColour(Color::Red);
 	playButton.setString("Play", font, 100, Color::White);
 
+
 	Button quitButton;
 	quitButton.setSize(250, 100);
 	quitButton.setPosition(1600, 550);
 	quitButton.setColour(Color::Magenta);
 	quitButton.setString("Quit", font, 100, Color::White);
+	
+
+	/*float buttonTextX = quitButton.buttonText.getPosition().x;
+	float buttonTextY = quitButton.buttonText.getPosition().y;
+	cout << "{ " << buttonTextX << ", " << buttonTextY << " } ";*/
 
 	Button eraseButton;
 	eraseButton.setSize(250, 100);
 	eraseButton.setPosition(1600, 800);
 	eraseButton.setColour(Color::Blue);
 	eraseButton.setString("Quit", font, 100, Color::White);
+
 
 	scene1.addGameObject(playButton);
 	scene1.addGameObject(eraseButton);
@@ -67,11 +73,6 @@ int main() {
 	Menu menu;
 
 	Scene scene2("scene02");
-
-	SpriteObject sprite2("soldierSprite", "head_hurt.png");
-	sprite2.setPosition(sf::Vector2f(70.0f, 70.0f));
-	sprite2.setScale(sf::Vector2f(5.0f, 5.0f));
-	scene2.addGameObject(sprite2);
 
 	SceneHandler handler;
 	handler.addScene(scene1);
@@ -112,6 +113,7 @@ int main() {
 		handler.update();
 		handler.render(window);
 		draw(window);
+		window.draw(menuText[0]);
 		window.display();
 	}
 

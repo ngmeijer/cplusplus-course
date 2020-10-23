@@ -1,5 +1,5 @@
 //Libraries//
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 #include <iostream>
 
 //Header inclusion//
@@ -7,7 +7,6 @@
 #include "../Headers/Button.hpp"
 
 using namespace std;
-using namespace sf;
 
 RectangleShape selectionRect;
 RectangleShape selectionRect2;

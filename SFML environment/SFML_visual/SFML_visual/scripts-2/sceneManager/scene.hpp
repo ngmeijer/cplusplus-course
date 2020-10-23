@@ -3,7 +3,7 @@
 #include <string>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "gameObject.hpp"
+#include "../Headers/gameObject.hpp"
 
 class Scene {
     private:

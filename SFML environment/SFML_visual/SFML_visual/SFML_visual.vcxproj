@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{580b0369-0730-4da6-a8d6-24e903493851}</ProjectGuid>
-    <RootNamespace>cppassignment</RootNamespace>
+    <ProjectGuid>{751d55a5-89d6-4560-b8c5-17eeeb5085c0}</ProjectGuid>
+    <RootNamespace>SFMLvisual</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -94,7 +94,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-system-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,7 +113,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-system.lib;sfml-audio.lib;sfml-network.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -145,21 +145,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Classes\Button.cpp" />
-    <ClCompile Include="Classes\gameObject.cpp" />
-    <ClCompile Include="Classes\main.cpp" />
-    <ClCompile Include="Classes\Menu.cpp" />
-    <ClCompile Include="Classes\scene.cpp" />
-    <ClCompile Include="Classes\sceneHandler.cpp" />
-    <ClCompile Include="Classes\spriteObject.cpp" />
+    <ClCompile Include="scripts-2\Classes\Button.cpp" />
+    <ClCompile Include="scripts-2\Classes\gameObject.cpp" />
+    <ClCompile Include="scripts-2\Classes\main.cpp" />
+    <ClCompile Include="scripts-2\Classes\Menu.cpp" />
+    <ClCompile Include="scripts-2\Classes\scene.cpp" />
+    <ClCompile Include="scripts-2\Classes\sceneHandler.cpp" />
+    <ClCompile Include="scripts-2\Classes\spriteObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Headers\Button.hpp" />
-    <ClInclude Include="Headers\gameObject.hpp" />
-    <ClInclude Include="Headers\Menu.hpp" />
-    <ClInclude Include="Headers\scene.hpp" />
-    <ClInclude Include="Headers\sceneHandler.hpp" />
-    <ClInclude Include="Headers\spriteObject.hpp" />
+    <ClInclude Include="scripts-2\Headers\Button.hpp" />
+    <ClInclude Include="scripts-2\Headers\gameObject.hpp" />
+    <ClInclude Include="scripts-2\Headers\Menu.hpp" />
+    <ClInclude Include="scripts-2\Headers\scene.hpp" />
+    <ClInclude Include="scripts-2\Headers\sceneHandler.hpp" />
+    <ClInclude Include="scripts-2\Headers\spriteObject.hpp" />
+    <ClInclude Include="scripts-2\sceneManager\scene.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="scripts-2\sceneManager\head.png" />
+    <Image Include="scripts-2\sceneManager\head_hurt.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

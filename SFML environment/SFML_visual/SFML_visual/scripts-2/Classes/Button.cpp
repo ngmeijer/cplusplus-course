@@ -22,7 +22,10 @@ void Button::setSize(int width, int height) {
 void Button::setString(string text, Font font, int fontSize, Color colour) {
 	buttonText.setString(text);
 	buttonText.setFont(font);
+	buttonText.setCharacterSize(fontSize);
+	buttonText.setFillColor(colour);
 }
+
 
 void Button::setColour(Color buttonColour) {
 	buttonShape.setFillColor(buttonColour);
@@ -31,7 +34,6 @@ void Button::setColour(Color buttonColour) {
 void Button::render(RenderWindow& window) {
 
 	window.draw(this->buttonShape);
-	//window.draw(this->buttonText);
 }
 
 void Button::update() { }
