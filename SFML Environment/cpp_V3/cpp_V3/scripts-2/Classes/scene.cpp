@@ -17,18 +17,14 @@ void Scene::update() {
 	for (unsigned int i = 0; i < this->listOfGameObjects.size(); i++) {
 		this->listOfGameObjects[i]->update();
 	}
-	/*for (unsigned int i = 0; i < this->listOfTextObjects.size(); i++) {
-		this->listOfTextObjects[i]->;
-	}*/
 }
 
 void Scene::render(sf::RenderWindow& window) {
 	for (unsigned int i = 0; i < this->listOfGameObjects.size(); i++) {
 		this->listOfGameObjects[i]->render(window);
 	}
-
 	for (unsigned int i = 0; i < this->listOfTextObjects.size(); i++) {
-		
+		window.draw(*listOfTextObjects[i]);
 	}
 }
 

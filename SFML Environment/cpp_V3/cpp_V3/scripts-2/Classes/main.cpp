@@ -19,7 +19,11 @@ int health = 100;
 
 void nextScene() {
 	counter++;
-	cout << *counterPtr << endl;
+}
+
+void backToMenu() {
+	cout << "execution";
+	counter = 0;
 }
 
 void generateCharacter() {
@@ -48,14 +52,13 @@ int main() {
 	quitButton.setSize(250, 100);
 	quitButton.setPosition(1600, 550);
 	quitButton.setColour(Color::Magenta);
-	quitButton.setString("Quit", font, 100, Color::White);
+	quitButton.setString("Erase data", font, 50, Color::White);
 
 	Button eraseButton;
 	eraseButton.setSize(250, 100);
 	eraseButton.setPosition(1600, 800);
 	eraseButton.setColour(Color::Blue);
 	eraseButton.setString("Quit", font, 100, Color::White);
-
 
 	menu.addGameObject(playButton);
 	menu.addGameObject(eraseButton);
@@ -70,10 +73,19 @@ int main() {
 	generateButton.setColour(Color::Magenta);
 	generateButton.setString("Generate", font, 100, Color::White);
 
+	Button cancelButton(&backToMenu);
+	cancelButton.setSize(200, 100);
+	cancelButton.setPosition(100, 100);
+	cancelButton.setColour(Color::White);
+	cancelButton.setString("Cancel", font, 50, Color::Black);
+
 	Text health;
+	health.setFont(font);
+	health.setPosition(0, (window.getSize().x / 2 - health.getLocalBounds().height));
 	health.setString("Health: " + health.getString());
 
 	character.addGameObject(generateButton);
+	character.addGameObject(cancelButton);
 	character.addTextObject(health);
 
 	SceneHandler handler;
@@ -99,6 +111,10 @@ int main() {
 					if (playButton.onClick(mousePosition)) {
 						handler.stackScene("character");
 						playButton();
+					}
+					else if (cancelButton.onClick(mousePosition)) {
+						handler.stackScene("menu");
+						cancelButton();
 					}
 					else {
 						counter--;
