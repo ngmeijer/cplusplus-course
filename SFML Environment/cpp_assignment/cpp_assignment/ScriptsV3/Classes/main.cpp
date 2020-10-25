@@ -1,4 +1,4 @@
-#include <SFML/graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "../Headers/scene.hpp"
 #include "../Headers/menu.hpp"
@@ -26,7 +26,7 @@ int main() {
 		cout << "Missing font." << endl;
 	}
 
-	/*for (int index = 0; index < maxText; index++)
+	for (int index = 0; index < maxText; index++)
 	{
 		menuText[index].setFont(font);
 		menuText[index].setCharacterSize(50);
@@ -34,8 +34,9 @@ int main() {
 		yPosText += 250;
 		menuText[index].setPosition(xPosText, yPosText);
 		menuText[index].setOrigin(menuText[index].getLocalBounds().width / 2, menuText[index].getLocalBounds().height / 2);
-	}*/
+	}
 
+	menuText[0].setString("Play");
 	menuText[1].setString("Erase Data");
 	menuText[2].setString("Quit");
 
@@ -46,7 +47,6 @@ int main() {
 	playButton.setPosition(1600, 300);
 	playButton.setColour(Color::Red);
 	playButton.setString("Play", font, 100, Color::White);
-
 
 	Button quitButton;
 	quitButton.setSize(250, 100);
@@ -60,17 +60,18 @@ int main() {
 	eraseButton.setColour(Color::Blue);
 	eraseButton.setString("Quit", font, 100, Color::White);
 
-
 	scene1.addGameObject(playButton);
 	scene1.addGameObject(eraseButton);
 	scene1.addGameObject(quitButton);
 
 	Menu menu;
-	scene1.addGameObject(menu);
-
 
 	Scene scene2("scene02");
-	
+
+	SpriteObject sprite2("soldierSprite", "head_hurt.png");
+	sprite2.setPosition(sf::Vector2f(70.0f, 70.0f));
+	sprite2.setScale(sf::Vector2f(5.0f, 5.0f));
+	scene2.addGameObject(sprite2);
 
 	SceneHandler handler;
 	handler.addScene(scene1);
