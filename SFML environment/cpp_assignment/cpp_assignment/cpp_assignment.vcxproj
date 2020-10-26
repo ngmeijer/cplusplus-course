@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Classes\Button.cpp" />
+    <ClCompile Include="Classes\Character.cpp" />
     <ClCompile Include="Classes\gameObject.cpp" />
     <ClCompile Include="Classes\main.cpp" />
     <ClCompile Include="Classes\Menu.cpp" />
@@ -28,7 +29,9 @@
     <ClCompile Include="Classes\spriteObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Classes\main.h" />
     <ClInclude Include="Headers\Button.hpp" />
+    <ClInclude Include="Headers\Character.hpp" />
     <ClInclude Include="Headers\gameObject.hpp" />
     <ClInclude Include="Headers\Menu.hpp" />
     <ClInclude Include="Headers\scene.hpp" />
