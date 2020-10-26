@@ -10,6 +10,7 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 public:
+	SpriteObject();
 	SpriteObject(std::string identifier, std::string spriteFile);
 	SpriteObject(const SpriteObject& other);
 	~SpriteObject();

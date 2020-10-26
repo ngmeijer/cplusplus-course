@@ -39,7 +39,7 @@ void Button::setString(string text, const Font& font, int fontSize, Color colour
 	buttonText.setFont(font);
 	buttonText.setCharacterSize(fontSize);
 	buttonText.setFillColor(colour);
-	buttonText.setPosition(buttonShape.getPosition().x, buttonShape.getPosition().y);
+	buttonText.setPosition((buttonShape.getPosition().x + 20), (buttonShape.getPosition().y));
 }
 
 

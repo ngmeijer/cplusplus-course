@@ -1,5 +1,7 @@
 #include "../Headers/spriteObject.hpp"
 
+SpriteObject::SpriteObject() { }
+
 SpriteObject::SpriteObject(std::string identifier, std::string spriteFile) :
 	GameObject(identifier), spriteFile(spriteFile)
 {
