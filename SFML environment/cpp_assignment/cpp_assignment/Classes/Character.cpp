@@ -1,7 +1,11 @@
 #include "../Headers/Character.hpp"
 #include <random>
+#include <iostream>
 
-Character::Character() { }
+
+Character::Character() { 
+
+}
 
 Character::~Character() { }
 

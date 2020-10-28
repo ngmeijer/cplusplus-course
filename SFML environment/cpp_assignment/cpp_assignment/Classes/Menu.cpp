@@ -6,91 +6,27 @@
 #include "../Headers/Menu.hpp"
 #include "../Headers/Button.hpp"
 #include "../Headers/gameObject.hpp"
+#include "../Headers/sceneHandler.hpp"
 
 using namespace std;
 
-RectangleShape selectionRect;
-RectangleShape selectionRect2;
+Font m_font;
 
-int xPos = 1150;
-int yPos = -200;
-
-//Play button
-int playButtonLeft;
-int playButtonRight;
-int playButtonTop;
-int playButtonBottom;
-
-int playButtonWidth;
-int playButtonHeight;
-
-//Erase data button
-int eraseButtonLeft;
-int eraseButtonRight;
-int eraseButtonTop;
-int eraseButtonBottom;
-
-int eraseButtonWidth;
-int eraseButtonHeight;
-
-//Quit button
-int quitButtonLeft;
-int quitButtonRight;
-int quitButtonTop;
-int quitButtonBottom;
-
-int quitButtonWidth;
-int quitButtonHeight;
+Text title;
+SpriteObject background("background", "titleBG.jpg");
+Button playButton;
+Button eraseButton;
+Button quitButton;
 
 Menu::Menu() {}
 
-Menu::Menu(float width, float height) : GameObject()
+Menu::Menu(float width, float height, RenderWindow& windowRef, Font& font) : Scene()
 {
-	Scene mainMenu;
+	m_font = font;
 
-	if (!font.loadFromFile("font.ttf")) {
-		cout << "Couldn't load font." << endl;
-	}
-
-	for (int index = 0; index < maxText; index++)
-	{
-		menuText[index].setFont(font);
-		menuText[index].setCharacterSize(100);
-		menuText[index].setOutlineColor(Color::White);
-		yPos += 350;
-		menuText[index].setPosition(xPos, yPos);
-		menuText[index].setOrigin(menuText[index].getLocalBounds().width / 2, menuText[index].getLocalBounds().height / 2);
-	}
-
-	Button playButton;
-	playButton.setSize(200, 100);
-	playButton.setString("Play", font, 100, Color::Red);
-
-
-	menuText[0].setString("Play");
-	menuText[1].setString("Erase Data");
-	menuText[2].setString("Quit");
-
-
-	playButtonWidth = menuText[0].getLocalBounds().width;
-	playButtonHeight = menuText[0].getLocalBounds().height;
-
-	eraseButtonWidth = menuText[1].getLocalBounds().width;
-	eraseButtonHeight = menuText[1].getLocalBounds().height;
-
-	quitButtonWidth = menuText[2].getLocalBounds().width;
-	quitButtonHeight = menuText[2].getLocalBounds().height;
-
-	defineButtons();
-
-	selectionRect.setSize(Vector2f(playButtonWidth, playButtonHeight));
-	selectionRect.setPosition(Vector2f(menuText[0].getGlobalBounds().left, menuText[0].getGlobalBounds().top));
-	selectionRect.setFillColor(Color::Transparent);
-
-	selectionRect2.setSize(Vector2f(quitButtonWidth, quitButtonHeight));
-	selectionRect2.setPosition(Vector2f(menuText[2].getGlobalBounds().left, menuText[2].getGlobalBounds().top));
-	selectionRect2.setFillColor(Color::Transparent);
-	selectionRect2.setScale(Vector2f(1.3, 1.3));
+	handleText(windowRef);
+	handleButtons();
+	handleBackground();
 }
 
 Menu::~Menu()
@@ -98,69 +34,64 @@ Menu::~Menu()
 
 }
 
-void Menu::render(RenderWindow& window)
-{
-	window.draw(selectionRect);
-	window.draw(selectionRect2);
+void Menu::handleText(RenderWindow& window) {
+	title.setFont(m_font);
+	title.setCharacterSize(80);
+	title.setPosition((window.getSize().x / 2 - 250), 50);
+	title.setString("Nether Fights");
 
-	for (int i = 0; i < maxText; i++) {
-		window.draw(menuText[i]);
-	}
+	addTextObject(title);
 }
 
-void Menu::update() { }
+void Menu::handleButtons() {
+	playButton;
+	playButton.setSize(250, 100);
+	playButton.setPosition(1600, 300);
+	playButton.setColour(Color::Red);
+	playButton.setString("Play", m_font, 100, Color::White);
+
+	eraseButton.setSize(250, 100);
+	eraseButton.setPosition(1600, 550);
+	eraseButton.setColour(Color::Magenta);
+	eraseButton.setString("Erase data", m_font, 50, Color::White);
+
+	quitButton.setSize(250, 100);
+	quitButton.setPosition(1600, 800);
+	quitButton.setColour(Color::Blue);
+	quitButton.setString("Quit", m_font, 100, Color::White);
+
+	addGameObject(playButton);
+	addGameObject(eraseButton);
+	addGameObject(quitButton);
+}
+
+void Menu::handleBackground() {
+
+	background.setPosition(sf::Vector2f(400, 200));
+	background.setScale(sf::Vector2f(0.6f, 0.6f));
+
+	addGameObject(background);
+}
 
 void Menu::defineButtons() {
-	//Play button
-	playButtonLeft = menuText[0].getGlobalBounds().left;
-	playButtonTop = menuText[0].getGlobalBounds().top;
 
-	playButtonRight = (playButtonLeft + playButtonWidth);
-	playButtonBottom = (playButtonTop + playButtonHeight);
-
-	//Erase data button
-	eraseButtonLeft = menuText[1].getGlobalBounds().left;
-	eraseButtonTop = menuText[1].getGlobalBounds().top;
-
-	eraseButtonRight = (eraseButtonLeft + eraseButtonWidth);
-	eraseButtonBottom = (eraseButtonTop + eraseButtonHeight);
-
-	//Quit button
-	quitButtonLeft = menuText[2].getGlobalBounds().left;
-	quitButtonTop = menuText[2].getGlobalBounds().top;
-
-	quitButtonRight = (quitButtonLeft + quitButtonWidth);
-	quitButtonBottom = (quitButtonTop + quitButtonHeight);
 }
 
-void Menu::checkInput(RenderWindow& window)
+void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler handler, int counter)
 {
-	int xMouse = Mouse::getPosition(window).x;
-	int yMouse = Mouse::getPosition(window).y;
-
-	if ((xMouse > playButtonLeft) && (xMouse < playButtonRight))
-	{
-		if ((yMouse > playButtonTop) && (yMouse < playButtonBottom))
-		{
-			selectionRect.setPosition(Vector2f(playButtonLeft, playButtonTop));
-			selectionRect.setFillColor(Color::Red);
-			if (Mouse::isButtonPressed(Mouse::Left)) {
-				cout << "clicked play!" << endl;
+	if (event.type == sf::Event::MouseButtonPressed) {
+		if (event.mouseButton.button == sf::Mouse::Left) {
+			if (playButton.onClick(mousePos) == true) {
+				handler.stackScene("characterGen");
+				counter++;
 			}
-		}
-		else selectionRect.setFillColor(Color::Transparent);
-	}
+			/*else {
+				handler.popScene();
+			}*/
 
-	if ((xMouse > quitButtonLeft) && (xMouse < quitButtonRight))
-	{
-		if ((yMouse > quitButtonTop) && (yMouse < quitButtonBottom))
-		{
-			selectionRect2.setPosition(Vector2f(quitButtonLeft, quitButtonTop));
-			selectionRect2.setFillColor(Color::Blue);
-			if (Mouse::isButtonPressed(Mouse::Left)) {
+			if (quitButton.onClick(mousePos) == true) {
 				window.close();
 			}
 		}
-		else selectionRect2.setFillColor(Color::Transparent);
 	}
 }

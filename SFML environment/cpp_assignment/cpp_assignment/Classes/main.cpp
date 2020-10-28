@@ -2,7 +2,6 @@
 
 #include "../Headers/scene.hpp"
 #include "../Headers/menu.hpp"
-#include "../Headers/spriteObject.hpp"
 #include "../Headers/sceneHandler.hpp"
 #include "../Headers/Button.hpp"
 #include "../Headers/Character.hpp"
@@ -33,7 +32,6 @@ void nextScene() {
 
 void backToMenu() {
 	counter = 0;
-	cout << "decremeting";
 }
 
 void generateCharacter() {
@@ -56,116 +54,92 @@ int main() {
 		cout << "Missing font." << endl;
 	}
 
+	Menu menuTest(1920, 1080, window, font);
+
+	/*
 	Scene menu("menu");
 	Scene characterGen("characterGen");
 	Scene arena("arena");
+	 */
 
-	Text title;
-	title.setFont(font);
-	title.setCharacterSize(80);
-	title.setPosition((window.getSize().x / 2 - 250), 50);
-	title.setString("Nether Fights");
+	 /*menu.addGameObject(playButton);
+	 menu.addGameObject(eraseButton);
+	 menu.addGameObject(quitButtonMenu);
+	 menu.addTextObject(title);
+	 menu.addGameObject(background);
 
-	SpriteObject background("background", "titleBG.jpg");
-	background.setPosition(sf::Vector2f(400, 200));
-	background.setScale(sf::Vector2f(0.6f, 0.6f));
+	 //Menu menu;
+	 //scene1.addGameObject(menu);
 
-	Button playButton(&nextScene);
-	playButton.setSize(250, 100);
-	playButton.setPosition(1600, 300);
-	playButton.setColour(Color::Red);
-	playButton.setString("Play", font, 100, Color::White);
+	 Button generateButton(&generateCharacter);
+	 generateButton.setSize(400, 200);
+	 generateButton.setPosition(1500, 100);
+	 generateButton.setColour(Color::Magenta);
+	 generateButton.setString("Generate", font, 100, Color::White);
 
-	Button eraseButton;
-	eraseButton.setSize(250, 100);
-	eraseButton.setPosition(1600, 550);
-	eraseButton.setColour(Color::Magenta);
-	eraseButton.setString("Erase data", font, 50, Color::White);
+	 Button cancelButton(&backToMenu);
+	 cancelButton.setSize(300, 130);
+	 cancelButton.setPosition(100, 900);
+	 cancelButton.setColour(Color::White);
+	 cancelButton.setString("Cancel", font, 100, Color::Black);
 
-	Button quitButtonMenu;
-	quitButtonMenu.setSize(250, 100);
-	quitButtonMenu.setPosition(1600, 800);
-	quitButtonMenu.setColour(Color::Blue);
-	quitButtonMenu.setString("Quit", font, 100, Color::White);
+	 Button fightButton(&nextScene);
+	 fightButton.setSize(400, 200);
+	 fightButton.setPosition(1500, 600);
+	 fightButton.setColour(Color::Red);
+	 fightButton.setString("PLAY", font, 150, Color::Black);
 
-	menu.addGameObject(playButton);
-	menu.addGameObject(eraseButton);
-	menu.addGameObject(quitButtonMenu);
-	menu.addTextObject(title);
-	menu.addGameObject(background);
+	 SpriteObject strengthIcon("strengthIcon", "strengthIcon.png");
+	 strengthIcon.setPosition(sf::Vector2f(100, 500));
+	 strengthIcon.setScale(sf::Vector2f(0.5f, 0.5f));
+	 strengthText.setFont(font);
+	 strengthText.setCharacterSize(100);
+	 strengthText.setPosition(180, 760);
+	 strengthText.setString(to_string(m_strength));
 
-	//Menu menu;
-	//scene1.addGameObject(menu);
+	 SpriteObject agilityIcon("agilityIcon", "agilityIcon.png");
+	 agilityIcon.setPosition(sf::Vector2f(500, 500));
+	 agilityIcon.setScale(sf::Vector2f(0.5f, 0.5f));
+	 agilityText.setFont(font);
+	 agilityText.setCharacterSize(100);
+	 agilityText.setPosition(580, 760);
+	 agilityText.setString(to_string(m_agility));
 
-	Button generateButton(&generateCharacter);
-	generateButton.setSize(400, 200);
-	generateButton.setPosition(1500, 100);
-	generateButton.setColour(Color::Magenta);
-	generateButton.setString("Generate", font, 100, Color::White);
+	 SpriteObject witsIcon("witsIcon", "witsIcon.png");
+	 witsIcon.setPosition(sf::Vector2f(900, 500));
+	 witsIcon.setScale(sf::Vector2f(0.5f, 0.5f));
+	 witsText.setFont(font);
+	 witsText.setCharacterSize(100);
+	 witsText.setPosition(980, 760);
+	 witsText.setString(to_string(m_wits));
 
-	Button cancelButton(&backToMenu);
-	cancelButton.setSize(300, 130);
-	cancelButton.setPosition(100, 900);
-	cancelButton.setColour(Color::White);
-	cancelButton.setString("Cancel", font, 100, Color::Black);
+	 generateButton();
 
-	Button fightButton(&nextScene);
-	fightButton.setSize(400, 200);
-	fightButton.setPosition(1500, 600);
-	fightButton.setColour(Color::Red);
-	fightButton.setString("PLAY", font, 150, Color::Black);
+	 characterGen.addGameObject(generateButton);
+	 characterGen.addGameObject(cancelButton);
+	 characterGen.addGameObject(fightButton);
 
-	SpriteObject strengthIcon("strengthIcon", "strengthIcon.png");
-	strengthIcon.setPosition(sf::Vector2f(100, 500));
-	strengthIcon.setScale(sf::Vector2f(0.5f, 0.5f));
-	strengthText.setFont(font);
-	strengthText.setCharacterSize(100);
-	strengthText.setPosition(180, 760);
-	strengthText.setString(to_string(m_strength));
+	 characterGen.addGameObject(strengthIcon);
+	 characterGen.addTextObject(strengthText);
 
-	SpriteObject agilityIcon("agilityIcon", "agilityIcon.png");
-	agilityIcon.setPosition(sf::Vector2f(500, 500));
-	agilityIcon.setScale(sf::Vector2f(0.5f, 0.5f));
-	agilityText.setFont(font);
-	agilityText.setCharacterSize(100);
-	agilityText.setPosition(580, 760);
-	agilityText.setString(to_string(m_agility));
+	 characterGen.addGameObject(agilityIcon);
+	 characterGen.addTextObject(agilityText);
 
-	SpriteObject witsIcon("witsIcon", "witsIcon.png");
-	witsIcon.setPosition(sf::Vector2f(900, 500));
-	witsIcon.setScale(sf::Vector2f(0.5f, 0.5f));
-	witsText.setFont(font);
-	witsText.setCharacterSize(100);
-	witsText.setPosition(980, 760);
-	witsText.setString(to_string(m_wits));
+	 characterGen.addGameObject(witsIcon);
+	 characterGen.addTextObject(witsText);
 
-	generateButton();
+	 Button quitButtonLevel(&backToMenu);
+	 quitButtonLevel.setSize(200, 100);
+	 quitButtonLevel.setPosition(1700, 900);
+	 quitButtonLevel.setColour(Color::Blue);
+	 quitButtonLevel.setString("Quit", font, 100, Color::White);
 
-	characterGen.addGameObject(generateButton);
-	characterGen.addGameObject(cancelButton);
-	characterGen.addGameObject(fightButton);
-
-	characterGen.addGameObject(strengthIcon);
-	characterGen.addTextObject(strengthText);
-
-	characterGen.addGameObject(agilityIcon);
-	characterGen.addTextObject(agilityText);
-
-	characterGen.addGameObject(witsIcon);
-	characterGen.addTextObject(witsText);
-
-	Button quitButtonLevel(&backToMenu);
-	quitButtonLevel.setSize(200, 100);
-	quitButtonLevel.setPosition(1700, 900);
-	quitButtonLevel.setColour(Color::Blue);
-	quitButtonLevel.setString("Quit", font, 100, Color::White);
-
-	arena.addGameObject(quitButtonLevel);
+	 arena.addGameObject(quitButtonLevel);*/
 
 	SceneHandler handler;
-	handler.addScene(menu);
-	handler.addScene(characterGen);
-	handler.addScene(arena);
+	handler.addScene(menuTest);
+	//handler.addScene(characterGen);
+	//handler.addScene(arena);
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -174,14 +148,19 @@ int main() {
 				window.close();
 			}
 
+			float mousePositionX = Mouse::getPosition(window).x;
+			float mousePositionY = Mouse::getPosition(window).y;
+			Vector2f mousePosition = Vector2f(mousePositionX, mousePositionY);
+
+			if (counter == 0) {
+				menuTest.checkInput(event, window, mousePosition, handler, counter);
+			}
+
 			if (event.type == sf::Event::MouseButtonPressed) {
-				float mousePositionX = Mouse::getPosition(window).x;
-				float mousePositionY = Mouse::getPosition(window).y;
-				Vector2f mousePosition = Vector2f(mousePositionX, mousePositionY);
 
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					if (playButton.onClick(mousePosition) == true && counter == 0)
+					/*if (menuTest.testButton.onClick(mousePosition) == true)
 					{
 						if (counter == 0) {
 							handler.stackScene("characterGen");
@@ -191,8 +170,8 @@ int main() {
 							handler.popScene();
 							counter--;
 						}
-					}
-
+					}*/
+					/*
 					if (quitButtonMenu.onClick(mousePosition) == true && counter == 0) {
 						window.close();
 					}
@@ -237,7 +216,7 @@ int main() {
 								counter++;
 							}
 						}
-					}
+					}*/
 				}
 			}
 		}
