@@ -20,7 +20,7 @@ Button quitButton;
 
 Menu::Menu() {}
 
-Menu::Menu(float width, float height, RenderWindow& windowRef, Font& font) : Scene()
+Menu::Menu(RenderWindow& windowRef, Font& font) : Scene()
 {
 	m_font = font;
 
@@ -77,7 +77,7 @@ void Menu::defineButtons() {
 
 }
 
-void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler handler, int counter)
+void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter)
 {
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {

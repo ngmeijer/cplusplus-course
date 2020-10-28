@@ -54,11 +54,11 @@ int main() {
 		cout << "Missing font." << endl;
 	}
 
-	Menu menuTest(1920, 1080, window, font);
+	Menu menuTest(window, font);
+	Scene characterGen("characterGen");
 
 	/*
 	Scene menu("menu");
-	Scene characterGen("characterGen");
 	Scene arena("arena");
 	 */
 
@@ -138,7 +138,7 @@ int main() {
 
 	SceneHandler handler;
 	handler.addScene(menuTest);
-	//handler.addScene(characterGen);
+	handler.addScene(characterGen);
 	//handler.addScene(arena);
 
 	while (window.isOpen()) {

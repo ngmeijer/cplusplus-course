@@ -14,14 +14,14 @@ class Menu : public Scene
 {
 public:
 	Menu();
-	Menu(float width, float height, RenderWindow& windowRef, Font& font);
+	Menu(RenderWindow& windowRef, Font& font);
 	~Menu();
 
 	void handleText(RenderWindow& window);
 	void handleBackground();
 	void handleButtons();
 	void defineButtons();
-	void checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler handler, int counter);
+	void checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter);
 
 private:
 
