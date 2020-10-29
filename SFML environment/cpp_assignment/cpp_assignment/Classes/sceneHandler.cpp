@@ -30,4 +30,3 @@ void SceneHandler::stackScene(std::string sceneName) {
 void SceneHandler::popScene(void) {
 	this->scenesStack.pop();
 }
-

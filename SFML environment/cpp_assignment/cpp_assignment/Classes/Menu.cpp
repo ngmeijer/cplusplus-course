@@ -10,71 +10,62 @@
 
 using namespace std;
 
-Font m_font;
-
 Text title;
 SpriteObject background("background", "titleBG.jpg");
+
 Button playButton;
 Button eraseButton;
-Button quitButton;
+Button quitButtonMenu;
 
 Menu::Menu() {}
 
-Menu::Menu(RenderWindow& windowRef, Font& font) : Scene()
+Menu::Menu(std::string identifier, RenderWindow& windowRef, Font& font) : Scene(identifier)
 {
 	m_font = font;
 
+	handleBackground();
 	handleText(windowRef);
 	handleButtons();
-	handleBackground();
 }
 
 Menu::~Menu()
-{
-
-}
+{  }
 
 void Menu::handleText(RenderWindow& window) {
 	title.setFont(m_font);
-	title.setCharacterSize(80);
-	title.setPosition((window.getSize().x / 2 - 250), 50);
+	title.setCharacterSize(60);
+	title.setPosition((window.getSize().x / 2 - 500), 50);
 	title.setString("Nether Fights");
 
 	addTextObject(title);
 }
 
 void Menu::handleButtons() {
-	playButton;
 	playButton.setSize(250, 100);
-	playButton.setPosition(1600, 300);
-	playButton.setColour(Color::Red);
-	playButton.setString("Play", m_font, 100, Color::White);
+	playButton.setPosition(1250, 190);
+	playButton.setColour(Color::Transparent);
+	playButton.setString("Play", m_font, 80, Color::White);
 
-	eraseButton.setSize(250, 100);
-	eraseButton.setPosition(1600, 550);
-	eraseButton.setColour(Color::Magenta);
-	eraseButton.setString("Erase data", m_font, 50, Color::White);
+	eraseButton.setSize(450, 100);
+	eraseButton.setPosition(1250, 440);
+	eraseButton.setColour(Color::Transparent);
+	eraseButton.setString("Erase data", m_font, 80, Color::White);
 
-	quitButton.setSize(250, 100);
-	quitButton.setPosition(1600, 800);
-	quitButton.setColour(Color::Blue);
-	quitButton.setString("Quit", m_font, 100, Color::White);
+	quitButtonMenu.setSize(250, 100);
+	quitButtonMenu.setPosition(1250, 690);
+	quitButtonMenu.setColour(Color::Transparent);
+	quitButtonMenu.setString("Quit", m_font, 80, Color::White);
 
 	addGameObject(playButton);
 	addGameObject(eraseButton);
-	addGameObject(quitButton);
+	addGameObject(quitButtonMenu);
 }
 
 void Menu::handleBackground() {
 
-	background.setPosition(sf::Vector2f(400, 200));
-	background.setScale(sf::Vector2f(0.6f, 0.6f));
+	background.setScale(sf::Vector2f(1.0f, 1.0f));
 
 	addGameObject(background);
-}
-
-void Menu::defineButtons() {
-
 }
 
 void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter)
@@ -82,15 +73,16 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {
 			if (playButton.onClick(mousePos) == true) {
-				handler.stackScene("characterGen");
+				handler.stackScene("character");
 				counter++;
 			}
-			/*else {
-				handler.popScene();
-			}*/
 
-			if (quitButton.onClick(mousePos) == true) {
+			if (quitButtonMenu.onClick(mousePos) == true) {
 				window.close();
+			}
+
+			if (eraseButton.onClick(mousePos) == true) {
+				cout << "erased data!";
 			}
 		}
 	}
