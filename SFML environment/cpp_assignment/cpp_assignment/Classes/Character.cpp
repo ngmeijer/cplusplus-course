@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-Character::Character() { 
+Character::Character() {
 
 }
 
@@ -18,4 +18,8 @@ int Character::GenerateValues(int min, int max)
 	int value = distr(gen);
 
 	return value;
+}
+
+void Character::drawPlayerScreen() {
+
 }

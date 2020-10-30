@@ -14,6 +14,15 @@ Font font;
 int counter = 0;
 int* counterPtr = &counter;
 
+Character character;
+
+struct CharacterStats
+{
+	int strength = 100;
+	int agility = 100;
+	int intelligence;
+};
+
 void nextScene() {
 	counter++;
 }
@@ -24,6 +33,8 @@ void backToMenu() {
 
 int main() {
 	srand(time(0));
+
+	CharacterStats playerStats;
 
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Arena game!");
 	window.setKeyRepeatEnabled(false);
@@ -58,7 +69,8 @@ int main() {
 					menu.checkInput(event, window, mousePosition, handler, counter);
 					break;
 				case 1:
-					characterGen.checkInput(event, window, mousePosition, handler, counter);
+					characterGen.checkInput(event, window, mousePosition, handler, counter, character);
+					arena.importCharacterStats(character.strength, playerStats.agility, playerStats.intelligence);
 					break;
 				case 2:
 					arena.checkInput(event, window, mousePosition, handler, counter);

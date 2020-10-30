@@ -16,9 +16,11 @@ public:
 	Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& fontRef);
 	~Arena();
 
-	void handleText(sf::RenderWindow& window);
+	void handleText();
 	void handleBackground();
 	void handleButtons();
 	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
+	void importCharacterStats(int strength, int agility, int intelligence);
+	void handlePlayer(sf::RenderWindow& window);
 };
 

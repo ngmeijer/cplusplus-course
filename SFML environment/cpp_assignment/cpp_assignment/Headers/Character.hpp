@@ -12,4 +12,5 @@ public:
 public:
 	Character();
 	~Character();
+	void drawPlayerScreen();
 };

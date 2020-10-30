@@ -9,14 +9,14 @@ Button cancelButton;
 Button fightButton;
 SpriteObject strengthIcon("strengthIcon", "strengthIcon.png");
 SpriteObject agilityIcon("agilityIcon", "agilityIcon.png");
-SpriteObject witsIcon("witsIcon", "witsIcon.png");
+SpriteObject witsIcon("intelligenceIcon", "intelligenceIcon.png");
 SpriteObject background2("background", "charBackground.jpg");
 
 Text witsText;
 Text strengthText;
 Text agilityText;
 
-Character character;
+Character m_currentPlayer;
 
 CharScene::CharScene() { }
 
@@ -34,30 +34,30 @@ CharScene::CharScene(std::string identifier, sf::RenderWindow& windowRef, sf::Fo
 CharScene::~CharScene() { }
 
 void CharScene::generateCharacter() {
-	character.strength = character.GenerateValues(75, 100);
-	character.agility = character.GenerateValues(75, 100);
-	character.intelligence = character.GenerateValues(75, 100);
+	m_currentPlayer.strength = m_currentPlayer.GenerateValues(75, 100);
+	m_currentPlayer.agility = m_currentPlayer.GenerateValues(75, 100);
+	m_currentPlayer.intelligence = m_currentPlayer.GenerateValues(75, 100);
 
-	witsText.setString(to_string(character.intelligence));
-	strengthText.setString(to_string(character.strength));
-	agilityText.setString(to_string(character.agility));
+	witsText.setString(to_string(m_currentPlayer.intelligence));
+	strengthText.setString(to_string(m_currentPlayer.strength));
+	agilityText.setString(to_string(m_currentPlayer.agility));
 }
 
 void CharScene::handleText(RenderWindow& window) {
 	strengthText.setFont(m_font);
 	strengthText.setCharacterSize(100);
 	strengthText.setPosition(180, 760);
-	strengthText.setString(to_string(character.strength));
+	strengthText.setString(to_string(m_currentPlayer.strength));
 
 	agilityText.setFont(m_font);
 	agilityText.setCharacterSize(100);
 	agilityText.setPosition(580, 760);
-	agilityText.setString(to_string(character.agility));
+	agilityText.setString(to_string(m_currentPlayer.agility));
 
 	witsText.setFont(m_font);
 	witsText.setCharacterSize(100);
 	witsText.setPosition(980, 760);
-	witsText.setString(to_string(character.intelligence));
+	witsText.setString(to_string(m_currentPlayer.intelligence));
 
 	addTextObject(strengthText);
 	addTextObject(agilityText);
@@ -102,12 +102,15 @@ void CharScene::handleBackground() {
 	addGameObject(background2);
 }
 
-void CharScene::checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter)
+void CharScene::checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter, Character& character)
 {
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {
 			if (generateButton.onClick(mousePos) == true) {
 				generateCharacter();
+				character.strength = m_currentPlayer.strength;
+				character.agility = m_currentPlayer.agility;
+				character.intelligence = m_currentPlayer.intelligence;
 			}
 
 			if (cancelButton.onClick(mousePos) == true) {

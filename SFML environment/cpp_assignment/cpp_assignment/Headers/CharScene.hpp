@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../Headers/scene.hpp"
+#include "../Headers/Character.hpp"
 #include "../Headers/gameObject.hpp"
 #include "../Headers/spriteObject.hpp"
 #include "../Headers/sceneHandler.hpp"
@@ -19,7 +20,7 @@ public:
 	void handleText(sf::RenderWindow& window);
 	void handleBackground();
 	void handleButtons();
-	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
+	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter, Character& character);
 	void generateCharacter();
 };
 

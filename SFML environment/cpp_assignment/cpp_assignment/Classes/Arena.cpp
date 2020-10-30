@@ -10,6 +10,17 @@ Button recoverButton;
 Button magicButton;
 Button quitButtonArena;
 
+RectangleShape playerBackground;
+SpriteObject playerStrengthSprite("playerStrength", "strengthIcon.png");
+SpriteObject playerAgilitySprite("playerAgility", "agilityIcon.png");
+SpriteObject playerIntelligenceSprite("playerIntelligence", "intelligenceIcon.png");
+
+Text playerStrengthText;
+Text playerAgilityText;
+Text playerIntelligenceText;
+
+Character player;
+
 Arena::Arena() { }
 
 Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& fontRef) : Scene(identifier)
@@ -18,13 +29,42 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 
 	handleBackground();
 	handleButtons();
-	handleText(windowRef);
+	handlePlayer(windowRef);
 }
 
 Arena::~Arena() { }
 
-void Arena::handleText(RenderWindow& window) {
+void Arena::handleText() {
+	playerStrengthText.setString(to_string(player.strength));
+	playerAgilityText.setString(to_string(player.agility));
+	playerIntelligenceText.setString(to_string(player.intelligence));
 
+	playerIntelligenceText.setFont(m_font);
+	playerAgilityText.setFont(m_font);
+	playerStrengthText.setFont(m_font);
+
+	playerStrengthText.setPosition(100, 300);
+	playerAgilityText.setPosition(200, 300);
+	playerIntelligenceText.setPosition(300, 300);
+	addTextObject(playerStrengthText);
+	addTextObject(playerAgilityText);
+	addTextObject(playerIntelligenceText);
+}
+
+void Arena::handlePlayer(RenderWindow& window) {
+	addGameObject(playerStrengthSprite);
+	addGameObject(playerAgilitySprite);
+	addGameObject(playerIntelligenceSprite);
+
+	playerStrengthSprite.setScale(sf::Vector2f(0.15f, 0.15f));
+	playerAgilitySprite.setScale(sf::Vector2f(0.15f, 0.15f));
+	playerIntelligenceSprite.setScale(sf::Vector2f(0.15f, 0.15f));
+
+	playerStrengthSprite.setPosition(sf::Vector2f(90, 200));
+	playerAgilitySprite.setPosition(sf::Vector2f(190, 200));
+	playerIntelligenceSprite.setPosition(sf::Vector2f(290, 200));
+
+	handleText();
 }
 
 void Arena::handleButtons() {
@@ -61,6 +101,11 @@ void Arena::handleButtons() {
 }
 
 void Arena::handleBackground() {
+	playerBackground.setSize(sf::Vector2f(500, 400));
+	playerBackground.setPosition(sf::Vector2f(10, 10));
+	playerBackground.setFillColor(Color(120, 0, 0, 100));
+
+	addRectangleObject(playerBackground);
 	/*addGameObject(background2);*/
 }
 
@@ -74,4 +119,11 @@ void Arena::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Sce
 			}
 		}
 	}
+}
+
+void Arena::importCharacterStats(int p_strength, int p_agility, int p_intelligence)
+{
+	player.strength = p_strength;
+	player.agility = p_agility;
+	player.intelligence = p_intelligence;
 }

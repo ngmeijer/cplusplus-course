@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../Headers/gameObject.hpp"
 #include <SFML/Graphics/Text.hpp>
@@ -10,6 +11,8 @@ private:
 	const std::string identifier;
 	std::vector<GameObject*> listOfGameObjects;
 	std::vector<sf::Text*> listOfTextObjects;
+	std::vector<sf::RectangleShape*> listOfRectangleShapes;
+	std::vector<sf::CircleShape*> listOfCircleShapes;
 
 public:
 	Scene();
@@ -19,6 +22,8 @@ public:
 public:
 	void addGameObject(GameObject& object);
 	void addTextObject(sf::Text& text);
+	void addRectangleObject(sf::RectangleShape& shape);
+	void addCircleObject(sf::CircleShape& shape);
 	void update();
 	void render(sf::RenderWindow& window);
 	std::string getIdentifier() const;
