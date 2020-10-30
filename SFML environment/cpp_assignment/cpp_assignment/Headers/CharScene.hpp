@@ -22,5 +22,6 @@ public:
 	void handleButtons();
 	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter, Character& character);
 	void generateCharacter();
+	void updateSkillPoints(int valueChange);
 };
 
