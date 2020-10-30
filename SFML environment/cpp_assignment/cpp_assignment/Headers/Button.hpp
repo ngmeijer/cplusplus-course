@@ -15,6 +15,8 @@ private:
 	RectangleShape buttonShape;
 	Text buttonText;
 	Font font;
+	Sprite sprite;
+	Texture texture;
 
 public:
 	Button();
@@ -32,10 +34,11 @@ public:
 
 	Vector2f getSize();
 
-	void setPosition(int xPos, int yPos);
-	void setSize(int width, int height);
+	void setPosition(sf::Vector2f position);
+	void setSize(sf::Vector2f size);
 	void setColour(Color buttonColour);
 	void setString(string text, const Font& font, int fontSize, Color colour);
+	void setSprite(std::string spriteFileName, sf::Vector2f size);
 	bool onClick(Vector2f mousePosition);
 
 private:

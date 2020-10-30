@@ -28,8 +28,7 @@ Menu::Menu(std::string identifier, RenderWindow& windowRef, Font& font) : Scene(
 	handleButtons();
 }
 
-Menu::~Menu()
-{  }
+Menu::~Menu() {  }
 
 void Menu::handleText(RenderWindow& window) {
 	title.setFont(m_font);
@@ -41,18 +40,18 @@ void Menu::handleText(RenderWindow& window) {
 }
 
 void Menu::handleButtons() {
-	playButton.setSize(250, 100);
-	playButton.setPosition(1250, 190);
+	playButton.setSize(sf::Vector2f(250, 100));
+	playButton.setPosition(sf::Vector2f(1250, 190));
 	playButton.setColour(Color::Transparent);
 	playButton.setString("Play", m_font, 80, Color::White);
 
-	eraseButton.setSize(450, 100);
-	eraseButton.setPosition(1250, 440);
+	eraseButton.setSize(sf::Vector2f(450, 100));
+	eraseButton.setPosition(sf::Vector2f(1250, 440));
 	eraseButton.setColour(Color::Transparent);
 	eraseButton.setString("Erase data", m_font, 80, Color::White);
 
-	quitButtonMenu.setSize(250, 100);
-	quitButtonMenu.setPosition(1250, 690);
+	quitButtonMenu.setSize(sf::Vector2f(250, 100));
+	quitButtonMenu.setPosition(sf::Vector2f(1250, 690));
 	quitButtonMenu.setColour(Color::Transparent);
 	quitButtonMenu.setString("Quit", m_font, 80, Color::White);
 

@@ -4,8 +4,7 @@ typedef void(*eventFunction)();
 
 Button::Button() {}
 
-Button::Button(string identifier) : GameObject(identifier)
-{
+Button::Button(string identifier) : GameObject(identifier) {
 	cout << "Button instance has been constructed." << endl;
 }
 
@@ -26,12 +25,13 @@ Vector2f Button::getSize() {
 	return size;
 }
 
-void Button::setPosition(int xPos, int yPos) {
-	buttonShape.setPosition(xPos, yPos);
+void Button::setPosition(sf::Vector2f position) {
+	buttonShape.setPosition(position.x, position.y);
+	sprite.setPosition(position.x, position.y);
 }
 
-void Button::setSize(int width, int height) {
-	buttonShape.setSize(Vector2f(width, height));
+void Button::setSize(sf::Vector2f size) {
+	buttonShape.setSize(Vector2f(size.x, size.y));
 }
 
 void Button::setString(string text, const Font& font, int fontSize, Color colour) {
@@ -42,6 +42,12 @@ void Button::setString(string text, const Font& font, int fontSize, Color colour
 	buttonText.setPosition((buttonShape.getPosition().x + 20), (buttonShape.getPosition().y));
 }
 
+void Button::setSprite(std::string spriteFileName, Vector2f size) {
+	this->texture.loadFromFile(spriteFileName);
+	this->sprite.setTexture(this->texture);
+	this->sprite.setScale(size);
+}
+
 
 void Button::setColour(Color buttonColour) {
 	buttonShape.setFillColor(buttonColour);
@@ -50,6 +56,7 @@ void Button::setColour(Color buttonColour) {
 void Button::render(RenderWindow& window) {
 	window.draw(this->buttonShape);
 	window.draw(this->buttonText);
+	window.draw(this->sprite);
 }
 
 void Button::update() { }
