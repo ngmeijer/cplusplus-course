@@ -21,7 +21,7 @@ public:
 	void handleBackground();
 	void handleButtons();
 	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
-	void importCharacterStats(int strength, int agility, int intelligence);
+	void importCharacterStats();
 	void handlePlayer(sf::RenderWindow& window);
 	void handleEnemy(sf::RenderWindow& window);
 };

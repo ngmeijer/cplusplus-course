@@ -47,9 +47,9 @@ Arena::~Arena() { }
 
 void Arena::handlePlayerText() {
 
-	playerStrengthText.setString(to_string(player.strength));
-	playerAgilityText.setString(to_string(player.agility));
-	playerIntelligenceText.setString(to_string(player.intelligence));
+	playerStrengthText.setString(to_string(player.m_strength));
+	playerAgilityText.setString(to_string(player.m_agility));
+	playerIntelligenceText.setString(to_string(player.m_intelligence));
 
 	playerIntelligenceText.setFont(m_font);
 	playerAgilityText.setFont(m_font);
@@ -81,9 +81,9 @@ void Arena::handlePlayer(RenderWindow& window) {
 }
 
 void Arena::handleEnemyText() {
-	enemyStrengthText.setString(to_string(enemy.strength));
-	enemyAgilityText.setString(to_string(enemy.agility));
-	enemyIntelligenceText.setString(to_string(enemy.intelligence));
+	enemyStrengthText.setString(to_string(enemy.m_strength));
+	enemyAgilityText.setString(to_string(enemy.m_agility));
+	enemyIntelligenceText.setString(to_string(enemy.m_intelligence));
 
 	enemyStrengthText.setFont(m_font);
 	enemyAgilityText.setFont(m_font);
@@ -172,9 +172,7 @@ void Arena::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Sce
 	}
 }
 
-void Arena::importCharacterStats(int p_strength, int p_agility, int p_intelligence)
+void Arena::importCharacterStats()
 {
-	player.strength = p_strength;
-	player.agility = p_agility;
-	player.intelligence = p_intelligence;
+	
 }

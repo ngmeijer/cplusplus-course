@@ -8,11 +8,7 @@ Button::Button(string identifier) : GameObject(identifier) {
 	cout << "Button instance has been constructed." << endl;
 }
 
-Button::Button(eventFunction funcPtr) : m_funcPtr(funcPtr) {}
-
-Button::~Button() {
-	m_funcPtr = NULL;
-};
+Button::~Button() { }
 
 Vector2f Button::getSize() {
 	FloatRect shape = buttonShape.getLocalBounds();
@@ -47,7 +43,6 @@ void Button::setSprite(std::string spriteFileName, Vector2f size) {
 	this->sprite.setTexture(this->texture);
 	this->sprite.setScale(size);
 }
-
 
 void Button::setColour(Color buttonColour) {
 	buttonShape.setFillColor(buttonColour);

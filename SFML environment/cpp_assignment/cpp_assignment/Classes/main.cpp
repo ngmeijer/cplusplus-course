@@ -9,6 +9,10 @@
 
 #include "../Headers/main.h"
 
+#include <fstream>
+
+std::ifstream characterData("PlayerData.txt", std::ostream::out | std::ofstream::app);
+
 Font font;
 
 int counter = 0;
@@ -18,8 +22,8 @@ Character character;
 
 struct CharacterStats
 {
-	int strength = 100;
-	int agility = 100;
+	int strength;
+	int agility;
 	int intelligence;
 };
 
@@ -32,7 +36,8 @@ void backToMenu() {
 }
 
 int main() {
-	srand(time(0));
+	//Necessary for seeding the RNG. Currently disabled that.
+	//srand(time(0));
 
 	CharacterStats playerStats;
 
@@ -44,7 +49,13 @@ int main() {
 	}
 
 	Menu menu("menu", window, font);
-	CharScene characterGen("character", window, font);
+	CharScene characterGen("character", font);
+
+	//string line;
+	//getline(characterData, line);
+
+	//cout << "current reading line: " << line;
+
 	Arena arena("arena", window, font);
 
 	SceneHandler handler;
@@ -69,8 +80,7 @@ int main() {
 					menu.checkInput(event, window, mousePosition, handler, counter);
 					break;
 				case 1:
-					characterGen.checkInput(event, window, mousePosition, handler, counter, character);
-					arena.importCharacterStats(character.strength, playerStats.agility, playerStats.intelligence);
+					characterGen.checkInput(event, mousePosition, handler, counter, character);
 					break;
 				case 2:
 					arena.checkInput(event, window, mousePosition, handler, counter);

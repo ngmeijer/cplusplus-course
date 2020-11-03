@@ -1,12 +1,12 @@
 //Libraries//
 #include "SFML/Graphics.hpp"
 #include <iostream>
+#include <fstream>
+#include <string>
 
 //Header inclusion//
 #include "../Headers/Menu.hpp"
 #include "../Headers/Button.hpp"
-#include "../Headers/gameObject.hpp"
-#include "../Headers/sceneHandler.hpp"
 
 using namespace std;
 
@@ -16,6 +16,9 @@ SpriteObject background("background", "titleBG.jpg");
 Button playButton;
 Button eraseButton;
 Button quitButtonMenu;
+
+std::ofstream characterFileMenu("PlayerData.txt", std::ostream::out | std::ofstream::trunc);
+
 
 Menu::Menu() {}
 
@@ -81,7 +84,13 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 			}
 
 			if (eraseButton.onClick(mousePos) == true) {
-				cout << "erased data!";
+				cout << "erased data!" << endl;
+				if (!characterFileMenu.is_open() || characterFileMenu.fail())
+				{
+					characterFileMenu.close();
+					cout << "\t\t\t Error : failed to erase file content!" << endl;
+				}
+				characterFileMenu.close();
 			}
 		}
 	}

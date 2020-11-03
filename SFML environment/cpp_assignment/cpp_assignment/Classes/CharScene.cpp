@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 
 #include "../Headers/CharScene.hpp"
 #include "../Headers/Button.hpp"
@@ -16,9 +18,9 @@ Button intelligenceButton;
 Button plusButton;
 Button minusButton;
 
-Text intelligenceText;
-Text strengthText;
-Text agilityText;
+sf::Text intelligenceText;
+sf::Text strengthText;
+sf::Text agilityText;
 
 Text availablePointsText;
 
@@ -30,52 +32,54 @@ enum Stats {
 
 Stats playerStats;
 
-int availableSkillPoints = 5;
-int minAmountOfSkill = 4;
+int availableSkillPoints = 8;
+int minAmountOfSkill = 3;
 int maxAmountOfSkill = 10;
 
 Character m_currentPlayer;
 
 CharScene::CharScene() { }
 
-CharScene::CharScene(std::string identifier, sf::RenderWindow& windowRef, sf::Font& fontRef) : Scene(identifier)
+CharScene::CharScene(std::string identifier, sf::Font& fontRef) : Scene(identifier)
 {
 	m_font = fontRef;
 
 	generateCharacter();
 
 	handleBackground();
-	handleText(windowRef);
+	handleText();
 	handleButtons();
+
+	cout << m_currentPlayer.getStrength();
 }
 
 CharScene::~CharScene() { }
 
 void CharScene::generateCharacter() {
-	m_currentPlayer.strength = 4;
-	m_currentPlayer.agility = 4;
-	m_currentPlayer.intelligence = 4;
+	m_currentPlayer.m_strength = 4;
+	m_currentPlayer.m_agility = 4;
+	m_currentPlayer.m_intelligence = 4;
 
-	intelligenceText.setString(to_string(m_currentPlayer.intelligence));
-	strengthText.setString(to_string(m_currentPlayer.strength));
-	agilityText.setString(to_string(m_currentPlayer.agility));
+	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
+	strengthText.setString(to_string(m_currentPlayer.m_strength));
+	agilityText.setString(to_string(m_currentPlayer.m_agility));
 }
 
-void CharScene::handleText(RenderWindow& window) {
+void CharScene::handleText() {
 	strengthText.setFont(m_font);
 	strengthText.setCharacterSize(100);
 	strengthText.setPosition(180, 760);
-	strengthText.setString(to_string(m_currentPlayer.strength));
+	strengthText.setString(to_string(m_currentPlayer.m_strength));
 
 	agilityText.setFont(m_font);
 	agilityText.setCharacterSize(100);
 	agilityText.setPosition(580, 760);
-	agilityText.setString(to_string(m_currentPlayer.agility));
+	agilityText.setString(to_string(m_currentPlayer.m_agility));
 
 	intelligenceText.setFont(m_font);
 	intelligenceText.setCharacterSize(100);
 	intelligenceText.setPosition(980, 760);
-	intelligenceText.setString(to_string(m_currentPlayer.intelligence));
+	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
 
 	availablePointsText.setFont(m_font);
 	availablePointsText.setCharacterSize(50);
@@ -129,12 +133,6 @@ void CharScene::handleButtons() {
 	intelligenceButton.setSize(sf::Vector2f(260, 250));
 	intelligenceButton.setColour(Color::Transparent);
 
-	//agilityIcon.setPosition(sf::Vector2f(500, 500));
-	//agilityIcon.setScale(sf::Vector2f(0.5f, 0.5f));
-
-	//witsIcon.setPosition(sf::Vector2f(900, 500));
-	//witsIcon.setScale(sf::Vector2f(0.5f, 0.5f));
-
 	addGameObject(strengthButton);
 	addGameObject(agilityButton);
 	addGameObject(intelligenceButton);
@@ -145,10 +143,6 @@ void CharScene::handleButtons() {
 	addGameObject(fightButton);
 	//addGameObject(generateButton);
 	addGameObject(cancelButton);
-
-	//addGameObject(witsIcon);
-	//addGameObject(agilityIcon);
-	//addGameObject(strengthIcon);
 }
 
 void CharScene::handleBackground() {
@@ -156,11 +150,26 @@ void CharScene::handleBackground() {
 }
 
 void CharScene::updateSkillPoints(int valueChange) {
-	cout << "gets called";
 	availablePointsText.setString(("Available points " + to_string(availableSkillPoints - valueChange)));
 }
 
-void CharScene::checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter, Character& character)
+void CharScene::writeCharacterToFile() {
+	std::ofstream characterFile("PlayerData.txt", std::ostream::out | std::ofstream::app);
+	if (characterFile.is_open()) {
+		characterFile << m_currentPlayer.m_strength << "\n";
+		characterFile << m_currentPlayer.m_agility << "\n";
+		characterFile << m_currentPlayer.m_intelligence << "\n";
+	}
+}
+
+void CharScene::readCharacterFromFile(int p_strength, int p_agility, int p_intelligence)
+{
+	m_currentPlayer.m_strength = p_strength;
+	m_currentPlayer.m_agility = p_agility;
+	m_currentPlayer.m_intelligence = p_intelligence;
+}
+
+void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler, int& counter, Character& character)
 {
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {
@@ -171,58 +180,58 @@ void CharScene::checkInput(Event event, RenderWindow& window, Vector2f mousePos,
 				character.intelligence = m_currentPlayer.intelligence;
 			}*/
 
-			cout << m_currentPlayer.strength << endl;
-
 			if (minusButton.onClick(mousePos) == true) {
 				switch (playerStats) {
 				case STRENGTH:
-					if (m_currentPlayer.strength > minAmountOfSkill) {
-						updateSkillPoints(-1);
-						m_currentPlayer.strength--;
-						strengthText.setString(to_string(m_currentPlayer.strength));
+					if (m_currentPlayer.m_strength > minAmountOfSkill) {
+						availableSkillPoints += 1;
+						m_currentPlayer.m_strength--;
+						strengthText.setString(to_string(m_currentPlayer.m_strength));
 					}
 					break;
 				case AGILITY:
-					if (m_currentPlayer.agility > minAmountOfSkill) {
-						updateSkillPoints(-1);
-						m_currentPlayer.agility--;
-						agilityText.setString(to_string(m_currentPlayer.agility));
+					if (m_currentPlayer.m_agility > minAmountOfSkill) {
+						availableSkillPoints += 1;
+						m_currentPlayer.m_agility--;
+						agilityText.setString(to_string(m_currentPlayer.m_agility));
 					}
 					break;
 				case INTELLIGENCE:
-					if (m_currentPlayer.intelligence > minAmountOfSkill) {
-						updateSkillPoints(-1);
-						m_currentPlayer.intelligence--;
-						agilityText.setString(to_string(m_currentPlayer.intelligence));
+					if (m_currentPlayer.m_intelligence > minAmountOfSkill) {
+						availableSkillPoints += 1;
+						m_currentPlayer.m_intelligence--;
+						intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
 					}
 					break;
 				}
+				availablePointsText.setString(("Available points " + to_string(availableSkillPoints)));
 			}
 
-			if (plusButton.onClick(mousePos) == true) {
+			if ((plusButton.onClick(mousePos) == true) && (availableSkillPoints > 0)) {
 				switch (playerStats) {
 				case STRENGTH:
-					if (m_currentPlayer.strength < maxAmountOfSkill) {
-						updateSkillPoints(1);
-						m_currentPlayer.strength++;
-						strengthText.setString(to_string(m_currentPlayer.strength));
+					if (m_currentPlayer.m_strength < maxAmountOfSkill) {
+						availableSkillPoints -= 1;
+						m_currentPlayer.m_strength++;
+						strengthText.setString(to_string(m_currentPlayer.m_strength));
 					}
 					break;
 				case AGILITY:
-					if (m_currentPlayer.agility < maxAmountOfSkill) {
-						updateSkillPoints(1);
-						m_currentPlayer.agility++;
-						agilityText.setString(to_string(m_currentPlayer.agility));
+					if (m_currentPlayer.m_agility < maxAmountOfSkill) {
+						availableSkillPoints -= 1;
+						m_currentPlayer.m_agility++;
+						agilityText.setString(to_string(m_currentPlayer.m_agility));
 					}
 					break;
 				case INTELLIGENCE:
-					if (m_currentPlayer.intelligence < maxAmountOfSkill) {
-						updateSkillPoints(1);
-						m_currentPlayer.intelligence++;
-						agilityText.setString(to_string(m_currentPlayer.intelligence));
+					if (m_currentPlayer.m_intelligence < maxAmountOfSkill) {
+						availableSkillPoints -= 1;
+						m_currentPlayer.m_intelligence++;
+						intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
 					}
 					break;
 				}
+				availablePointsText.setString(("Available points " + to_string(availableSkillPoints)));
 			}
 
 			if (strengthButton.onClick(mousePos) == true) {
@@ -249,6 +258,7 @@ void CharScene::checkInput(Event event, RenderWindow& window, Vector2f mousePos,
 			}
 
 			if (fightButton.onClick(mousePos) == true) {
+				writeCharacterToFile();
 				handler.stackScene("arena");
 				counter++;
 			}
