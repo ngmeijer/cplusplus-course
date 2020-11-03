@@ -20,10 +20,11 @@ public:
 	void handleText();
 	void handleBackground();
 	void handleButtons();
-	void checkInput(sf::Event event, sf::Vector2f mousePos, SceneHandler& handler, int& counter, Character& character);
+	void checkInput(sf::Event event, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
 	void generateCharacter();
 	void updateSkillPoints(int valueChange);
+	void updateStats();
 	void writeCharacterToFile();
-	void readCharacterFromFile(int strength, int agility, int intelligence);
+	void importCharacter(int strength, int agility, int intelligence);
 };
 

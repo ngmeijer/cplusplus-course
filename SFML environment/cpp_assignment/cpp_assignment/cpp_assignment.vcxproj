@@ -42,6 +42,9 @@
     <ClInclude Include="Headers\sceneHandler.hpp" />
     <ClInclude Include="Headers\spriteObject.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="PlayerData.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

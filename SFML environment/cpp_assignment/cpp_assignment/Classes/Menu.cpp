@@ -17,7 +17,7 @@ Button playButton;
 Button eraseButton;
 Button quitButtonMenu;
 
-std::ofstream characterFileMenu("PlayerData.txt", std::ostream::out | std::ofstream::trunc);
+//std::ifstream characterFileMenu("PlayerData.txt");
 
 
 Menu::Menu() {}
@@ -84,13 +84,13 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 			}
 
 			if (eraseButton.onClick(mousePos) == true) {
-				cout << "erased data!" << endl;
+				/*cout << "erased data!" << endl;
 				if (!characterFileMenu.is_open() || characterFileMenu.fail())
 				{
 					characterFileMenu.close();
 					cout << "\t\t\t Error : failed to erase file content!" << endl;
 				}
-				characterFileMenu.close();
+				characterFileMenu.close();*/
 			}
 		}
 	}

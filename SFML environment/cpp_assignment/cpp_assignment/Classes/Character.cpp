@@ -27,8 +27,7 @@ void Character::drawPlayerScreen() {
 
 int Character::getStrength()
 {
-	std::cout << "calling getStrength method" << std::endl;
-	std::string line;
+	/*std::string line;
 	std::ifstream myfile("PlayerData.txt");
 	if (myfile.is_open())
 	{
@@ -38,7 +37,7 @@ int Character::getStrength()
 		}
 		myfile.close();
 	}
-	else std::cout << "Unable to open file" << std::endl;
+	else std::cout << "Unable to open file" << std::endl;*/
 
 	//int value = std::stoi(line);
 

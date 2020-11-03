@@ -172,7 +172,17 @@ void Arena::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Sce
 	}
 }
 
-void Arena::importCharacterStats()
+void Arena::importCharacter(int p_strength, int p_agility, int p_intelligence)
 {
-	
+	player.m_strength = p_strength;
+	player.m_agility = p_agility;
+	player.m_intelligence = p_intelligence;
+
+	updateStats();
+}
+
+void Arena::updateStats() {
+	playerStrengthText.setString(to_string(player.m_strength));
+	playerAgilityText.setString(to_string(player.m_agility));
+	playerIntelligenceText.setString(to_string(player.m_intelligence));
 }

@@ -50,15 +50,15 @@ CharScene::CharScene(std::string identifier, sf::Font& fontRef) : Scene(identifi
 	handleText();
 	handleButtons();
 
-	cout << m_currentPlayer.getStrength();
+	//cout << m_currentPlayer.getStrength();
 }
 
 CharScene::~CharScene() { }
 
 void CharScene::generateCharacter() {
-	m_currentPlayer.m_strength = 4;
-	m_currentPlayer.m_agility = 4;
-	m_currentPlayer.m_intelligence = 4;
+	//m_currentPlayer.m_strength = 4;
+	//m_currentPlayer.m_agility = 4;
+	//m_currentPlayer.m_intelligence = 4;
 
 	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
 	strengthText.setString(to_string(m_currentPlayer.m_strength));
@@ -69,17 +69,14 @@ void CharScene::handleText() {
 	strengthText.setFont(m_font);
 	strengthText.setCharacterSize(100);
 	strengthText.setPosition(180, 760);
-	strengthText.setString(to_string(m_currentPlayer.m_strength));
 
 	agilityText.setFont(m_font);
 	agilityText.setCharacterSize(100);
 	agilityText.setPosition(580, 760);
-	agilityText.setString(to_string(m_currentPlayer.m_agility));
 
 	intelligenceText.setFont(m_font);
 	intelligenceText.setCharacterSize(100);
 	intelligenceText.setPosition(980, 760);
-	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
 
 	availablePointsText.setFont(m_font);
 	availablePointsText.setCharacterSize(50);
@@ -92,12 +89,13 @@ void CharScene::handleText() {
 	addTextObject(availablePointsText);
 }
 
-void CharScene::handleButtons() {
-	/*generateButton.setSize(sf::Vector2f(400, 200));
-	generateButton.setPosition(sf::Vector2f(1250, 190));
-	generateButton.setColour(Color::Transparent);
-	generateButton.setString("Generate", m_font, 80, Color::White);*/
+void CharScene::updateStats() {
+	strengthText.setString(to_string(m_currentPlayer.m_strength));
+	agilityText.setString(to_string(m_currentPlayer.m_agility));
+	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
+}
 
+void CharScene::handleButtons() {
 	minusButton.setPosition(sf::Vector2f(120, 350));
 	minusButton.setSprite("MinusButton.png", sf::Vector2f(1.0f, 1.0f));
 	minusButton.setSize(sf::Vector2f(100, 100));
@@ -141,7 +139,6 @@ void CharScene::handleButtons() {
 	addGameObject(minusButton);
 
 	addGameObject(fightButton);
-	//addGameObject(generateButton);
 	addGameObject(cancelButton);
 }
 
@@ -154,7 +151,7 @@ void CharScene::updateSkillPoints(int valueChange) {
 }
 
 void CharScene::writeCharacterToFile() {
-	std::ofstream characterFile("PlayerData.txt", std::ostream::out | std::ofstream::app);
+	std::ofstream characterFile("PlayerData.txt", std::ostream::out | std::ofstream::trunc);
 	if (characterFile.is_open()) {
 		characterFile << m_currentPlayer.m_strength << "\n";
 		characterFile << m_currentPlayer.m_agility << "\n";
@@ -162,14 +159,16 @@ void CharScene::writeCharacterToFile() {
 	}
 }
 
-void CharScene::readCharacterFromFile(int p_strength, int p_agility, int p_intelligence)
+void CharScene::importCharacter(int p_strength, int p_agility, int p_intelligence)
 {
 	m_currentPlayer.m_strength = p_strength;
 	m_currentPlayer.m_agility = p_agility;
 	m_currentPlayer.m_intelligence = p_intelligence;
+
+	updateStats();
 }
 
-void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler, int& counter, Character& character)
+void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler, int& counter)
 {
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {
