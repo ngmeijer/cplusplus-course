@@ -93,6 +93,8 @@ void CharScene::updateStats() {
 	strengthText.setString(to_string(m_currentPlayer.m_strength));
 	agilityText.setString(to_string(m_currentPlayer.m_agility));
 	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
+
+	availablePointsText.setString(("Available points " + to_string(availableSkillPoints)));
 }
 
 void CharScene::handleButtons() {
@@ -156,14 +158,18 @@ void CharScene::writeCharacterToFile() {
 		characterFile << m_currentPlayer.m_strength << "\n";
 		characterFile << m_currentPlayer.m_agility << "\n";
 		characterFile << m_currentPlayer.m_intelligence << "\n";
+
+		characterFile << availableSkillPoints << "\n";
 	}
 }
 
-void CharScene::importCharacter(int p_strength, int p_agility, int p_intelligence)
+void CharScene::importCharacter(int p_strength, int p_agility, int p_intelligence, int p_availablePoints)
 {
 	m_currentPlayer.m_strength = p_strength;
 	m_currentPlayer.m_agility = p_agility;
 	m_currentPlayer.m_intelligence = p_intelligence;
+
+	availableSkillPoints = p_availablePoints;
 
 	updateStats();
 }
@@ -172,13 +178,6 @@ void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler
 {
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {
-			/*if (generateButton.onClick(mousePos) == true) {
-				generateCharacter();
-				character.strength = m_currentPlayer.strength;
-				character.agility = m_currentPlayer.agility;
-				character.intelligence = m_currentPlayer.intelligence;
-			}*/
-
 			if (minusButton.onClick(mousePos) == true) {
 				switch (playerStats) {
 				case STRENGTH:

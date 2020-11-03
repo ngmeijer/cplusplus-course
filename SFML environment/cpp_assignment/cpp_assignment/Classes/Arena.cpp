@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #include "../Headers/Arena.hpp"
 #include "../Headers/Button.hpp"
@@ -10,12 +11,12 @@ Button recoverButton;
 Button magicButton;
 Button quitButtonArena;
 
-RectangleShape playerBackground;
+sf::RectangleShape playerBackground;
 SpriteObject playerStrengthSprite("playerStrength", "strengthIcon.png");
 SpriteObject playerAgilitySprite("playerAgility", "agilityIcon.png");
 SpriteObject playerIntelligenceSprite("playerIntelligence", "intelligenceIcon.png");
 
-RectangleShape enemyBackground;
+sf::RectangleShape enemyBackground;
 SpriteObject enemyStrengthSprite("enemyStrength", "strengthIcon.png");
 SpriteObject enemyAgilitySprite("enemyAgility", "agilityIcon.png");
 SpriteObject enemyIntelligenceSprite("enemyIntelligence", "intelligenceIcon.png");
@@ -24,12 +25,15 @@ Text playerStrengthText;
 Text playerAgilityText;
 Text playerIntelligenceText;
 
-Text enemyStrengthText;
-Text enemyAgilityText;
-Text enemyIntelligenceText;
+sf::Text enemyStrengthText;
+sf::Text enemyAgilityText;
+sf::Text enemyIntelligenceText;
 
 Character player;
 Character enemy;
+
+std::ifstream characterDataArena("PlayerData.txt");
+std::vector<int> statsVecArena;
 
 Arena::Arena() { }
 
@@ -41,6 +45,21 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 	handleButtons();
 	handlePlayer(windowRef);
 	handleEnemy(windowRef);
+
+	if (characterDataArena.fail()) {
+		std::cout << "\n" << "Failed opening the PlayerData.txt file." << endl << "\n";
+	}
+	else {
+		string line;
+		while (getline(characterDataArena, line)) {
+			statsVecArena.push_back(std::stoi(line));
+		}
+		characterDataArena.close();
+	}
+
+	player.m_strength = statsVecArena[0];
+	player.m_agility = statsVecArena[1];
+	player.m_intelligence = statsVecArena[2];
 }
 
 Arena::~Arena() { }

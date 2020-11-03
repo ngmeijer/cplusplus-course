@@ -18,8 +18,6 @@ Font font;
 int counter = 0;
 int* counterPtr = &counter;
 
-Character character;
-
 std::vector<int> statsVec;
 
 struct CharacterStats
@@ -27,6 +25,7 @@ struct CharacterStats
 	int strength;
 	int agility;
 	int intelligence;
+	int availablePoints;
 };
 
 CharacterStats charStats;
@@ -39,10 +38,7 @@ void backToMenu() {
 	counter = 0;
 }
 
-int main() {
-	//Necessary for seeding the RNG. Currently disabled that.
-	//srand(time(0));
-
+void readWritePlayerData() {
 	if (characterData.fail()) {
 		std::cout << "\n" << "Failed opening the PlayerData.txt file." << endl << "\n";
 	}
@@ -54,16 +50,24 @@ int main() {
 		characterData.close();
 	}
 
-	character.m_strength = statsVec[0];
-	character.m_agility = statsVec[1];
-	character.m_intelligence = statsVec[2];
+	charStats.strength = statsVec[0];
+	charStats.agility = statsVec[1];
+	charStats.intelligence = statsVec[2];
+	charStats.availablePoints = statsVec[3];
 
 	for (int i = 0; i < statsVec.size(); i++) {
 		cout << "current: " << statsVec[i] << endl;
 	}
+}
 
+void handleScenes() {
+
+}
+
+int main() {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Arena game!");
-	window.setKeyRepeatEnabled(false);
+
+	readWritePlayerData();
 
 	if (!font.loadFromFile("font.ttf")) {
 		cout << "Missing font." << endl;
@@ -73,16 +77,16 @@ int main() {
 	CharScene characterGen("character", font);
 	Arena arena("arena", window, font);
 
-	characterGen.importCharacter(character.m_strength, character.m_agility, character.m_intelligence);
-	arena.importCharacter(character.m_strength, character.m_agility, character.m_intelligence);
-
 	SceneHandler handler;
 	handler.addScene(menu);
 	handler.addScene(characterGen);
 	handler.addScene(arena);
 
+	characterGen.importCharacter(charStats.strength, charStats.agility, charStats.intelligence, charStats.availablePoints);
+
 	while (window.isOpen()) {
 		{
+			arena.importCharacter(charStats.strength, charStats.agility, charStats.intelligence);
 			sf::Event event;
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::Closed) {
