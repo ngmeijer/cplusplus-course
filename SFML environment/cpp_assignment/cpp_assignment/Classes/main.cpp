@@ -1,4 +1,5 @@
 #include <SFML/graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "../Headers/scene.hpp"
 #include "../Headers/menu.hpp"
 #include "../Headers/CharScene.hpp"
@@ -12,6 +13,7 @@
 #include <fstream>
 
 std::ifstream characterData("PlayerData.txt");
+sf::Music backgroundMusic;
 
 Font font;
 
@@ -64,10 +66,19 @@ void handleScenes() {
 
 }
 
+void handleAudio() {
+	if (!backgroundMusic.openFromFile("BackgroundMusic.wav")) {
+		std::cout << "Could not find the background track." << endl;
+		return;
+	}
+	backgroundMusic.play();
+}
+
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Arena game!");
 
 	readWritePlayerData();
+	handleAudio();
 
 	if (!font.loadFromFile("font.ttf")) {
 		cout << "Missing font." << endl;
