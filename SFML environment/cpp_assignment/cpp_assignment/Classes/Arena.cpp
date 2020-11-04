@@ -18,7 +18,7 @@ sf::RectangleShape playerBackground;
 sf::RectangleShape playerHealth;
 sf::RectangleShape playerHealthBackground;
 sf::RectangleShape playerMagic;
-SpriteObject playerSprite("playerSprite", "bulbasaur.png");
+SpriteObject playerSprite("playerSprite", "DoomSlayer.png");
 SpriteObject playerStrengthSprite("playerStrength", "strengthIcon.png");
 SpriteObject playerAgilitySprite("playerAgility", "agilityIcon.png");
 SpriteObject playerIntelligenceSprite("playerIntelligence", "intelligenceIcon.png");
@@ -28,7 +28,7 @@ sf::RectangleShape enemyHealth;
 sf::RectangleShape enemyHealthBackground;
 sf::RectangleShape enemyMagic;
 sf::RectangleShape enemyMagicBackground;
-SpriteObject enemySprite("enemySprite", "charmander.png");
+SpriteObject enemySprite("enemySprite", "Zombie.png");
 SpriteObject enemyStrengthSprite("enemyStrength", "strengthIcon.png");
 SpriteObject enemyAgilitySprite("enemyAgility", "agilityIcon.png");
 SpriteObject enemyIntelligenceSprite("enemyIntelligence", "intelligenceIcon.png");
@@ -40,7 +40,7 @@ sf::Text playerIntelligenceText;
 RectangleShape textBoxBackground;
 sf::Text characterActionText;
 sf::Text turnText;
-std::string currentAction = "THIS IS SPARTA";
+std::string currentAction = "DOOMSLAYER attacked for 50 damage";
 std::string turnString = "Your turn!";
 
 sf::Text enemyStrengthText;
@@ -58,7 +58,7 @@ int windowWidth;
 enum ACTION_BUTTONS {
 	ATTACK,
 	PREPARE,
-	RECOVER,
+	HEAL,
 	MAGIC,
 };
 
@@ -132,8 +132,8 @@ void Arena::handlePlayer(sf::RectangleShape& health, sf::RectangleShape& magicCa
 	background.setPosition(sf::Vector2f(10, 10));
 	background.setFillColor(Color(120, 120, 120, 150));
 
-	characterSprite.setPosition(sf::Vector2f(500.0f, 500.0f));
-	characterSprite.setScale(sf::Vector2f(5.0f, 5.0f));
+	characterSprite.setPosition(sf::Vector2f(400.0f, 550.0f));
+	characterSprite.setScale(sf::Vector2f(0.5f, 0.5f));
 
 	health.setSize(sf::Vector2f(480, 10));
 	health.setPosition(sf::Vector2f(20, 330));
@@ -143,9 +143,9 @@ void Arena::handlePlayer(sf::RectangleShape& health, sf::RectangleShape& magicCa
 	magicCapacity.setPosition(sf::Vector2f(20, 360));
 	magicCapacity.setFillColor(Color::Blue);
 
-	playerStrengthSprite.setScale(sf::Vector2f(0.25f, 0.25f));
-	playerAgilitySprite.setScale(sf::Vector2f(0.25f, 0.25f));
-	playerIntelligenceSprite.setScale(sf::Vector2f(0.25f, 0.25f));
+	playerStrengthSprite.setScale(sf::Vector2f(1.0f, 1.0f));
+	playerAgilitySprite.setScale(sf::Vector2f(1.0f, 1.0f));
+	playerIntelligenceSprite.setScale(sf::Vector2f(1.0f, 1.0f));
 
 	playerStrengthSprite.setPosition(sf::Vector2f(20, 75));
 	playerAgilitySprite.setPosition(sf::Vector2f(190, 75));
@@ -191,8 +191,8 @@ void Arena::handleEnemy(sf::RectangleShape& health, sf::RectangleShape& magicCap
 	background.setPosition(sf::Vector2f(1410, 10));
 	background.setFillColor(Color(120, 120, 120, 150));
 
-	characterSprite.setPosition(sf::Vector2f(1100.0f, 400.0f));
-	characterSprite.setScale(sf::Vector2f(5.0f, 5.0f));
+	characterSprite.setPosition(sf::Vector2f(1100.0f, 710.0f));
+	characterSprite.setScale(sf::Vector2f(0.5f, 0.5f));
 
 	health.setSize(sf::Vector2f(480, 10));
 	health.setPosition(sf::Vector2f(1420, 330));
@@ -208,32 +208,32 @@ void Arena::handleEnemy(sf::RectangleShape& health, sf::RectangleShape& magicCap
 	enemyMagicBackground.setPosition(sf::Vector2f(1420, 360));
 	enemyMagicBackground.setFillColor(Color(0, 0, 0, 200));
 
-	enemyStrengthSprite.setScale(sf::Vector2f(0.25f, 0.25f));
-	enemyAgilitySprite.setScale(sf::Vector2f(0.25f, 0.25f));
-	enemyIntelligenceSprite.setScale(sf::Vector2f(0.25f, 0.25f));
+	enemyStrengthSprite.setScale(sf::Vector2f(1.0f, 1.0f));
+	enemyAgilitySprite.setScale(sf::Vector2f(1.0f, 1.0f));
+	enemyIntelligenceSprite.setScale(sf::Vector2f(1.0f, 1.0f));
 
-	enemyStrengthSprite.setPosition(sf::Vector2f(1450, 75));
-	enemyAgilitySprite.setPosition(sf::Vector2f(1620, 75));
-	enemyIntelligenceSprite.setPosition(sf::Vector2f(1790, 75));
+	enemyStrengthSprite.setPosition(sf::Vector2f(1415, 75));
+	enemyAgilitySprite.setPosition(sf::Vector2f(1585, 75));
+	enemyIntelligenceSprite.setPosition(sf::Vector2f(1755, 75));
 
 	handleEnemyText(enemyStrengthText, enemyAgilityText, enemyIntelligenceText);
 }
 
 void Arena::handleTextbox() {
-	textBoxBackground.setSize(sf::Vector2f(1600, 160));
-	textBoxBackground.setPosition(sf::Vector2f(160, 770));
+	textBoxBackground.setSize(sf::Vector2f(880, 160));
+	textBoxBackground.setPosition(sf::Vector2f(520, 20));
 	textBoxBackground.setFillColor(Color(0, 0, 0, 150));
 
 	addRectangleObject(textBoxBackground);
 
 	characterActionText.setFont(m_font);
 	characterActionText.setString(currentAction);
-	characterActionText.setPosition(sf::Vector2f(180, 790));
-	characterActionText.setCharacterSize(40);
+	characterActionText.setPosition(sf::Vector2f(525, 40));
+	characterActionText.setCharacterSize(38);
 
 	turnText.setFont(m_font);
 	turnText.setString(turnString);
-	turnText.setPosition(sf::Vector2f(180, 860));
+	turnText.setPosition(sf::Vector2f(525, 100));
 	turnText.setCharacterSize(40);
 
 	addTextObject(characterActionText);
@@ -241,23 +241,23 @@ void Arena::handleTextbox() {
 }
 
 void Arena::handleButtons() {
-	attackButton.setSize(sf::Vector2f(200, 60));
-	attackButton.setPosition(sf::Vector2f(400, 950));
+	attackButton.setSize(sf::Vector2f(190, 60));
+	attackButton.setPosition(sf::Vector2f(520, 250));
 	attackButton.setColour(Color(255, 0, 0, 120));
 	attackButton.setString("Attack", m_font, 40, Color::White);
 
-	prepareButton.setSize(sf::Vector2f(200, 60));
-	prepareButton.setPosition(sf::Vector2f(700, 950));
+	prepareButton.setSize(sf::Vector2f(190, 60));
+	prepareButton.setPosition(sf::Vector2f(730, 250));
 	prepareButton.setColour(Color(125, 125, 125, 120));
 	prepareButton.setString("Prepare", m_font, 40, Color::White);
 
-	recoverButton.setSize(sf::Vector2f(200, 60));
-	recoverButton.setPosition(sf::Vector2f(1000, 950));
+	recoverButton.setSize(sf::Vector2f(190, 60));
+	recoverButton.setPosition(sf::Vector2f(950, 250));
 	recoverButton.setColour(Color(0, 255, 0, 120));
 	recoverButton.setString("Recover", m_font, 40, Color::White);
 
-	magicButton.setSize(sf::Vector2f(220, 60));
-	magicButton.setPosition(sf::Vector2f(1300, 950));
+	magicButton.setSize(sf::Vector2f(210, 60));
+	magicButton.setPosition(sf::Vector2f(1190, 250));
 	magicButton.setColour(Color(0, 0, 255, 120));
 	magicButton.setString("Cast Magic", m_font, 40, Color::White);
 
@@ -293,19 +293,19 @@ void Arena::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Sce
 			}
 
 			if (attackButton.onClick(mousePos) == true) {
-				updateAction(ATTACK, "Bulbasaur", 100, 0);
+				updateActionText(ATTACK, "DOOMSLAYER", 100, 0);
 			}
 
 			if (prepareButton.onClick(mousePos) == true) {
-				updateAction(PREPARE, "Bulbasaur", 0, 0);
+				updateActionText(PREPARE, "DOOMSLAYER", 0, 0);
 			}
 
 			if (recoverButton.onClick(mousePos) == true) {
-				updateAction(RECOVER, "Bulbasaur", 0, 100);
+				updateActionText(HEAL, "DOOMSLAYER", 0, 100);
 			}
 
 			if (magicButton.onClick(mousePos) == true) {
-				updateAction(MAGIC, "Bulbasaur", 100, 0);
+				updateActionText(MAGIC, "DOOMSLAYER", 100, 0);
 				updateStats(0, MAGIC, 75, 100);
 			}
 
@@ -338,39 +338,56 @@ void Arena::updateStats(int turn, int action, int damageDealt, int magicSpent) {
 	switch (turn) {
 		//Player's turn
 	case 0:
-		if ((enemyHealthLeft - damageDealt >= 0) && (playerMagicLeft - magicSpent >= 0)) {
-			enemyHealth.setSize(sf::Vector2f(enemyHealthLeft - damageDealt, 10));
-			playerMagic.setSize(sf::Vector2f(playerMagicLeft - magicSpent, 10));
 
-			switch (action) {
-			case ATTACK:
-				break;
-			case PREPARE:
+		switch (action) {
+		case ATTACK:
+			if (enemyHealthLeft - damageDealt >= 0) {
+				enemyHealth.setSize(sf::Vector2f(enemyHealthLeft - damageDealt, 10));
 				break;
 			}
+		case PREPARE:
+			break;
+		case HEAL:
+			if (playerMagicLeft - magicSpent >= 0) {
+				playerHealth.setSize(sf::Vector2f(480, 10));
+				playerMagic.setSize(sf::Vector2f(playerMagicLeft - magicSpent, 10));
+			}
+			break;
+		case MAGIC:
+			if ((enemyHealthLeft - damageDealt >= 0) && (playerMagicLeft - magicSpent >= 0)) {
+				enemyHealth.setSize(sf::Vector2f(enemyHealthLeft - damageDealt, 10));
+				playerMagic.setSize(sf::Vector2f(playerMagicLeft - magicSpent, 10));
+				break;
+			}
+			break;
 		}
-		break;
-		//Enemy's turn
 	case 1:
-		playerHealth.setSize(sf::Vector2f(playerHealth.getSize().x - damageDealt, 10));
-		enemyMagic.setSize(sf::Vector2f(enemyMagic.getSize().x - magicSpent, 10));
-		break;
+		switch (action) {
+		case ATTACK:
+			break;
+		case PREPARE:
+			break;
+		case HEAL:
+			break;
+		case MAGIC:
+			break;
+		}
 	}
 }
 
-void Arena::updateAction(int buttonClicked, std::string characterName, int damageDone, int healthGained) {
+void Arena::updateActionText(int buttonClicked, std::string characterName, int damageDone, int healthGained) {
 	switch (buttonClicked) {
 	case ATTACK:
 		characterActionText.setString((characterName + " has attacked for: " + to_string(damageDone) + " damage!"));
 		break;
 	case PREPARE:
-		characterActionText.setString((characterName + " is preparing for a powerful next attack!"));
+		characterActionText.setString((characterName + " has prepared for a powerful next attack!"));
 		break;
-	case RECOVER:
+	case HEAL:
 		characterActionText.setString((characterName + " has healed for: " + to_string(healthGained) + " HP!"));
 		break;
 	case MAGIC:
-		characterActionText.setString((characterName + " has cast a magic spell, dealing: " + to_string(damageDone) + " damage!"));
+		characterActionText.setString((characterName + " has dealt " + to_string(damageDone) + " magic damage!"));
 		break;
 	}
 }

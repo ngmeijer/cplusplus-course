@@ -19,7 +19,7 @@ public:
 	Menu(std::string identifier, RenderWindow& windowRef, Font& font);
 	~Menu();
 
-	void handleText(RenderWindow& window);
+	void handleText();
 	void handleBackground();
 	void handleButtons();
 	void checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter);

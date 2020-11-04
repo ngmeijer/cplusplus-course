@@ -68,20 +68,20 @@ void CharScene::generateCharacter() {
 void CharScene::handleText() {
 	strengthText.setFont(m_font);
 	strengthText.setCharacterSize(100);
-	strengthText.setPosition(180, 760);
+	strengthText.setPosition(210, 900);
 
 	agilityText.setFont(m_font);
 	agilityText.setCharacterSize(100);
-	agilityText.setPosition(580, 760);
+	agilityText.setPosition(630, 900);
 
 	intelligenceText.setFont(m_font);
 	intelligenceText.setCharacterSize(100);
-	intelligenceText.setPosition(980, 760);
+	intelligenceText.setPosition(1010, 900);
 
 	availablePointsText.setFont(m_font);
-	availablePointsText.setCharacterSize(50);
+	availablePointsText.setCharacterSize(90);
 	availablePointsText.setPosition(80, 50);
-	availablePointsText.setString(("Available points " + to_string(availableSkillPoints)));
+	availablePointsText.setString(("Available points:    " + to_string(availableSkillPoints)));
 
 	addTextObject(strengthText);
 	addTextObject(agilityText);
@@ -94,42 +94,42 @@ void CharScene::updateStats() {
 	agilityText.setString(to_string(m_currentPlayer.m_agility));
 	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
 
-	availablePointsText.setString(("Available points " + to_string(availableSkillPoints)));
+	availablePointsText.setString(("Available points:    " + to_string(availableSkillPoints)));
 }
 
 void CharScene::handleButtons() {
-	minusButton.setPosition(sf::Vector2f(120, 350));
+	minusButton.setPosition(sf::Vector2f(120, 490));
 	minusButton.setSprite("MinusButton.png", sf::Vector2f(1.0f, 1.0f));
 	minusButton.setSize(sf::Vector2f(100, 100));
 	minusButton.setColour(sf::Color::Transparent);
 
-	plusButton.setPosition(sf::Vector2f(270, 350));
+	plusButton.setPosition(sf::Vector2f(270, 490));
 	plusButton.setSprite("PlusButton.png", sf::Vector2f(1.0f, 1.0f));
 	plusButton.setSize(sf::Vector2f(100, 100));
 	plusButton.setColour(sf::Color::Transparent);
 
 	cancelButton.setSize(sf::Vector2f(300, 130));
-	cancelButton.setPosition(sf::Vector2f(1250, 440));
+	cancelButton.setPosition(sf::Vector2f(1550, 940));
 	cancelButton.setColour(Color::Transparent);
 	cancelButton.setString("Cancel", m_font, 80, Color::White);
 
-	fightButton.setSize(sf::Vector2f(400, 200));
-	fightButton.setPosition(sf::Vector2f(1250, 690));
+	fightButton.setSize(sf::Vector2f(500, 230));
+	fightButton.setPosition(sf::Vector2f(1350, 20));
 	fightButton.setColour(Color::Transparent);
-	fightButton.setString("PLAY", m_font, 100, Color::Red);
+	fightButton.setString("PLAY", m_font, 200, Color::Red);
 
-	strengthButton.setSprite("strengthIcon.png", sf::Vector2f(0.5f, 0.5f));
-	strengthButton.setPosition(sf::Vector2f(100, 500));
+	strengthButton.setSprite("strengthIcon.png", sf::Vector2f(2.0f, 2.0f));
+	strengthButton.setPosition(sf::Vector2f(100, 640));
 	strengthButton.setSize(sf::Vector2f(260, 250));
 	strengthButton.setColour(Color::Transparent);
 
-	agilityButton.setSprite("agilityIcon.png", sf::Vector2f(0.5f, 0.5f));
-	agilityButton.setPosition(sf::Vector2f(520, 500));
+	agilityButton.setSprite("agilityIcon.png", sf::Vector2f(2.0f, 2.0f));
+	agilityButton.setPosition(sf::Vector2f(520, 640));
 	agilityButton.setSize(sf::Vector2f(260, 250));
 	agilityButton.setColour(Color::Transparent);
 
-	intelligenceButton.setSprite("intelligenceIcon.png", sf::Vector2f(0.5f, 0.5f));
-	intelligenceButton.setPosition(sf::Vector2f(910, 500));
+	intelligenceButton.setSprite("intelligenceIcon.png", sf::Vector2f(2.0f, 2.0f));
+	intelligenceButton.setPosition(sf::Vector2f(900, 640));
 	intelligenceButton.setSize(sf::Vector2f(260, 250));
 	intelligenceButton.setColour(Color::Transparent);
 
@@ -149,7 +149,7 @@ void CharScene::handleBackground() {
 }
 
 void CharScene::updateSkillPoints(int valueChange) {
-	availablePointsText.setString(("Available points " + to_string(availableSkillPoints - valueChange)));
+	availablePointsText.setString(("Available points:    " + to_string(availableSkillPoints - valueChange)));
 }
 
 void CharScene::writeCharacterToFile() {
@@ -202,7 +202,7 @@ void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler
 					}
 					break;
 				}
-				availablePointsText.setString(("Available points " + to_string(availableSkillPoints)));
+				availablePointsText.setString(("Available points:    " + to_string(availableSkillPoints)));
 			}
 
 			if ((plusButton.onClick(mousePos) == true) && (availableSkillPoints > 0)) {
@@ -229,24 +229,24 @@ void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler
 					}
 					break;
 				}
-				availablePointsText.setString(("Available points " + to_string(availableSkillPoints)));
+				availablePointsText.setString(("Available points:    " + to_string(availableSkillPoints)));
 			}
 
 			if (strengthButton.onClick(mousePos) == true) {
-				minusButton.setPosition(sf::Vector2f(120, 350));
-				plusButton.setPosition(sf::Vector2f(270, 350));
+				minusButton.setPosition(sf::Vector2f(120, 490));
+				plusButton.setPosition(sf::Vector2f(270, 490));
 				playerStats = STRENGTH;
 			}
 
 			if (agilityButton.onClick(mousePos) == true) {
-				minusButton.setPosition(sf::Vector2f(550, 350));
-				plusButton.setPosition(sf::Vector2f(700, 350));
+				minusButton.setPosition(sf::Vector2f(550, 490));
+				plusButton.setPosition(sf::Vector2f(700, 490));
 				playerStats = AGILITY;
 			}
 
 			if (intelligenceButton.onClick(mousePos) == true) {
-				minusButton.setPosition(sf::Vector2f(920, 350));
-				plusButton.setPosition(sf::Vector2f(1070, 350));
+				minusButton.setPosition(sf::Vector2f(920, 490));
+				plusButton.setPosition(sf::Vector2f(1070, 490));
 				playerStats = INTELLIGENCE;
 			}
 

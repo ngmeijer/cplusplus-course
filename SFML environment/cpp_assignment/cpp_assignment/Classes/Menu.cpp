@@ -17,7 +17,7 @@ Button playButton;
 Button eraseButton;
 Button quitButtonMenu;
 
-//std::ifstream characterFileMenu("PlayerData.txt");
+std::ifstream characterFileMenu("PlayerData.txt");
 
 
 Menu::Menu() {}
@@ -27,36 +27,36 @@ Menu::Menu(std::string identifier, RenderWindow& windowRef, Font& font) : Scene(
 	m_font = font;
 
 	handleBackground();
-	handleText(windowRef);
+	handleText();
 	handleButtons();
 }
 
 Menu::~Menu() {  }
 
-void Menu::handleText(RenderWindow& window) {
+void Menu::handleText() {
 	title.setFont(m_font);
-	title.setCharacterSize(60);
-	title.setPosition((window.getSize().x / 2 - 500), 50);
+	title.setCharacterSize(270);
+	title.setPosition(10, -20);
 	title.setString("Nether Fights");
 
 	addTextObject(title);
 }
 
 void Menu::handleButtons() {
-	playButton.setSize(sf::Vector2f(250, 100));
-	playButton.setPosition(sf::Vector2f(1250, 190));
+	playButton.setSize(sf::Vector2f(500, 220));
+	playButton.setPosition(sf::Vector2f(50, 830));
 	playButton.setColour(Color::Transparent);
-	playButton.setString("Play", m_font, 80, Color::White);
+	playButton.setString("Play", m_font, 200, Color::White);
 
-	eraseButton.setSize(sf::Vector2f(450, 100));
-	eraseButton.setPosition(sf::Vector2f(1250, 440));
+	eraseButton.setSize(sf::Vector2f(600, 130));
+	eraseButton.setPosition(sf::Vector2f(1190, 690));
 	eraseButton.setColour(Color::Transparent);
-	eraseButton.setString("Erase data", m_font, 80, Color::White);
+	eraseButton.setString("Erase data", m_font, 100, Color::White);
 
-	quitButtonMenu.setSize(sf::Vector2f(250, 100));
-	quitButtonMenu.setPosition(sf::Vector2f(1250, 690));
+	quitButtonMenu.setSize(sf::Vector2f(250, 120));
+	quitButtonMenu.setPosition(sf::Vector2f(1550, 890));
 	quitButtonMenu.setColour(Color::Transparent);
-	quitButtonMenu.setString("Quit", m_font, 80, Color::White);
+	quitButtonMenu.setString("Quit", m_font, 100, Color::White);
 
 	addGameObject(playButton);
 	addGameObject(eraseButton);
@@ -84,13 +84,13 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 			}
 
 			if (eraseButton.onClick(mousePos) == true) {
-				/*cout << "erased data!" << endl;
+				cout << "erased data!" << endl;
 				if (!characterFileMenu.is_open() || characterFileMenu.fail())
 				{
 					characterFileMenu.close();
 					cout << "\t\t\t Error : failed to erase file content!" << endl;
 				}
-				characterFileMenu.close();*/
+				characterFileMenu.close();
 			}
 		}
 	}

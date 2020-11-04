@@ -30,7 +30,7 @@ public:
 	void importCharacter(int p_strength, int p_agility, int p_intelligence);
 	void updateSkills();
 	void updateStats(int turn, int action, int damageDealt, int magicSpent);
-	void updateAction(int buttonClicked, std::string name, int damage, int health);
+	void updateActionText(int buttonClicked, std::string name, int damage, int health);
 
 	//Character UI generation
 	void handlePlayer(sf::RectangleShape& health, sf::RectangleShape& stamina, sf::RectangleShape& background, SpriteObject& characterSprite);
