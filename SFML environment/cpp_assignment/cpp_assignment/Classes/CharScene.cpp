@@ -13,7 +13,7 @@ SpriteObject background2("background", "charBackground.jpg");
 
 Button strengthButton;
 Button agilityButton;
-Button intelligenceButton;
+Button headshotButton;
 
 Button plusButton;
 Button minusButton;
@@ -62,7 +62,7 @@ void CharScene::generateCharacter() {
 
 	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
 	strengthText.setString(to_string(m_currentPlayer.m_strength));
-	agilityText.setString(to_string(m_currentPlayer.m_agility));
+	agilityText.setString(to_string(m_currentPlayer.m_intelligence));
 }
 
 void CharScene::handleText() {
@@ -91,7 +91,7 @@ void CharScene::handleText() {
 
 void CharScene::updateStats() {
 	strengthText.setString(to_string(m_currentPlayer.m_strength));
-	agilityText.setString(to_string(m_currentPlayer.m_agility));
+	agilityText.setString(to_string(m_currentPlayer.m_intelligence));
 	intelligenceText.setString(to_string(m_currentPlayer.m_intelligence));
 
 	availablePointsText.setString(("Available points:    " + to_string(availableSkillPoints)));
@@ -128,14 +128,14 @@ void CharScene::handleButtons() {
 	agilityButton.setSize(sf::Vector2f(260, 250));
 	agilityButton.setColour(Color::Transparent);
 
-	intelligenceButton.setSprite("intelligenceIcon.png", sf::Vector2f(2.0f, 2.0f));
-	intelligenceButton.setPosition(sf::Vector2f(900, 640));
-	intelligenceButton.setSize(sf::Vector2f(260, 250));
-	intelligenceButton.setColour(Color::Transparent);
+	headshotButton.setSprite("intelligenceIcon.png", sf::Vector2f(2.0f, 2.0f));
+	headshotButton.setPosition(sf::Vector2f(900, 640));
+	headshotButton.setSize(sf::Vector2f(260, 250));
+	headshotButton.setColour(Color::Transparent);
 
 	addGameObject(strengthButton);
 	addGameObject(agilityButton);
-	addGameObject(intelligenceButton);
+	addGameObject(headshotButton);
 
 	addGameObject(plusButton);
 	addGameObject(minusButton);
@@ -156,7 +156,7 @@ void CharScene::writeCharacterToFile() {
 	std::ofstream characterFile("PlayerData.txt", std::ostream::out | std::ofstream::trunc);
 	if (characterFile.is_open()) {
 		characterFile << m_currentPlayer.m_strength << "\n";
-		characterFile << m_currentPlayer.m_agility << "\n";
+		characterFile << m_currentPlayer.m_intelligence << "\n";
 		characterFile << m_currentPlayer.m_intelligence << "\n";
 
 		characterFile << availableSkillPoints << "\n";
@@ -166,7 +166,7 @@ void CharScene::writeCharacterToFile() {
 void CharScene::importCharacter(int p_strength, int p_agility, int p_intelligence, int p_availablePoints)
 {
 	m_currentPlayer.m_strength = p_strength;
-	m_currentPlayer.m_agility = p_agility;
+	m_currentPlayer.m_intelligence = p_agility;
 	m_currentPlayer.m_intelligence = p_intelligence;
 
 	availableSkillPoints = p_availablePoints;
@@ -188,10 +188,10 @@ void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler
 					}
 					break;
 				case AGILITY:
-					if (m_currentPlayer.m_agility > minAmountOfSkill) {
+					if (m_currentPlayer.m_intelligence > minAmountOfSkill) {
 						availableSkillPoints += 1;
-						m_currentPlayer.m_agility--;
-						agilityText.setString(to_string(m_currentPlayer.m_agility));
+						m_currentPlayer.m_intelligence--;
+						agilityText.setString(to_string(m_currentPlayer.m_intelligence));
 					}
 					break;
 				case INTELLIGENCE:
@@ -215,10 +215,10 @@ void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler
 					}
 					break;
 				case AGILITY:
-					if (m_currentPlayer.m_agility < maxAmountOfSkill) {
+					if (m_currentPlayer.m_intelligence < maxAmountOfSkill) {
 						availableSkillPoints -= 1;
-						m_currentPlayer.m_agility++;
-						agilityText.setString(to_string(m_currentPlayer.m_agility));
+						m_currentPlayer.m_intelligence++;
+						agilityText.setString(to_string(m_currentPlayer.m_intelligence));
 					}
 					break;
 				case INTELLIGENCE:
@@ -244,7 +244,7 @@ void CharScene::checkInput(Event event, Vector2f mousePos, SceneHandler& handler
 				playerStats = AGILITY;
 			}
 
-			if (intelligenceButton.onClick(mousePos) == true) {
+			if (headshotButton.onClick(mousePos) == true) {
 				minusButton.setPosition(sf::Vector2f(920, 490));
 				plusButton.setPosition(sf::Vector2f(1070, 490));
 				playerStats = INTELLIGENCE;

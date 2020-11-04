@@ -71,7 +71,9 @@ void handleAudio() {
 		std::cout << "Could not find the background track." << endl;
 		return;
 	}
-	backgroundMusic.play();
+	//backgroundMusic.play();
+	backgroundMusic.setLoop(true);
+	backgroundMusic.setVolume(50.0f);
 }
 
 int main() {

@@ -17,7 +17,7 @@ SpriteObject sceneBackground("background", "FightScene.jpg");
 sf::RectangleShape playerBackground;
 sf::RectangleShape playerHealth;
 sf::RectangleShape playerHealthBackground;
-sf::RectangleShape playerMagic;
+sf::RectangleShape playerStamina;
 SpriteObject playerSprite("playerSprite", "DoomSlayer.png");
 SpriteObject playerStrengthSprite("playerStrength", "strengthIcon.png");
 SpriteObject playerAgilitySprite("playerAgility", "agilityIcon.png");
@@ -59,10 +59,17 @@ enum ACTION_BUTTONS {
 	ATTACK,
 	PREPARE,
 	HEAL,
-	MAGIC,
+	HEADSHOT,
+};
+
+struct ACTION_VALUES {
+	int attackDamage = 50;
+	int healAmount = 50;
+	int headshotDamage = 200;
 };
 
 ACTION_BUTTONS selectionAction;
+ACTION_VALUES actionValues;
 
 Arena::Arena() { }
 
@@ -71,10 +78,11 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 	m_font = fontRef;
 	windowWidth = windowRef.getSize().x;
 
+	adjustSkillScaling(player.m_strength, player.m_intelligence, player.m_headshot);
 	handleBackground();
 	handleTextbox();
 	handleButtons();
-	handlePlayer(playerHealth, playerMagic, playerBackground, playerSprite);
+	handlePlayer(playerHealth, playerStamina, playerBackground, playerSprite);
 	handleEnemy(enemyHealth, enemyMagic, enemyBackground, enemySprite);
 
 	if (characterDataArena.fail()) {
@@ -89,8 +97,8 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 	}
 
 	player.m_strength = statsVecArena[0];
-	player.m_agility = statsVecArena[1];
-	player.m_intelligence = statsVecArena[2];
+	player.m_intelligence = statsVecArena[1];
+	player.m_headshot = statsVecArena[2];
 }
 
 Arena::~Arena() { }
@@ -98,7 +106,7 @@ Arena::~Arena() { }
 void Arena::handlePlayerText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence) {
 
 	strength.setString(to_string(player.m_strength));
-	agility.setString(to_string(player.m_agility));
+	agility.setString(to_string(player.m_intelligence));
 	intelligence.setString(to_string(player.m_intelligence));
 
 	strength.setFont(m_font);
@@ -156,7 +164,7 @@ void Arena::handlePlayer(sf::RectangleShape& health, sf::RectangleShape& magicCa
 
 void Arena::handleEnemyText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence) {
 	strength.setString(to_string(player.m_strength));
-	agility.setString(to_string(player.m_agility));
+	agility.setString(to_string(player.m_intelligence));
 	intelligence.setString(to_string(player.m_intelligence));
 
 	strength.setFont(m_font);
@@ -259,7 +267,7 @@ void Arena::handleButtons() {
 	magicButton.setSize(sf::Vector2f(210, 60));
 	magicButton.setPosition(sf::Vector2f(1190, 250));
 	magicButton.setColour(Color(0, 0, 255, 120));
-	magicButton.setString("Cast Magic", m_font, 40, Color::White);
+	magicButton.setString("Headshot", m_font, 40, Color::White);
 
 	continueFightButton.setSize(sf::Vector2f(300, 100));
 	continueFightButton.setPosition(sf::Vector2f(810, 650));
@@ -305,8 +313,8 @@ void Arena::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Sce
 			}
 
 			if (magicButton.onClick(mousePos) == true) {
-				updateActionText(MAGIC, "DOOMSLAYER", 100, 0);
-				updateStats(0, MAGIC, 75, 100);
+				updateActionText(HEADSHOT, "DOOMSLAYER", 100, 0);
+				handleActions(0, HEADSHOT, 75, 100);
 			}
 
 			if (continueFightButton.onClick(mousePos) == true) {
@@ -319,7 +327,7 @@ void Arena::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Sce
 void Arena::importCharacter(int p_strength, int p_agility, int p_intelligence)
 {
 	player.m_strength = p_strength;
-	player.m_agility = p_agility;
+	player.m_intelligence = p_agility;
 	player.m_intelligence = p_intelligence;
 
 	updateSkills();
@@ -327,18 +335,17 @@ void Arena::importCharacter(int p_strength, int p_agility, int p_intelligence)
 
 void Arena::updateSkills() {
 	playerStrengthText.setString(to_string(player.m_strength));
-	playerAgilityText.setString(to_string(player.m_agility));
+	playerAgilityText.setString(to_string(player.m_intelligence));
 	playerIntelligenceText.setString(to_string(player.m_intelligence));
 }
 
-void Arena::updateStats(int turn, int action, int damageDealt, int magicSpent) {
+void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpent) {
 	int enemyHealthLeft = enemyHealth.getSize().x;
-	int playerMagicLeft = playerMagic.getSize().x;
+	int playerStaminaSpent = playerStamina.getSize().x;
 
 	switch (turn) {
-		//Player's turn
 	case 0:
-
+		//Player's turn
 		switch (action) {
 		case ATTACK:
 			if (enemyHealthLeft - damageDealt >= 0) {
@@ -348,20 +355,22 @@ void Arena::updateStats(int turn, int action, int damageDealt, int magicSpent) {
 		case PREPARE:
 			break;
 		case HEAL:
-			if (playerMagicLeft - magicSpent >= 0) {
+			if (playerStaminaSpent - staminaSpent >= 0) {
 				playerHealth.setSize(sf::Vector2f(480, 10));
-				playerMagic.setSize(sf::Vector2f(playerMagicLeft - magicSpent, 10));
+				playerStamina.setSize(sf::Vector2f(playerStaminaSpent - staminaSpent, 10));
 			}
 			break;
-		case MAGIC:
-			if ((enemyHealthLeft - damageDealt >= 0) && (playerMagicLeft - magicSpent >= 0)) {
+		case HEADSHOT:
+			if ((enemyHealthLeft - damageDealt >= 0) && (playerStaminaSpent - staminaSpent >= 0)) {
+
 				enemyHealth.setSize(sf::Vector2f(enemyHealthLeft - damageDealt, 10));
-				playerMagic.setSize(sf::Vector2f(playerMagicLeft - magicSpent, 10));
+				playerStamina.setSize(sf::Vector2f(playerStaminaSpent - staminaSpent, 10));
 				break;
 			}
 			break;
 		}
 	case 1:
+		//Enemy's turn
 		switch (action) {
 		case ATTACK:
 			break;
@@ -369,7 +378,7 @@ void Arena::updateStats(int turn, int action, int damageDealt, int magicSpent) {
 			break;
 		case HEAL:
 			break;
-		case MAGIC:
+		case HEADSHOT:
 			break;
 		}
 	}
@@ -386,8 +395,91 @@ void Arena::updateActionText(int buttonClicked, std::string characterName, int d
 	case HEAL:
 		characterActionText.setString((characterName + " has healed for: " + to_string(healthGained) + " HP!"));
 		break;
-	case MAGIC:
-		characterActionText.setString((characterName + " has dealt " + to_string(damageDone) + " magic damage!"));
+	case HEADSHOT:
+		characterActionText.setString((characterName + " has dealt " + to_string(damageDone) + " headshot damage!"));
+		break;
+	}
+}
+
+void Arena::adjustSkillScaling(int strength, int heal, int headshot) {
+	switch (strength) {
+	case 3:
+		actionValues.attackDamage = player.strengthValues.strength3;
+		break;
+	case 4:
+		actionValues.attackDamage = player.strengthValues.strength4;
+		break;
+	case 5:
+		actionValues.attackDamage = player.strengthValues.strength5;
+		break;
+	case 6:
+		actionValues.attackDamage = player.strengthValues.strength6;
+		break;
+	case 7:
+		actionValues.attackDamage = player.strengthValues.strength7;
+		break;
+	case 8:
+		actionValues.attackDamage = player.strengthValues.strength8;
+		break;
+	case 9:
+		actionValues.attackDamage = player.strengthValues.strength9;
+		break;
+	case 10:
+		actionValues.attackDamage = player.strengthValues.strength10;
+		break;
+	}
+
+	switch (heal) {
+	case 3:
+		actionValues.healAmount = player.healValues.heal3;
+		break;
+	case 4:
+		actionValues.healAmount = player.healValues.heal4;
+		break;
+	case 5:
+		actionValues.healAmount = player.healValues.heal5;
+		break;
+	case 6:
+		actionValues.healAmount = player.healValues.heal6;
+		break;
+	case 7:
+		actionValues.healAmount = player.healValues.heal7;
+		break;
+	case 8:
+		actionValues.healAmount = player.healValues.heal8;
+		break;
+	case 9:
+		actionValues.healAmount = player.healValues.heal9;
+		break;
+	case 10:
+		actionValues.healAmount = player.healValues.heal10;
+		break;
+	}
+
+	switch (headshot) {
+	case 3:
+		actionValues.headshotDamage = player.headshotValues.headshot3;
+		break;
+	case 4:
+		actionValues.headshotDamage = player.headshotValues.headshot4;
+		break;
+	case 5:
+		actionValues.headshotDamage = player.headshotValues.headshot5;
+		break;
+	case 6:
+		actionValues.headshotDamage = player.headshotValues.headshot6;
+		break;
+	case 7:
+		actionValues.headshotDamage = player.headshotValues.headshot7;
+		break;
+	case 8:
+		actionValues.headshotDamage = player.headshotValues.headshot8;
+		break;
+	case 9:
+		actionValues.headshotDamage = player.headshotValues.headshot9;
+		break;
+	case 10:
+		actionValues.headshotDamage = player.headshotValues.headshot10;
 		break;
 	}
 }

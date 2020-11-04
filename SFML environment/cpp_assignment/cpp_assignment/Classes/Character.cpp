@@ -20,37 +20,3 @@ int Character::GenerateValues(int min, int max)
 
 	return value;
 }
-
-void Character::drawPlayerScreen() {
-
-}
-
-int Character::getStrength()
-{
-	/*std::string line;
-	std::ifstream myfile("PlayerData.txt");
-	if (myfile.is_open())
-	{
-		while (getline(myfile, line))
-		{
-			std::cout << line << '\n';
-		}
-		myfile.close();
-	}
-	else std::cout << "Unable to open file" << std::endl;*/
-
-	//int value = std::stoi(line);
-
-
-	return 0;
-}
-
-int Character::getAgility()
-{
-	return 0;
-}
-
-int Character::getIntelligence()
-{
-	return 0;
-}
