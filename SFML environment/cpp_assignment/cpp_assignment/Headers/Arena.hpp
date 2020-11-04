@@ -17,20 +17,23 @@ public:
 	~Arena();
 
 	//Generate scene
-	void handlePlayerText();
-	void handleEnemyText();
+	void handlePlayerText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence);
+	void handleEnemyText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence);
 	void handleBackground();
 	void handleButtons();
+	void handleTextbox();
 
 	//Input
 	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
 
 	//Character import & UI update
 	void importCharacter(int p_strength, int p_agility, int p_intelligence);
-	void updateStats();
+	void updateSkills();
+	void updateStats(int turn, int action, int damageDealt, int magicSpent);
+	void updateAction(int buttonClicked, std::string name, int damage, int health);
 
-	//Character UI generation.
-	void handlePlayer(sf::RenderWindow& window);
-	void handleEnemy(sf::RenderWindow& window);
+	//Character UI generation
+	void handlePlayer(sf::RectangleShape& health, sf::RectangleShape& stamina, sf::RectangleShape& background, SpriteObject& characterSprite);
+	void handleEnemy(sf::RectangleShape& health, sf::RectangleShape& stamina, sf::RectangleShape& background, SpriteObject& characterSprite);
 };
 
