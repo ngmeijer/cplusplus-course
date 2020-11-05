@@ -4,19 +4,19 @@ typedef void(*eventFunction)();
 
 Button::Button() {}
 
-Button::Button(string identifier) : GameObject(identifier) {
-	cout << "Button instance has been constructed." << endl;
+Button::Button(std::string identifier) : GameObject(identifier) {
+	std::cout << "Button instance has been constructed." << std::endl;
 }
 
 Button::~Button() { }
 
-Vector2f Button::getSize() {
-	FloatRect shape = buttonShape.getLocalBounds();
+sf::Vector2f Button::getSize() {
+	sf::FloatRect shape = buttonShape.getLocalBounds();
 
 	int width = shape.width;
 	int height = shape.height;
 
-	Vector2f size = Vector2f(width, height);
+	sf::Vector2f size = sf::Vector2f(width, height);
 
 	return size;
 }
@@ -27,10 +27,10 @@ void Button::setPosition(sf::Vector2f position) {
 }
 
 void Button::setSize(sf::Vector2f size) {
-	buttonShape.setSize(Vector2f(size.x, size.y));
+	buttonShape.setSize(sf::Vector2f(size.x, size.y));
 }
 
-void Button::setString(string text, const Font& font, int fontSize, Color colour) {
+void Button::setString(std::string text, const sf::Font& font, int fontSize, sf::Color colour) {
 	buttonText.setString(text);
 	buttonText.setFont(font);
 	buttonText.setCharacterSize(fontSize);
@@ -38,7 +38,7 @@ void Button::setString(string text, const Font& font, int fontSize, Color colour
 	buttonText.setPosition((buttonShape.getPosition().x + 20), (buttonShape.getPosition().y));
 }
 
-void Button::setSprite(std::string spriteFileName, Vector2f size) {
+void Button::setSprite(std::string spriteFileName, sf::Vector2f size) {
 	this->texture.loadFromFile(spriteFileName);
 	this->sprite.setTexture(this->texture);
 	this->sprite.setScale(size);
@@ -56,8 +56,8 @@ void Button::render(sf::RenderWindow& window) {
 
 void Button::update() { }
 
-bool Button::onClick(Vector2f mousePosition) {
-	FloatRect buttonBorders = buttonShape.getGlobalBounds();
+bool Button::onClick(sf::Vector2f mousePosition) {
+	sf::FloatRect buttonBorders = buttonShape.getGlobalBounds();
 	float buttonRight = (buttonBorders.left + buttonBorders.width);
 	float buttonBottom = (buttonBorders.top + buttonBorders.height);
 

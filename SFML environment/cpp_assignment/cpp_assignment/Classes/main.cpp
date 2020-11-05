@@ -42,10 +42,10 @@ void backToMenu() {
 
 void readWritePlayerData() {
 	if (characterData.fail()) {
-		std::cout << "\n" << "Failed opening the PlayerData.txt file." << endl << "\n";
+		std::cout << "\n" << "Failed opening the PlayerData.txt file." << std::endl << "\n";
 	}
 	else {
-		string line;
+		std::string line;
 		while (getline(characterData, line)) {
 			statsVec.push_back(std::stoi(line));
 		}
@@ -58,7 +58,7 @@ void readWritePlayerData() {
 	charStats.availablePoints = statsVec[3];
 
 	for (int i = 0; i < statsVec.size(); i++) {
-		cout << "current: " << statsVec[i] << endl;
+		std::cout << "current: " << statsVec[i] << std::endl;
 	}
 }
 
@@ -67,8 +67,8 @@ void handleScenes() {
 }
 
 void handleAudio() {
-	if (!backgroundMusic.openFromFile("BackgroundMusic.wav")) {
-		std::cout << "Could not find the background track." << endl;
+	if (!backgroundMusic.openFromFile("Assets/BackgroundMusic.wav")) {
+		std::cout << "Could not find the background track." << std::endl;
 		return;
 	}
 	backgroundMusic.play();
@@ -82,8 +82,8 @@ int main() {
 	readWritePlayerData();
 	//handleAudio();
 
-	if (!font.loadFromFile("font.ttf")) {
-		cout << "Missing font." << endl;
+	if (!font.loadFromFile("Assets/font.ttf")) {
+		std::cout << "Missing font." << std::endl;
 	}
 
 	Menu menu("menu", window, font);

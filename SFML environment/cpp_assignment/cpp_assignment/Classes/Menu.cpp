@@ -11,7 +11,7 @@
 using namespace std;
 
 Text title;
-SpriteObject background("background", "titleBG.jpg");
+SpriteObject background("background", "Assets/titleBG.jpg");
 
 Button playButton;
 Button eraseButton;

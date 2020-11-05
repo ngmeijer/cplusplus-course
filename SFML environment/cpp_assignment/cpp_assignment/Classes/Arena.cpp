@@ -3,7 +3,8 @@
 
 #include "../Headers/Arena.hpp"
 #include "../Headers/Button.hpp"
-#include "../Headers/Character.hpp"
+#include "../Headers/Player.hpp"
+#include "../Headers/Enemy.hpp"
 
 Button attackButton;
 Button prepareButton;
@@ -12,43 +13,16 @@ Button magicButton;
 Button quitButtonArena;
 Button continueFightButton;
 
-SpriteObject sceneBackground("background", "FightScene.jpg");
+SpriteObject sceneBackground("background", "Assets/FightScene.jpg");
 
-/*sf::RectangleShape playerBackground;
-sf::RectangleShape playerHealth;
-sf::RectangleShape playerHealthBackground;
-sf::RectangleShape playerStamina;
-SpriteObject playerSprite("playerSprite", "DoomSlayer.png");
-SpriteObject playerStrengthSprite("playerStrength", "strengthIcon.png");
-SpriteObject playerAgilitySprite("playerAgility", "agilityIcon.png");
-SpriteObject playerIntelligenceSprite("playerIntelligence", "intelligenceIcon.png");*/
-
-sf::RectangleShape enemyBackground;
-sf::RectangleShape enemyHealth;
-sf::RectangleShape enemyHealthBackground;
-sf::RectangleShape enemyMagic;
-sf::RectangleShape enemyMagicBackground;
-SpriteObject enemySprite("enemySprite", "Zombie.png");
-SpriteObject enemyStrengthSprite("enemyStrength", "strengthIcon.png");
-SpriteObject enemyAgilitySprite("enemyAgility", "agilityIcon.png");
-SpriteObject enemyIntelligenceSprite("enemyIntelligence", "intelligenceIcon.png");
-
-//sf::Text playerStrengthText;
-//sf::Text playerAgilityText;
-//sf::Text playerIntelligenceText;
-
-RectangleShape textBoxBackground;
+sf::RectangleShape textBoxBackground;
 sf::Text characterActionText;
 sf::Text turnText;
 std::string currentAction = "DOOMSLAYER attacked for 50 damage";
 std::string turnString = "Your turn!";
 
-//sf::Text enemyStrengthText;
-//sf::Text enemyAgilityText;
-//sf::Text enemyIntelligenceText;
-
-Character player;
-Character enemy;
+Player player;
+Enemy enemy;
 
 std::ifstream characterDataArena("PlayerData.txt");
 std::vector<int> statsVecArena;
@@ -78,20 +52,23 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 	m_font = fontRef;
 	windowWidth = windowRef.getSize().x;
 
-	player.handleCharacter(*this, sf::Vector2f(500, 330), "DoomSlayer.png");
-	//enemy.handleCharacter(*this, sf::Vector2f(1200.0f, 450.0f), "Zombie.png");
+	player.initializeVariablesPlayer();
+	player.handleCharacter(*this);
+
+	enemy.initializeVariablesEnemy();
+	enemy.handleCharacter(*this);
+
+	handleBackground();
 
 	adjustSkillScaling(player.m_strength, player.m_intelligence, player.m_headshot);
-	handleBackground();
 	handleTextbox();
 	handleButtons();
-	handleEnemy(enemyHealth, enemyMagic, enemyBackground, enemySprite);
 
 	if (characterDataArena.fail()) {
-		std::cout << "\n" << "Failed opening the PlayerData.txt file." << endl << "\n";
+		std::cout << "\n" << "Failed opening the PlayerData.txt file." << std::endl << "\n";
 	}
 	else {
-		string line;
+		std::string line;
 		while (getline(characterDataArena, line)) {
 			statsVecArena.push_back(std::stoi(line));
 		}
@@ -105,73 +82,10 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 
 Arena::~Arena() { }
 
-void Arena::handleEnemyText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence) {
-	/*strength.setString(to_string(player.m_strength));
-	agility.setString(to_string(player.m_intelligence));
-	intelligence.setString(to_string(player.m_intelligence));
-
-	strength.setFont(m_font);
-	agility.setFont(m_font);
-	intelligence.setFont(m_font);
-
-	strength.setPosition(1490, 200);
-	agility.setPosition(1660, 200);
-	intelligence.setPosition(1830, 200);
-
-	strength.setCharacterSize(50);
-	agility.setCharacterSize(50);
-	intelligence.setCharacterSize(50);
-
-	addTextObject(strength);
-	addTextObject(agility);
-	addTextObject(intelligence);*/
-}
-
-void Arena::handleEnemy(sf::RectangleShape& health, sf::RectangleShape& magicCapacity, sf::RectangleShape& background, SpriteObject& characterSprite) {
-	//addRectangleObject(background);
-	//addSpriteObject(enemyStrengthSprite);
-	//addSpriteObject(enemyAgilitySprite);
-	//addSpriteObject(enemyIntelligenceSprite);
-	//addSpriteObject(characterSprite);
-	//addRectangleObject(enemyHealthBackground);
-	//addRectangleObject(health);
-	//addRectangleObject(enemyMagicBackground);
-	//addRectangleObject(magicCapacity);
-
-	//background.setSize(sf::Vector2f(500, 400));
-	//background.setPosition(sf::Vector2f(1410, 10));
-	//background.setFillColor(Color(120, 120, 120, 150));
-
-	//characterSprite.setPosition(sf::Vector2f(1100.0f, 710.0f));
-	//characterSprite.setScale(sf::Vector2f(0.5f, 0.5f));
-
-	//health.setSize(sf::Vector2f(480, 10));
-	//health.setPosition(sf::Vector2f(1420, 330));
-	//health.setFillColor(Color::Red);
-	//enemyHealthBackground.setSize(sf::Vector2f(480, 10));
-	/*enemyHealthBackground.setPosition(sf::Vector2f(1420, 330));
-	enemyHealthBackground.setFillColor(Color(0, 0, 0, 200));
-
-	magicCapacity.setSize(sf::Vector2f(480, 10));
-	magicCapacity.setPosition(sf::Vector2f(1420, 360));
-	magicCapacity.setFillColor(Color::Blue);
-	enemyMagicBackground.setSize(sf::Vector2f(480, 10));
-	enemyMagicBackground.setPosition(sf::Vector2f(1420, 360));
-	enemyMagicBackground.setFillColor(Color(0, 0, 0, 200));
-
-	enemyStrengthSprite.setScale(sf::Vector2f(1.0f, 1.0f));
-	enemyAgilitySprite.setScale(sf::Vector2f(1.0f, 1.0f));
-	enemyIntelligenceSprite.setScale(sf::Vector2f(1.0f, 1.0f));
-
-	enemyStrengthSprite.setPosition(sf::Vector2f(1415, 75));
-	enemyAgilitySprite.setPosition(sf::Vector2f(1585, 75));
-	enemyIntelligenceSprite.setPosition(sf::Vector2f(1755, 75));*/
-}
-
 void Arena::handleTextbox() {
 	textBoxBackground.setSize(sf::Vector2f(880, 160));
 	textBoxBackground.setPosition(sf::Vector2f(520, 20));
-	textBoxBackground.setFillColor(Color(0, 0, 0, 150));
+	textBoxBackground.setFillColor(sf::Color(0, 0, 0, 150));
 
 	addRectangleObject(textBoxBackground);
 
@@ -192,33 +106,33 @@ void Arena::handleTextbox() {
 void Arena::handleButtons() {
 	attackButton.setSize(sf::Vector2f(190, 60));
 	attackButton.setPosition(sf::Vector2f(520, 250));
-	attackButton.setColour(Color(255, 0, 0, 120));
-	attackButton.setString("Attack", m_font, 40, Color::White);
+	attackButton.setColour(sf::Color(255, 0, 0, 120));
+	attackButton.setString("Attack", m_font, 40, sf::Color::White);
 
 	prepareButton.setSize(sf::Vector2f(190, 60));
 	prepareButton.setPosition(sf::Vector2f(730, 250));
-	prepareButton.setColour(Color(125, 125, 125, 120));
-	prepareButton.setString("Prepare", m_font, 40, Color::White);
+	prepareButton.setColour(sf::Color(125, 125, 125, 120));
+	prepareButton.setString("Prepare", m_font, 40, sf::Color::White);
 
 	recoverButton.setSize(sf::Vector2f(190, 60));
 	recoverButton.setPosition(sf::Vector2f(950, 250));
-	recoverButton.setColour(Color(0, 255, 0, 120));
-	recoverButton.setString("Recover", m_font, 40, Color::White);
+	recoverButton.setColour(sf::Color(0, 255, 0, 120));
+	recoverButton.setString("Recover", m_font, 40, sf::Color::White);
 
 	magicButton.setSize(sf::Vector2f(210, 60));
 	magicButton.setPosition(sf::Vector2f(1190, 250));
-	magicButton.setColour(Color(0, 0, 255, 120));
-	magicButton.setString("Headshot", m_font, 40, Color::White);
+	magicButton.setColour(sf::Color(0, 0, 255, 120));
+	magicButton.setString("Headshot", m_font, 40, sf::Color::White);
 
 	continueFightButton.setSize(sf::Vector2f(300, 100));
 	continueFightButton.setPosition(sf::Vector2f(810, 650));
-	continueFightButton.setColour(Color(0, 0, 255, 120));
-	continueFightButton.setString("Continue", m_font, 50, Color::Red);
+	continueFightButton.setColour(sf::Color(0, 0, 255, 120));
+	continueFightButton.setString("Continue", m_font, 50, sf::Color::Red);
 
 	quitButtonArena.setSize(sf::Vector2f(130, 60));
 	quitButtonArena.setPosition(sf::Vector2f(1700, 1000));
-	quitButtonArena.setColour(Color::Black);
-	quitButtonArena.setString("Quit", m_font, 50, Color::White);
+	quitButtonArena.setColour(sf::Color::Black);
+	quitButtonArena.setString("Quit", m_font, 50, sf::Color::White);
 
 	addGameObject(attackButton);
 	addGameObject(prepareButton);
@@ -232,7 +146,7 @@ void Arena::handleBackground() {
 	addGameObject(sceneBackground);
 }
 
-void Arena::checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter)
+void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter)
 {
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {
@@ -328,16 +242,16 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpen
 void Arena::updateActionText(int buttonClicked, std::string characterName, int damageDone, int healthGained) {
 	switch (buttonClicked) {
 	case ATTACK:
-		characterActionText.setString((characterName + " has attacked for: " + to_string(damageDone) + " damage!"));
+		characterActionText.setString((characterName + " has attacked for: " + std::to_string(damageDone) + " damage!"));
 		break;
 	case PREPARE:
 		characterActionText.setString((characterName + " has prepared for a powerful next attack!"));
 		break;
 	case HEAL:
-		characterActionText.setString((characterName + " has healed for: " + to_string(healthGained) + " HP!"));
+		characterActionText.setString((characterName + " has healed for: " + std::to_string(healthGained) + " HP!"));
 		break;
 	case HEADSHOT:
-		characterActionText.setString((characterName + " has dealt " + to_string(damageDone) + " headshot damage!"));
+		characterActionText.setString((characterName + " has dealt " + std::to_string(damageDone) + " headshot damage!"));
 		break;
 	}
 }

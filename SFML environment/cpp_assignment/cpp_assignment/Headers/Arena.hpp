@@ -17,8 +17,6 @@ public:
 	~Arena();
 
 	//Generate scene
-	void handlePlayerText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence);
-	void handleEnemyText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence);
 	void handleBackground();
 	void handleButtons();
 	void handleTextbox();
@@ -31,10 +29,6 @@ public:
 	void updateSkills();
 	void handleActions(int turn, int action, int damageDealt, int magicSpent);
 	void updateActionText(int buttonClicked, std::string name, int damage, int health);
-
-	//Character UI generation
-	void handlePlayer(sf::RectangleShape& health, sf::RectangleShape& stamina, sf::RectangleShape& background, SpriteObject& characterSprite);
-	void handleEnemy(sf::RectangleShape& health, sf::RectangleShape& stamina, sf::RectangleShape& background, SpriteObject& characterSprite);
 
 	void adjustSkillScaling(int strength, int agility, int headshot);
 };

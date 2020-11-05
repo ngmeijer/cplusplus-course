@@ -47,25 +47,51 @@ public:
 	HEAL_VALUES healValues;
 	HEADSHOT_VALUES headshotValues;
 
-	SpriteObject characterSprite;
+	sf::Text characterStrengthText;
+	sf::Text characterAgilityText;
+	sf::Text characterIntelligenceText;
+	sf::Text characterName;
+
+	sf::Font m_font;
+	sf::Vector2f m_characterPosition;
 	sf::RectangleShape windowBackground;
 	sf::RectangleShape characterHealth;
-	sf::RectangleShape characterHealthBackground;
+	sf::RectangleShape healthBackground;
 	sf::RectangleShape characterStamina;
-	SpriteObject characterStrengthSprite;
-	SpriteObject characterAgilitySprite;
-	SpriteObject characterIntelligenceSprite;
+	sf::RectangleShape staminaBackground;
 
-public:
-	int GenerateValues(int min, int max);
+	SpriteObject characterSprite;
+	SpriteObject strengthSprite;
+	SpriteObject agilitySprite;
+	SpriteObject intelligenceSprite;
+
+	std::string m_spriteName;
+	std::string m_characterName;
+
+	Scene m_scene;
+
+	sf::Vector2f windowBackgroundPos;
+	sf::Vector2f characterSpritePos;
+	sf::Vector2f characterHealthPos;
+	sf::Vector2f healthBackgroundPos;
+	sf::Vector2f characterStaminaPos;
+	sf::Vector2f staminaBackgroundPos;
+	sf::Vector2f strengthSpritePos;
+	sf::Vector2f agilitySpritePos;
+	sf::Vector2f intelligenceSpritePos;
+
+	sf::Vector2f strengthTextPos;
+	sf::Vector2f agilityTextPos;
+	sf::Vector2f intelligenceTextPos;
+	sf::Vector2f characterNamePos;
 
 public:
 	Character();
-	Character(std::string identifier, Scene& scene, sf::Font& font);
+	Character(std::string identifier);
 	~Character();
-	void render(sf::RenderWindow& window);
-	void update();
-	void handleCharacter(Scene& scene, sf::Vector2f characterSpritePosition, std::string spriteName);
-	void handleCharacterText(Scene& scene, sf::Text& strength, sf::Text& agility, sf::Text& intelligence);
+	virtual void render(sf::RenderWindow& window);
+	virtual void update();
+	void handleCharacter(Scene& scene);
+	void handleCharacterText(Scene& scene);
 	void handleCharacterSprites(Scene& scene);
 };

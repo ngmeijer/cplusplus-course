@@ -22,7 +22,9 @@
     <ClCompile Include="Classes\Arena.cpp" />
     <ClCompile Include="Classes\Button.cpp" />
     <ClCompile Include="Classes\Character.cpp" />
+    <ClCompile Include="Classes\Player.cpp" />
     <ClCompile Include="Classes\CharScene.cpp" />
+    <ClCompile Include="Classes\Enemy.cpp" />
     <ClCompile Include="Classes\gameObject.cpp" />
     <ClCompile Include="Classes\main.cpp" />
     <ClCompile Include="Classes\Menu.cpp" />
@@ -35,7 +37,9 @@
     <ClInclude Include="Headers\Arena.hpp" />
     <ClInclude Include="Headers\Button.hpp" />
     <ClInclude Include="Headers\Character.hpp" />
+    <ClInclude Include="Headers\Player.hpp" />
     <ClInclude Include="Headers\CharScene.hpp" />
+    <ClInclude Include="Headers\Enemy.hpp" />
     <ClInclude Include="Headers\gameObject.hpp" />
     <ClInclude Include="Headers\Menu.hpp" />
     <ClInclude Include="Headers\scene.hpp" />
