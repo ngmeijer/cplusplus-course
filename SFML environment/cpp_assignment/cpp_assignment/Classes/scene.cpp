@@ -1,9 +1,7 @@
 #include <iostream>
 #include "../Headers/scene.hpp"
 
-Scene::Scene() {
-	std::cout << "using empty constructor";
-}
+Scene::Scene() { }
 
 Scene::Scene(std::string identifier) : identifier(identifier) { }
 

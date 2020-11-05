@@ -21,5 +21,6 @@ public:
 
 	void setPosition(sf::Vector2f position);
 	void setScale(sf::Vector2f scale);
+	void setSprite(std::string spriteName);
 	std::string getSpriteFile() const;
 };

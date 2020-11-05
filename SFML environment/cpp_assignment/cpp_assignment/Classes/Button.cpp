@@ -44,11 +44,11 @@ void Button::setSprite(std::string spriteFileName, Vector2f size) {
 	this->sprite.setScale(size);
 }
 
-void Button::setColour(Color buttonColour) {
+void Button::setColour(sf::Color buttonColour) {
 	buttonShape.setFillColor(buttonColour);
 }
 
-void Button::render(RenderWindow& window) {
+void Button::render(sf::RenderWindow& window) {
 	window.draw(this->buttonShape);
 	window.draw(this->buttonText);
 	window.draw(this->sprite);

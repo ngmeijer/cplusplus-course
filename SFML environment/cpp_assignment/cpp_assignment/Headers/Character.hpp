@@ -1,5 +1,8 @@
 #pragma once
-class Character
+#include "../Headers/scene.hpp"
+#include "../Headers/gameObject.hpp"
+
+class Character : public GameObject
 {
 private:
 	struct STRENGTH_VALUES {
@@ -44,10 +47,25 @@ public:
 	HEAL_VALUES healValues;
 	HEADSHOT_VALUES headshotValues;
 
+	SpriteObject characterSprite;
+	sf::RectangleShape windowBackground;
+	sf::RectangleShape characterHealth;
+	sf::RectangleShape characterHealthBackground;
+	sf::RectangleShape characterStamina;
+	SpriteObject characterStrengthSprite;
+	SpriteObject characterAgilitySprite;
+	SpriteObject characterIntelligenceSprite;
+
 public:
 	int GenerateValues(int min, int max);
 
 public:
 	Character();
+	Character(std::string identifier, Scene& scene, sf::Font& font);
 	~Character();
+	void render(sf::RenderWindow& window);
+	void update();
+	void handleCharacter(Scene& scene, sf::Vector2f characterSpritePosition, std::string spriteName);
+	void handleCharacterText(Scene& scene, sf::Text& strength, sf::Text& agility, sf::Text& intelligence);
+	void handleCharacterSprites(Scene& scene);
 };

@@ -14,14 +14,14 @@ Button continueFightButton;
 
 SpriteObject sceneBackground("background", "FightScene.jpg");
 
-sf::RectangleShape playerBackground;
+/*sf::RectangleShape playerBackground;
 sf::RectangleShape playerHealth;
 sf::RectangleShape playerHealthBackground;
 sf::RectangleShape playerStamina;
 SpriteObject playerSprite("playerSprite", "DoomSlayer.png");
 SpriteObject playerStrengthSprite("playerStrength", "strengthIcon.png");
 SpriteObject playerAgilitySprite("playerAgility", "agilityIcon.png");
-SpriteObject playerIntelligenceSprite("playerIntelligence", "intelligenceIcon.png");
+SpriteObject playerIntelligenceSprite("playerIntelligence", "intelligenceIcon.png");*/
 
 sf::RectangleShape enemyBackground;
 sf::RectangleShape enemyHealth;
@@ -33,9 +33,9 @@ SpriteObject enemyStrengthSprite("enemyStrength", "strengthIcon.png");
 SpriteObject enemyAgilitySprite("enemyAgility", "agilityIcon.png");
 SpriteObject enemyIntelligenceSprite("enemyIntelligence", "intelligenceIcon.png");
 
-sf::Text playerStrengthText;
-sf::Text playerAgilityText;
-sf::Text playerIntelligenceText;
+//sf::Text playerStrengthText;
+//sf::Text playerAgilityText;
+//sf::Text playerIntelligenceText;
 
 RectangleShape textBoxBackground;
 sf::Text characterActionText;
@@ -43,9 +43,9 @@ sf::Text turnText;
 std::string currentAction = "DOOMSLAYER attacked for 50 damage";
 std::string turnString = "Your turn!";
 
-sf::Text enemyStrengthText;
-sf::Text enemyAgilityText;
-sf::Text enemyIntelligenceText;
+//sf::Text enemyStrengthText;
+//sf::Text enemyAgilityText;
+//sf::Text enemyIntelligenceText;
 
 Character player;
 Character enemy;
@@ -78,11 +78,13 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 	m_font = fontRef;
 	windowWidth = windowRef.getSize().x;
 
+	player.handleCharacter(*this, sf::Vector2f(500, 330), "DoomSlayer.png");
+	//enemy.handleCharacter(*this, sf::Vector2f(1200.0f, 450.0f), "Zombie.png");
+
 	adjustSkillScaling(player.m_strength, player.m_intelligence, player.m_headshot);
 	handleBackground();
 	handleTextbox();
 	handleButtons();
-	handlePlayer(playerHealth, playerStamina, playerBackground, playerSprite);
 	handleEnemy(enemyHealth, enemyMagic, enemyBackground, enemySprite);
 
 	if (characterDataArena.fail()) {
@@ -103,67 +105,8 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 
 Arena::~Arena() { }
 
-void Arena::handlePlayerText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence) {
-
-	strength.setString(to_string(player.m_strength));
-	agility.setString(to_string(player.m_intelligence));
-	intelligence.setString(to_string(player.m_intelligence));
-
-	strength.setFont(m_font);
-	agility.setFont(m_font);
-	intelligence.setFont(m_font);
-
-	strength.setPosition(70, 200);
-	agility.setPosition(240, 200);
-	intelligence.setPosition(410, 200);
-
-	strength.setCharacterSize(50);
-	agility.setCharacterSize(50);
-	intelligence.setCharacterSize(50);
-
-	addTextObject(strength);
-	addTextObject(agility);
-	addTextObject(intelligence);
-}
-
-void Arena::handlePlayer(sf::RectangleShape& health, sf::RectangleShape& magicCapacity, sf::RectangleShape& background, SpriteObject& characterSprite) {
-	addRectangleObject(background);
-	addSpriteObject(characterSprite);
-	addSpriteObject(playerStrengthSprite);
-	addSpriteObject(playerAgilitySprite);
-	addSpriteObject(playerIntelligenceSprite);
-	addRectangleObject(health);
-	addRectangleObject(playerHealthBackground);
-	addRectangleObject(magicCapacity);
-
-	background.setSize(sf::Vector2f(500, 400));
-	background.setPosition(sf::Vector2f(10, 10));
-	background.setFillColor(Color(120, 120, 120, 150));
-
-	characterSprite.setPosition(sf::Vector2f(400.0f, 550.0f));
-	characterSprite.setScale(sf::Vector2f(0.5f, 0.5f));
-
-	health.setSize(sf::Vector2f(480, 10));
-	health.setPosition(sf::Vector2f(20, 330));
-	health.setFillColor(Color::Red);
-
-	magicCapacity.setSize(sf::Vector2f(480, 10));
-	magicCapacity.setPosition(sf::Vector2f(20, 360));
-	magicCapacity.setFillColor(Color::Blue);
-
-	playerStrengthSprite.setScale(sf::Vector2f(1.0f, 1.0f));
-	playerAgilitySprite.setScale(sf::Vector2f(1.0f, 1.0f));
-	playerIntelligenceSprite.setScale(sf::Vector2f(1.0f, 1.0f));
-
-	playerStrengthSprite.setPosition(sf::Vector2f(20, 75));
-	playerAgilitySprite.setPosition(sf::Vector2f(190, 75));
-	playerIntelligenceSprite.setPosition(sf::Vector2f(360, 75));
-
-	handlePlayerText(playerStrengthText, playerAgilityText, playerIntelligenceText);
-}
-
 void Arena::handleEnemyText(sf::Text& strength, sf::Text& agility, sf::Text& intelligence) {
-	strength.setString(to_string(player.m_strength));
+	/*strength.setString(to_string(player.m_strength));
 	agility.setString(to_string(player.m_intelligence));
 	intelligence.setString(to_string(player.m_intelligence));
 
@@ -181,32 +124,32 @@ void Arena::handleEnemyText(sf::Text& strength, sf::Text& agility, sf::Text& int
 
 	addTextObject(strength);
 	addTextObject(agility);
-	addTextObject(intelligence);
+	addTextObject(intelligence);*/
 }
 
 void Arena::handleEnemy(sf::RectangleShape& health, sf::RectangleShape& magicCapacity, sf::RectangleShape& background, SpriteObject& characterSprite) {
-	addRectangleObject(background);
-	addSpriteObject(enemyStrengthSprite);
-	addSpriteObject(enemyAgilitySprite);
-	addSpriteObject(enemyIntelligenceSprite);
-	addSpriteObject(characterSprite);
-	addRectangleObject(enemyHealthBackground);
-	addRectangleObject(health);
-	addRectangleObject(enemyMagicBackground);
-	addRectangleObject(magicCapacity);
+	//addRectangleObject(background);
+	//addSpriteObject(enemyStrengthSprite);
+	//addSpriteObject(enemyAgilitySprite);
+	//addSpriteObject(enemyIntelligenceSprite);
+	//addSpriteObject(characterSprite);
+	//addRectangleObject(enemyHealthBackground);
+	//addRectangleObject(health);
+	//addRectangleObject(enemyMagicBackground);
+	//addRectangleObject(magicCapacity);
 
-	background.setSize(sf::Vector2f(500, 400));
-	background.setPosition(sf::Vector2f(1410, 10));
-	background.setFillColor(Color(120, 120, 120, 150));
+	//background.setSize(sf::Vector2f(500, 400));
+	//background.setPosition(sf::Vector2f(1410, 10));
+	//background.setFillColor(Color(120, 120, 120, 150));
 
-	characterSprite.setPosition(sf::Vector2f(1100.0f, 710.0f));
-	characterSprite.setScale(sf::Vector2f(0.5f, 0.5f));
+	//characterSprite.setPosition(sf::Vector2f(1100.0f, 710.0f));
+	//characterSprite.setScale(sf::Vector2f(0.5f, 0.5f));
 
-	health.setSize(sf::Vector2f(480, 10));
-	health.setPosition(sf::Vector2f(1420, 330));
-	health.setFillColor(Color::Red);
-	enemyHealthBackground.setSize(sf::Vector2f(480, 10));
-	enemyHealthBackground.setPosition(sf::Vector2f(1420, 330));
+	//health.setSize(sf::Vector2f(480, 10));
+	//health.setPosition(sf::Vector2f(1420, 330));
+	//health.setFillColor(Color::Red);
+	//enemyHealthBackground.setSize(sf::Vector2f(480, 10));
+	/*enemyHealthBackground.setPosition(sf::Vector2f(1420, 330));
 	enemyHealthBackground.setFillColor(Color(0, 0, 0, 200));
 
 	magicCapacity.setSize(sf::Vector2f(480, 10));
@@ -222,9 +165,7 @@ void Arena::handleEnemy(sf::RectangleShape& health, sf::RectangleShape& magicCap
 
 	enemyStrengthSprite.setPosition(sf::Vector2f(1415, 75));
 	enemyAgilitySprite.setPosition(sf::Vector2f(1585, 75));
-	enemyIntelligenceSprite.setPosition(sf::Vector2f(1755, 75));
-
-	handleEnemyText(enemyStrengthText, enemyAgilityText, enemyIntelligenceText);
+	enemyIntelligenceSprite.setPosition(sf::Vector2f(1755, 75));*/
 }
 
 void Arena::handleTextbox() {
@@ -334,27 +275,27 @@ void Arena::importCharacter(int p_strength, int p_agility, int p_intelligence)
 }
 
 void Arena::updateSkills() {
-	playerStrengthText.setString(to_string(player.m_strength));
+	/*playerStrengthText.setString(to_string(player.m_strength));
 	playerAgilityText.setString(to_string(player.m_intelligence));
-	playerIntelligenceText.setString(to_string(player.m_intelligence));
+	playerIntelligenceText.setString(to_string(player.m_intelligence));*/
 }
 
 void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpent) {
-	int enemyHealthLeft = enemyHealth.getSize().x;
-	int playerStaminaSpent = playerStamina.getSize().x;
+	//int enemyHealthLeft = enemyHealth.getSize().x;
+	//int playerStaminaSpent = playerStamina.getSize().x;
 
-	switch (turn) {
-	case 0:
-		//Player's turn
-		switch (action) {
-		case ATTACK:
-			if (enemyHealthLeft - damageDealt >= 0) {
-				enemyHealth.setSize(sf::Vector2f(enemyHealthLeft - damageDealt, 10));
-				break;
-			}
-		case PREPARE:
-			break;
-		case HEAL:
+	//switch (turn) {
+	//case 0:
+	//	//Player's turn
+	//	switch (action) {
+	//	case ATTACK:
+	//		if (enemyHealthLeft - damageDealt >= 0) {
+	//			enemyHealth.setSize(sf::Vector2f(enemyHealthLeft - damageDealt, 10));
+	//			break;
+	//		}
+	//	case PREPARE:
+	//		break;
+		/*case HEAL:
 			if (playerStaminaSpent - staminaSpent >= 0) {
 				playerHealth.setSize(sf::Vector2f(480, 10));
 				playerStamina.setSize(sf::Vector2f(playerStaminaSpent - staminaSpent, 10));
@@ -368,20 +309,20 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpen
 				break;
 			}
 			break;
-		}
-	case 1:
-		//Enemy's turn
-		switch (action) {
-		case ATTACK:
-			break;
-		case PREPARE:
-			break;
-		case HEAL:
-			break;
-		case HEADSHOT:
-			break;
-		}
-	}
+		}*/
+		//case 1:
+		//	//Enemy's turn
+		//	switch (action) {
+		//	case ATTACK:
+		//		break;
+		//	case PREPARE:
+		//		break;
+		//	case HEAL:
+		//		break;
+		//	case HEADSHOT:
+		//		break;
+		//	}
+		//}
 }
 
 void Arena::updateActionText(int buttonClicked, std::string characterName, int damageDone, int healthGained) {

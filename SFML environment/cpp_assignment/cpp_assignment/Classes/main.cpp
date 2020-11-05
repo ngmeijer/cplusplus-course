@@ -71,16 +71,16 @@ void handleAudio() {
 		std::cout << "Could not find the background track." << endl;
 		return;
 	}
-	//backgroundMusic.play();
+	backgroundMusic.play();
 	backgroundMusic.setLoop(true);
 	backgroundMusic.setVolume(50.0f);
 }
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Arena game!");
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "NETHER FIGHTS!", sf::Style::None);
 
 	readWritePlayerData();
-	handleAudio();
+	//handleAudio();
 
 	if (!font.loadFromFile("font.ttf")) {
 		cout << "Missing font." << endl;
