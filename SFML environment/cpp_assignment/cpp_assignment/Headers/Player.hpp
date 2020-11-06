@@ -41,7 +41,7 @@ private:
 
 public:
 	int m_strength = 10;
-	int m_intelligence = 10;
+	int m_heal = 10;
 	int m_headshot = 10;
 
 	STRENGTH_VALUES strengthValues;
