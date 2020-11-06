@@ -40,7 +40,7 @@ private:
 
 public:
 	int m_strength = 10;
-	int m_intelligence = 10;
+	int m_heal = 10;
 	int m_headshot = 10;
 
 	STRENGTH_VALUES strengthValues;
@@ -48,8 +48,8 @@ public:
 	HEADSHOT_VALUES headshotValues;
 
 	sf::Text characterStrengthText;
-	sf::Text characterAgilityText;
-	sf::Text characterIntelligenceText;
+	sf::Text characterHealText;
+	sf::Text characterHeadshotText;
 	sf::Text characterName;
 
 	sf::Font m_font;
@@ -62,8 +62,8 @@ public:
 
 	SpriteObject characterSprite;
 	SpriteObject strengthSprite;
-	SpriteObject agilitySprite;
-	SpriteObject intelligenceSprite;
+	SpriteObject healSprite;
+	SpriteObject headshotSprite;
 
 	std::string m_spriteName;
 	std::string m_characterName;
@@ -91,6 +91,7 @@ public:
 	~Character();
 	virtual void render(sf::RenderWindow& window);
 	virtual void update();
+	void importStats(int p_strength, int p_headshot, int p_intelligence);
 	void handleCharacter(Scene& scene);
 	void handleCharacterText(Scene& scene);
 	void handleCharacterSprites(Scene& scene);

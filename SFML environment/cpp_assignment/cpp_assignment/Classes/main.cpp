@@ -42,7 +42,7 @@ void backToMenu() {
 
 void readWritePlayerData() {
 	if (characterData.fail()) {
-		std::cout << "\n" << "Failed opening the PlayerData.txt file." << std::endl << "\n";
+		std::cout << "\n" << "Failed opening the PlayerData.txt file in main.cpp." << std::endl << "\n";
 	}
 	else {
 		std::string line;
@@ -95,11 +95,10 @@ int main() {
 	handler.addScene(characterGen);
 	handler.addScene(arena);
 
-	characterGen.importCharacter(charStats.strength, charStats.agility, charStats.intelligence, charStats.availablePoints);
+	characterGen.importCharacter();
 
 	while (window.isOpen()) {
 		{
-			arena.importCharacter(charStats.strength, charStats.agility, charStats.intelligence);
 			sf::Event event;
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::Closed) {

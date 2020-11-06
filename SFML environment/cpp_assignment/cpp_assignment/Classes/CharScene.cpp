@@ -5,6 +5,7 @@
 #include "../Headers/CharScene.hpp"
 #include "../Headers/Button.hpp"
 #include "../Headers/Player.hpp"
+#include <fstream>
 
 Button generateButton;
 Button cancelButton;
@@ -12,17 +13,20 @@ Button fightButton;
 SpriteObject background2("background", "Assets/charBackground.jpg");
 
 Button strengthButton;
-Button agilityButton;
+Button healButton;
 Button headshotButton;
 
 Button plusButton;
 Button minusButton;
 
-sf::Text intelligenceText;
+sf::Text headshotText;
 sf::Text strengthText;
-sf::Text agilityText;
+sf::Text healText;
 
 sf::Text availablePointsText;
+
+std::ifstream characterDataSelect("PlayerData.txt");
+std::vector<int> statsVecSelect;
 
 enum Stats {
 	STRENGTH = 0,
@@ -44,39 +48,26 @@ CharScene::CharScene(std::string identifier, sf::Font& fontRef) : Scene(identifi
 {
 	m_font = fontRef;
 
-	generateCharacter();
-
 	handleBackground();
 	handleText();
 	handleButtons();
-
-	//cout << m_currentPlayer.getStrength();
+	importCharacter();
 }
 
 CharScene::~CharScene() { }
-
-void CharScene::generateCharacter() {
-	//m_currentPlayer.m_strength = 4;
-	//m_currentPlayer.m_agility = 4;
-	//m_currentPlayer.m_intelligence = 4;
-
-	intelligenceText.setString(std::to_string(m_currentPlayer.m_intelligence));
-	strengthText.setString(std::to_string(m_currentPlayer.m_strength));
-	agilityText.setString(std::to_string(m_currentPlayer.m_intelligence));
-}
 
 void CharScene::handleText() {
 	strengthText.setFont(m_font);
 	strengthText.setCharacterSize(100);
 	strengthText.setPosition(210, 900);
 
-	agilityText.setFont(m_font);
-	agilityText.setCharacterSize(100);
-	agilityText.setPosition(630, 900);
+	healText.setFont(m_font);
+	healText.setCharacterSize(100);
+	healText.setPosition(630, 900);
 
-	intelligenceText.setFont(m_font);
-	intelligenceText.setCharacterSize(100);
-	intelligenceText.setPosition(1010, 900);
+	headshotText.setFont(m_font);
+	headshotText.setCharacterSize(100);
+	headshotText.setPosition(1010, 900);
 
 	availablePointsText.setFont(m_font);
 	availablePointsText.setCharacterSize(90);
@@ -84,15 +75,15 @@ void CharScene::handleText() {
 	availablePointsText.setString(("Available points:    " + std::to_string(availableSkillPoints)));
 
 	addTextObject(strengthText);
-	addTextObject(agilityText);
-	addTextObject(intelligenceText);
+	addTextObject(healText);
+	addTextObject(headshotText);
 	addTextObject(availablePointsText);
 }
 
 void CharScene::updateStats() {
 	strengthText.setString(std::to_string(m_currentPlayer.m_strength));
-	agilityText.setString(std::to_string(m_currentPlayer.m_intelligence));
-	intelligenceText.setString(std::to_string(m_currentPlayer.m_intelligence));
+	healText.setString(std::to_string(m_currentPlayer.m_heal));
+	headshotText.setString(std::to_string(m_currentPlayer.m_headshot));
 
 	availablePointsText.setString(("Available points:    " + std::to_string(availableSkillPoints)));
 }
@@ -123,18 +114,18 @@ void CharScene::handleButtons() {
 	strengthButton.setSize(sf::Vector2f(260, 250));
 	strengthButton.setColour(sf::Color::Transparent);
 
-	agilityButton.setSprite("Assets/AgilityIcon.png", sf::Vector2f(2.0f, 2.0f));
-	agilityButton.setPosition(sf::Vector2f(520, 640));
-	agilityButton.setSize(sf::Vector2f(260, 250));
-	agilityButton.setColour(sf::Color::Transparent);
+	healButton.setSprite("Assets/HealIcon.png", sf::Vector2f(2.0f, 2.0f));
+	healButton.setPosition(sf::Vector2f(520, 640));
+	healButton.setSize(sf::Vector2f(260, 250));
+	healButton.setColour(sf::Color::Transparent);
 
-	headshotButton.setSprite("Assets/IntelligenceIcon.png", sf::Vector2f(2.0f, 2.0f));
+	headshotButton.setSprite("Assets/HeadshotIcon.png", sf::Vector2f(2.0f, 2.0f));
 	headshotButton.setPosition(sf::Vector2f(900, 640));
 	headshotButton.setSize(sf::Vector2f(260, 250));
 	headshotButton.setColour(sf::Color::Transparent);
 
 	addGameObject(strengthButton);
-	addGameObject(agilityButton);
+	addGameObject(healButton);
 	addGameObject(headshotButton);
 
 	addGameObject(plusButton);
@@ -155,21 +146,31 @@ void CharScene::updateSkillPoints(int valueChange) {
 void CharScene::writeCharacterToFile() {
 	std::ofstream characterFile("PlayerData.txt", std::ostream::out | std::ofstream::trunc);
 	if (characterFile.is_open()) {
+		std::cout << "writing to file";
 		characterFile << m_currentPlayer.m_strength << "\n";
-		characterFile << m_currentPlayer.m_intelligence << "\n";
-		characterFile << m_currentPlayer.m_intelligence << "\n";
+		characterFile << m_currentPlayer.m_heal << "\n";
+		characterFile << m_currentPlayer.m_headshot << "\n";
 
 		characterFile << availableSkillPoints << "\n";
 	}
 }
 
-void CharScene::importCharacter(int p_strength, int p_agility, int p_intelligence, int p_availablePoints)
+void CharScene::importCharacter()
 {
-	m_currentPlayer.m_strength = p_strength;
-	m_currentPlayer.m_intelligence = p_agility;
-	m_currentPlayer.m_intelligence = p_intelligence;
+	if (characterDataSelect.is_open())
+	{
+		std::string line;
+		while (getline(characterDataSelect, line)) {
+			statsVecSelect.push_back(std::stoi(line));
+		}
 
-	availableSkillPoints = p_availablePoints;
+		m_currentPlayer.m_strength = statsVecSelect[0];
+		m_currentPlayer.m_heal = statsVecSelect[1];
+		m_currentPlayer.m_headshot = statsVecSelect[2];
+
+		availableSkillPoints = statsVecSelect[3];
+	}
+	else std::cout << "Unable to open file";
 
 	updateStats();
 }
@@ -188,17 +189,17 @@ void CharScene::checkInput(sf::Event event, sf::Vector2f mousePos, SceneHandler&
 					}
 					break;
 				case AGILITY:
-					if (m_currentPlayer.m_intelligence > minAmountOfSkill) {
+					if (m_currentPlayer.m_heal > minAmountOfSkill) {
 						availableSkillPoints += 1;
-						m_currentPlayer.m_intelligence--;
-						agilityText.setString(std::to_string(m_currentPlayer.m_intelligence));
+						m_currentPlayer.m_heal--;
+						healText.setString(std::to_string(m_currentPlayer.m_heal));
 					}
 					break;
 				case INTELLIGENCE:
-					if (m_currentPlayer.m_intelligence > minAmountOfSkill) {
+					if (m_currentPlayer.m_headshot > minAmountOfSkill) {
 						availableSkillPoints += 1;
-						m_currentPlayer.m_intelligence--;
-						intelligenceText.setString(std::to_string(m_currentPlayer.m_intelligence));
+						m_currentPlayer.m_headshot--;
+						headshotText.setString(std::to_string(m_currentPlayer.m_heal));
 					}
 					break;
 				}
@@ -215,17 +216,17 @@ void CharScene::checkInput(sf::Event event, sf::Vector2f mousePos, SceneHandler&
 					}
 					break;
 				case AGILITY:
-					if (m_currentPlayer.m_intelligence < maxAmountOfSkill) {
+					if (m_currentPlayer.m_heal < maxAmountOfSkill) {
 						availableSkillPoints -= 1;
-						m_currentPlayer.m_intelligence++;
-						agilityText.setString(std::to_string(m_currentPlayer.m_intelligence));
+						m_currentPlayer.m_heal++;
+						healText.setString(std::to_string(m_currentPlayer.m_heal));
 					}
 					break;
 				case INTELLIGENCE:
-					if (m_currentPlayer.m_intelligence < maxAmountOfSkill) {
+					if (m_currentPlayer.m_headshot < maxAmountOfSkill) {
 						availableSkillPoints -= 1;
-						m_currentPlayer.m_intelligence++;
-						intelligenceText.setString(std::to_string(m_currentPlayer.m_intelligence));
+						m_currentPlayer.m_headshot++;
+						headshotText.setString(std::to_string(m_currentPlayer.m_headshot));
 					}
 					break;
 				}
@@ -238,7 +239,7 @@ void CharScene::checkInput(sf::Event event, sf::Vector2f mousePos, SceneHandler&
 				playerStats = STRENGTH;
 			}
 
-			if (agilityButton.onClick(mousePos) == true) {
+			if (healButton.onClick(mousePos) == true) {
 				minusButton.setPosition(sf::Vector2f(550, 490));
 				plusButton.setPosition(sf::Vector2f(700, 490));
 				playerStats = AGILITY;

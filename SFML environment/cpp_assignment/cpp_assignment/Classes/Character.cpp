@@ -9,18 +9,14 @@ Character::Character() { }
 Character::Character(std::string identifier) : GameObject(identifier) {
 
 	handleCharacter(m_scene);
-
-	int testX = windowBackgroundPos.x;
-	int testY = windowBackgroundPos.y;
-	std::cout << "x: " << testX << ", y: " << testY << std::endl;
 }
 
 Character::~Character() { }
 
 void Character::handleCharacterText(Scene& scene) {
 	this->characterStrengthText.setString(std::to_string(m_strength));
-	this->characterAgilityText.setString(std::to_string(m_intelligence));
-	this->characterIntelligenceText.setString(std::to_string(m_intelligence));
+	this->characterHealText.setString(std::to_string(m_heal));
+	this->characterHeadshotText.setString(std::to_string(m_headshot));
 
 	if (!m_font.loadFromFile("Assets/font.ttf")) {
 		std::cout << "Couldn't load font." << std::endl;
@@ -28,23 +24,23 @@ void Character::handleCharacterText(Scene& scene) {
 
 	characterName.setFont(m_font);
 	characterStrengthText.setFont(m_font);
-	characterAgilityText.setFont(m_font);
-	characterIntelligenceText.setFont(m_font);
+	characterHealText.setFont(m_font);
+	characterHeadshotText.setFont(m_font);
 
 	characterName.setPosition(characterNamePos);
 	characterStrengthText.setPosition(strengthTextPos);
-	characterAgilityText.setPosition(agilityTextPos);
-	characterIntelligenceText.setPosition(intelligenceTextPos);
+	characterHealText.setPosition(agilityTextPos);
+	characterHeadshotText.setPosition(intelligenceTextPos);
 
 	characterName.setCharacterSize(65);
 	characterStrengthText.setCharacterSize(50);
-	characterAgilityText.setCharacterSize(50);
-	characterIntelligenceText.setCharacterSize(50);
+	characterHealText.setCharacterSize(50);
+	characterHeadshotText.setCharacterSize(50);
 
 	scene.addTextObject(characterName);
 	scene.addTextObject(characterStrengthText);
-	scene.addTextObject(characterAgilityText);
-	scene.addTextObject(characterIntelligenceText);
+	scene.addTextObject(characterHealText);
+	scene.addTextObject(characterHeadshotText);
 }
 
 void Character::handleCharacter(Scene& scene) {
@@ -56,8 +52,8 @@ void Character::handleCharacterSprites(Scene& scene) {
 	scene.addRectangleObject(this->windowBackground);
 	scene.addSpriteObject(this->characterSprite);
 	scene.addSpriteObject(this->strengthSprite);
-	scene.addSpriteObject(this->agilitySprite);
-	scene.addSpriteObject(this->intelligenceSprite);
+	scene.addSpriteObject(this->healSprite);
+	scene.addSpriteObject(this->headshotSprite);
 
 	scene.addRectangleObject(this->healthBackground);
 	scene.addRectangleObject(this->characterHealth);
@@ -91,17 +87,24 @@ void Character::handleCharacterSprites(Scene& scene) {
 	this->strengthSprite.setSprite("Assets/StrengthIcon.png");
 	this->strengthSprite.setScale(sf::Vector2f(1.0f, 1.0f));
 
-	this->agilitySprite.setSprite("Assets/AgilityIcon.png");
-	this->agilitySprite.setScale(sf::Vector2f(1.0f, 1.0f));
+	this->healSprite.setSprite("Assets/HealIcon.png");
+	this->healSprite.setScale(sf::Vector2f(1.0f, 1.0f));
 
-	this->intelligenceSprite.setSprite("Assets/IntelligenceIcon.png");
-	this->intelligenceSprite.setScale(sf::Vector2f(1.0f, 1.0f));
+	this->headshotSprite.setSprite("Assets/HeadshotIcon.png");
+	this->headshotSprite.setScale(sf::Vector2f(1.0f, 1.0f));
 
 	this->strengthSprite.setPosition(strengthSpritePos);
-	this->agilitySprite.setPosition(agilitySpritePos);
-	this->intelligenceSprite.setPosition(intelligenceSpritePos);
+	this->healSprite.setPosition(agilitySpritePos);
+	this->headshotSprite.setPosition(intelligenceSpritePos);
 }
 
 void Character::render(sf::RenderWindow& window) { }
 
 void Character::update() { }
+
+void Character::importStats(int p_strength, int p_headshot, int p_intelligence)
+{
+	this->m_strength = p_strength;
+	this->m_headshot = p_headshot;
+	this->m_heal = p_intelligence;
+}

@@ -24,11 +24,6 @@ std::string turnString = "Your turn!";
 Player player;
 Enemy enemy;
 
-std::ifstream characterDataArena("PlayerData.txt");
-std::vector<int> statsVecArena;
-
-int windowWidth;
-
 enum ACTION_BUTTONS {
 	ATTACK,
 	PREPARE,
@@ -45,27 +40,17 @@ struct ACTION_VALUES {
 ACTION_BUTTONS selectionAction;
 ACTION_VALUES actionValues;
 
+std::ifstream characterDataArena("PlayerData.txt");
+std::vector<int> statsVecArena;
+
 Arena::Arena() { }
 
 Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& fontRef) : Scene(identifier)
 {
 	m_font = fontRef;
-	windowWidth = windowRef.getSize().x;
-
-	player.initializeVariablesPlayer();
-	player.handleCharacter(*this);
-
-	enemy.initializeVariablesEnemy();
-	enemy.handleCharacter(*this);
-
-	handleBackground();
-
-	adjustSkillScaling(player.m_strength, player.m_intelligence, player.m_headshot);
-	handleTextbox();
-	handleButtons();
 
 	if (characterDataArena.fail()) {
-		std::cout << "\n" << "Failed opening the PlayerData.txt file." << std::endl << "\n";
+		std::cout << "\n" << "Failed opening the PlayerData.txt file in Arena.cpp." << std::endl << "\n";
 	}
 	else {
 		std::string line;
@@ -75,9 +60,17 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 		characterDataArena.close();
 	}
 
-	player.m_strength = statsVecArena[0];
-	player.m_intelligence = statsVecArena[1];
-	player.m_headshot = statsVecArena[2];
+	//
+	player.initializeVariablesPlayer();
+	player.handleCharacter(*this);
+	enemy.initializeVariablesEnemy();
+	enemy.handleCharacter(*this);
+
+	//
+	handleBackground();
+	adjustSkillScaling(player.m_strength, player.m_heal, player.m_headshot);
+	handleTextbox();
+	handleButtons();
 }
 
 Arena::~Arena() { }
@@ -179,19 +172,19 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 	}
 }
 
-void Arena::importCharacter(int p_strength, int p_agility, int p_intelligence)
+void Arena::importCharacter(int p_strength, int p_headshot, int p_intelligence)
 {
 	player.m_strength = p_strength;
-	player.m_intelligence = p_agility;
-	player.m_intelligence = p_intelligence;
+	player.m_headshot = p_headshot;
+	player.m_heal = p_intelligence;
 
 	updateSkills();
 }
 
 void Arena::updateSkills() {
-	/*playerStrengthText.setString(to_string(player.m_strength));
-	playerAgilityText.setString(to_string(player.m_intelligence));
-	playerIntelligenceText.setString(to_string(player.m_intelligence));*/
+	player.characterStrengthText.setString(std::to_string(player.m_strength));
+	player.characterHealText.setString(std::to_string(player.m_heal));
+	player.characterHeadshotText.setString(std::to_string(player.m_heal));
 }
 
 void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpent) {
