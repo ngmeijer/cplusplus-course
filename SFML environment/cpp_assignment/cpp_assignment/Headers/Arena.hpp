@@ -25,7 +25,7 @@ public:
 	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
 
 	//Character import & UI update
-	void importCharacter(int p_strength, int p_agility, int p_intelligence);
+	void importCharacter();
 	void updateSkills();
 	void handleActions(int turn, int action, int damageDealt, int magicSpent);
 	void updateActionText(int buttonClicked, std::string name, int damage, int health);

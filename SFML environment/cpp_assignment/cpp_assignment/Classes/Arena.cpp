@@ -49,22 +49,13 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 {
 	m_font = fontRef;
 
-	if (characterDataArena.fail()) {
-		std::cout << "\n" << "Failed opening the PlayerData.txt file in Arena.cpp." << std::endl << "\n";
-	}
-	else {
-		std::string line;
-		while (getline(characterDataArena, line)) {
-			statsVecArena.push_back(std::stoi(line));
-		}
-		characterDataArena.close();
-	}
-
 	//
 	player.initializeVariablesPlayer();
 	player.handleCharacter(*this);
 	enemy.initializeVariablesEnemy();
 	enemy.handleCharacter(*this);
+
+	importCharacter();
 
 	//
 	handleBackground();
@@ -172,11 +163,20 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 	}
 }
 
-void Arena::importCharacter(int p_strength, int p_headshot, int p_intelligence)
+void Arena::importCharacter()
 {
-	player.m_strength = p_strength;
-	player.m_headshot = p_headshot;
-	player.m_heal = p_intelligence;
+	if (characterDataArena.is_open())
+	{
+		std::string line;
+		while (getline(characterDataArena, line)) {
+			statsVecArena.push_back(std::stoi(line));
+		}
+
+		player.m_strength = statsVecArena[0];
+		player.m_heal = statsVecArena[1];
+		player.m_headshot = statsVecArena[2];
+	}
+	else std::cout << "Unable to open file";
 
 	updateSkills();
 }
@@ -184,7 +184,7 @@ void Arena::importCharacter(int p_strength, int p_headshot, int p_intelligence)
 void Arena::updateSkills() {
 	player.characterStrengthText.setString(std::to_string(player.m_strength));
 	player.characterHealText.setString(std::to_string(player.m_heal));
-	player.characterHeadshotText.setString(std::to_string(player.m_heal));
+	player.characterHeadshotText.setString(std::to_string(player.m_headshot));
 }
 
 void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpent) {
