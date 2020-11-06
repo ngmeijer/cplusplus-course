@@ -70,17 +70,17 @@ void Character::handleCharacterSprites(Scene& scene) {
 	this->characterSprite.setPosition(characterSpritePos);
 	this->characterSprite.setScale(sf::Vector2f(0.5f, 0.5f));
 
-	this->characterHealth.setSize(sf::Vector2f(480, 10));
+	this->characterHealth.setSize(sf::Vector2f(healthSize));
 	this->characterHealth.setPosition(characterHealthPos);
 	this->characterHealth.setFillColor(sf::Color::Red);
-	this->healthBackground.setSize(sf::Vector2f(480, 10));
+	this->healthBackground.setSize(sf::Vector2f(healthSize));
 	this->healthBackground.setPosition(healthBackgroundPos);
 	this->healthBackground.setFillColor(sf::Color::Black);
 
-	this->characterStamina.setSize(sf::Vector2f(480, 10));
+	this->characterStamina.setSize(sf::Vector2f(staminaSize));
 	this->characterStamina.setPosition(characterStaminaPos);
 	this->characterStamina.setFillColor(sf::Color::Blue);
-	this->staminaBackground.setSize(sf::Vector2f(480, 10));
+	this->staminaBackground.setSize(sf::Vector2f(staminaSize));
 	this->staminaBackground.setPosition(staminaBackgroundPos);
 	this->staminaBackground.setFillColor(sf::Color::Black);
 
@@ -107,4 +107,55 @@ void Character::importStats(int p_strength, int p_headshot, int p_intelligence)
 	this->m_strength = p_strength;
 	this->m_headshot = p_headshot;
 	this->m_heal = p_intelligence;
+}
+
+bool Character::canTakeDamage(int damageTaken, int staminaSpent) {
+	bool canTake = false;
+
+	int healthLeft = this->characterHealth.getSize().x;
+
+	if (healthLeft - damageTaken > 0) {
+		canTake = true;
+		this->characterHealth.setSize(sf::Vector2f(healthLeft - damageTaken, 10));
+	}
+	else {
+		canTake = false;
+		this->characterHealth.setSize(sf::Vector2f(0, 10));
+	}
+
+	return canTake;
+}
+
+void Character::prepareSelf()
+{
+	this->characterStamina.setSize(sf::Vector2f(staminaSize));
+}
+
+bool Character::canHealSelf(int staminaSpent)
+{
+	int staminaLeft = this->characterStamina.getSize().x;
+
+	if (staminaLeft - staminaSpent > 0) {
+		this->characterHealth.setSize(healthSize);
+	}
+}
+
+bool Character::canTakeHeadshot(int staminaSpent)
+{
+	bool canTake = false;
+
+	return canTake;
+}
+
+bool Character::isDead() {
+	bool hasCharacterDied = false;
+
+	int enemyHealthLeft = this->characterHealth.getSize().x;
+
+	if (enemyHealthLeft <= 0) {
+		hasCharacterDied = true;
+	}
+	else hasCharacterDied = false;
+
+	return hasCharacterDied;
 }

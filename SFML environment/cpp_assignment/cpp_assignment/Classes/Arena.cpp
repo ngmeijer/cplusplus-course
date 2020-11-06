@@ -24,6 +24,11 @@ std::string turnString = "Your turn!";
 Player player;
 Enemy enemy;
 
+enum CHARACTERS {
+	PLAYER,
+	ENEMY,
+};
+
 enum ACTION_BUTTONS {
 	ATTACK,
 	PREPARE,
@@ -39,6 +44,7 @@ struct ACTION_VALUES {
 
 ACTION_BUTTONS selectionAction;
 ACTION_VALUES actionValues;
+CHARACTERS characters;
 
 std::ifstream characterDataArena("PlayerData.txt");
 std::vector<int> statsVecArena;
@@ -141,6 +147,7 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 
 			if (attackButton.onClick(mousePos) == true) {
 				updateActionText(ATTACK, "DOOMSLAYER", 100, 0);
+				handleActions(0, ATTACK, 75, 100);
 			}
 
 			if (prepareButton.onClick(mousePos) == true) {
@@ -188,48 +195,40 @@ void Arena::updateSkills() {
 }
 
 void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpent) {
-	//int enemyHealthLeft = enemyHealth.getSize().x;
-	//int playerStaminaSpent = playerStamina.getSize().x;
-
-	//switch (turn) {
-	//case 0:
-	//	//Player's turn
-	//	switch (action) {
-	//	case ATTACK:
-	//		if (enemyHealthLeft - damageDealt >= 0) {
-	//			enemyHealth.setSize(sf::Vector2f(enemyHealthLeft - damageDealt, 10));
-	//			break;
-	//		}
-	//	case PREPARE:
-	//		break;
-		/*case HEAL:
-			if (playerStaminaSpent - staminaSpent >= 0) {
-				playerHealth.setSize(sf::Vector2f(480, 10));
-				playerStamina.setSize(sf::Vector2f(playerStaminaSpent - staminaSpent, 10));
-			}
+	switch (turn) {
+	case PLAYER:
+		switch (action) {
+		case ATTACK:
+			enemy.canTakeDamage(damageDealt, staminaSpent);
+			break;
+		case PREPARE:
+			player.prepareSelf();
+			break;
+		case HEAL:
+			player.canHealSelf(staminaSpent);
 			break;
 		case HEADSHOT:
-			if ((enemyHealthLeft - damageDealt >= 0) && (playerStaminaSpent - staminaSpent >= 0)) {
-
-				enemyHealth.setSize(sf::Vector2f(enemyHealthLeft - damageDealt, 10));
-				playerStamina.setSize(sf::Vector2f(playerStaminaSpent - staminaSpent, 10));
-				break;
-			}
+			enemy.canTakeHeadshot(staminaSpent);
 			break;
-		}*/
-		//case 1:
-		//	//Enemy's turn
-		//	switch (action) {
-		//	case ATTACK:
-		//		break;
-		//	case PREPARE:
-		//		break;
-		//	case HEAL:
-		//		break;
-		//	case HEADSHOT:
-		//		break;
-		//	}
-		//}
+		}
+		break;
+	case ENEMY:
+		switch (action) {
+		case ATTACK:
+			player.canTakeDamage(damageDealt, staminaSpent);
+			break;
+		case PREPARE:
+			enemy.prepareSelf();
+			break;
+		case HEAL:
+			enemy.canHealSelf(staminaSpent);
+			break;
+		case HEADSHOT:
+			player.canTakeHeadshot(staminaSpent);
+			break;
+		}
+		break;
+	}
 }
 
 void Arena::updateActionText(int buttonClicked, std::string characterName, int damageDone, int healthGained) {

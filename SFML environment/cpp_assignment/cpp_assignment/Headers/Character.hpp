@@ -85,14 +85,26 @@ public:
 	sf::Vector2f intelligenceTextPos;
 	sf::Vector2f characterNamePos;
 
+	sf::Vector2f healthSize = sf::Vector2f(480, 10);
+	sf::Vector2f staminaSize = sf::Vector2f(480, 10);
+
 public:
 	Character();
 	Character(std::string identifier);
 	~Character();
 	virtual void render(sf::RenderWindow& window);
 	virtual void update();
-	void importStats(int p_strength, int p_headshot, int p_intelligence);
+
+	//Initiliazation
 	void handleCharacter(Scene& scene);
 	void handleCharacterText(Scene& scene);
 	void handleCharacterSprites(Scene& scene);
+	void importStats(int p_strength, int p_headshot, int p_intelligence);
+
+	//Actions
+	bool canTakeDamage(int damageTaken, int staminaSpent);
+	void prepareSelf();
+	bool canHealSelf(int staminaSpent);
+	bool canTakeHeadshot(int staminaSpent);
+	bool isDead();
 };
