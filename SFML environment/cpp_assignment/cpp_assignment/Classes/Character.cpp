@@ -128,16 +128,36 @@ bool Character::canTakeDamage(int damageTaken, int staminaSpent) {
 
 void Character::prepareSelf()
 {
-	this->characterStamina.setSize(sf::Vector2f(staminaSize));
+	handleStamina(staminaSize.x);
+}
+
+void Character::handleStamina(int amount) {
+	sf::Vector2f size = this->characterStamina.getSize();
+
+	if ((size.x + amount >= 0) && (size.x + amount <= staminaSize.x)) {
+		std::cout << "editing stamina bar" << std::endl;
+		this->characterStamina.setSize(sf::Vector2f(size.x + amount, staminaSize.y));
+	}
+
+	if (size.x > staminaSize.x) {
+		this->characterStamina.setSize(staminaSize);
+	}
 }
 
 bool Character::canHealSelf(int staminaSpent)
 {
+	bool canHeal = false;
 	int staminaLeft = this->characterStamina.getSize().x;
 
 	if (staminaLeft - staminaSpent > 0) {
+		canHeal = true;
 		this->characterHealth.setSize(healthSize);
 	}
+	else {
+		canHeal = false;
+	}
+
+	return canHeal;
 }
 
 bool Character::canTakeHeadshot(int staminaSpent)
@@ -158,4 +178,11 @@ bool Character::isDead() {
 	else hasCharacterDied = false;
 
 	return hasCharacterDied;
+}
+
+std::string Character::returnCharacterName()
+{
+	std::string name = this->characterName.getString();
+
+	return name;
 }

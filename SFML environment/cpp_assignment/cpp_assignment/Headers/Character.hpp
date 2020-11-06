@@ -104,7 +104,9 @@ public:
 	//Actions
 	bool canTakeDamage(int damageTaken, int staminaSpent);
 	void prepareSelf();
+	void handleStamina(int amount);
 	bool canHealSelf(int staminaSpent);
 	bool canTakeHeadshot(int staminaSpent);
 	bool isDead();
+	std::string returnCharacterName();
 };

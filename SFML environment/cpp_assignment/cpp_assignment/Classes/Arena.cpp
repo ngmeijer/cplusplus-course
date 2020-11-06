@@ -24,6 +24,8 @@ std::string turnString = "Your turn!";
 Player player;
 Enemy enemy;
 
+int currentTurn;
+
 enum CHARACTERS {
 	PLAYER,
 	ENEMY,
@@ -49,6 +51,9 @@ CHARACTERS characters;
 std::ifstream characterDataArena("PlayerData.txt");
 std::vector<int> statsVecArena;
 
+std::string enemyName;
+std::string playerName;
+
 Arena::Arena() { }
 
 Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& fontRef) : Scene(identifier)
@@ -68,6 +73,9 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 	adjustSkillScaling(player.m_strength, player.m_heal, player.m_headshot);
 	handleTextbox();
 	handleButtons();
+
+	enemyName = enemy.returnCharacterName();
+	playerName = player.returnCharacterName();
 }
 
 Arena::~Arena() { }
@@ -145,29 +153,45 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 				counter = 0;
 			}
 
-			if (attackButton.onClick(mousePos) == true) {
-				updateActionText(ATTACK, "DOOMSLAYER", 100, 0);
-				handleActions(0, ATTACK, 75, 100);
+			if (currentTurn == PLAYER) {
+				if (attackButton.onClick(mousePos) == true) {
+					updateActionText(ATTACK, "DOOMSLAYER", 100, 0, enemyName);
+					handleActions(0, ATTACK, 75, 100);
+				}
+
+				if (prepareButton.onClick(mousePos) == true) {
+					updateActionText(PREPARE, "DOOMSLAYER", 0, 0, enemyName);
+					handleActions(0, PREPARE, 0, 0);
+				}
+
+				if (recoverButton.onClick(mousePos) == true) {
+					updateActionText(HEAL, "DOOMSLAYER", 0, 100, enemyName);
+				}
+
+				if (magicButton.onClick(mousePos) == true) {
+					updateActionText(HEADSHOT, "DOOMSLAYER", 100, 0, enemyName);
+					handleActions(0, HEADSHOT, 75, 100);
+				}
 			}
 
-			if (prepareButton.onClick(mousePos) == true) {
-				updateActionText(PREPARE, "DOOMSLAYER", 0, 0);
-			}
+			if (currentTurn == ENEMY) {
+				if (continueFightButton.onClick(mousePos) == true) {
+					enemyDoAction();
 
-			if (recoverButton.onClick(mousePos) == true) {
-				updateActionText(HEAL, "DOOMSLAYER", 0, 100);
-			}
-
-			if (magicButton.onClick(mousePos) == true) {
-				updateActionText(HEADSHOT, "DOOMSLAYER", 100, 0);
-				handleActions(0, HEADSHOT, 75, 100);
-			}
-
-			if (continueFightButton.onClick(mousePos) == true) {
-
+					if (player.isDead()) {
+						std::cout << "game over." << std::endl;
+					}
+				}
 			}
 		}
 	}
+}
+
+void Arena::enemyDoAction() {
+
+	handleActions(1, ATTACK, 50, 25);
+	updateActionText(ATTACK, playerName, 50, 0, enemyName);
+	currentTurn = PLAYER;
 }
 
 void Arena::importCharacter()
@@ -199,16 +223,37 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpen
 	case PLAYER:
 		switch (action) {
 		case ATTACK:
-			enemy.canTakeDamage(damageDealt, staminaSpent);
+			if (enemy.canTakeDamage(damageDealt, staminaSpent)) {
+				player.handleStamina(-staminaSpent);
+				turn = ENEMY;
+				currentTurn = ENEMY;
+			}
+			else {
+				//Trigger warning.
+			}
 			break;
 		case PREPARE:
 			player.prepareSelf();
+			turn = ENEMY;
+			currentTurn = ENEMY;
 			break;
 		case HEAL:
-			player.canHealSelf(staminaSpent);
+			if (player.canHealSelf(staminaSpent)) {
+				turn = ENEMY;
+				currentTurn = ENEMY;
+			}
+			else {
+				//Trigger warning.
+			}
 			break;
 		case HEADSHOT:
-			enemy.canTakeHeadshot(staminaSpent);
+			if (enemy.canTakeHeadshot(staminaSpent)) {
+				turn = ENEMY;
+				currentTurn = ENEMY;
+			}
+			else {
+				//Trigger warning.
+			}
 			break;
 		}
 		break;
@@ -231,7 +276,8 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpen
 	}
 }
 
-void Arena::updateActionText(int buttonClicked, std::string characterName, int damageDone, int healthGained) {
+void Arena::updateActionText(int buttonClicked, std::string characterName, int damageDone, int healthGained, std::string enemyName) {
+	turnText.setString(enemyName + "'s turn!");
 	switch (buttonClicked) {
 	case ATTACK:
 		characterActionText.setString((characterName + " has attacked for: " + std::to_string(damageDone) + " damage!"));
