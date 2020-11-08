@@ -13,6 +13,7 @@ Button quitButton;
 SpriteObject backgroundGO("background", "Assets/GameOverBackground.jpg");
 sf::Text gameOverText;
 sf::Text highScoreText;
+sf::Text highScoresElements;
 
 std::ifstream HighScoreData("HighscoreData.txt");
 std::vector<int> highScores;
@@ -34,7 +35,7 @@ GameOver::GameOver(std::string identifier, sf::RenderWindow& windowRef, sf::Font
 			highScores.push_back(std::stoi(line));
 		}
 
-		highScoreText.setString("Highscores: \n" + 
+		highScoresElements.setString(
 			std::to_string(highScores[0]) + "\n" +
 			std::to_string(highScores[1]) + "\n" +
 			std::to_string(highScores[2]) + "\n" +
@@ -42,7 +43,6 @@ GameOver::GameOver(std::string identifier, sf::RenderWindow& windowRef, sf::Font
 			std::to_string(highScores[4]));
 	}
 	else std::cout << "Unable to open file";
-
 }
 
 GameOver::~GameOver() {  }
@@ -56,18 +56,25 @@ void GameOver::handleText() {
 
 	highScoreText.setString("Highscores:");
 	highScoreText.setFont(m_font);
-	highScoreText.setCharacterSize(50);
+	highScoreText.setCharacterSize(75);
 	highScoreText.setPosition(sf::Vector2f(50, 400));
-	highScoreText.setFillColor(sf::Color::Black);
+	highScoreText.setFillColor(sf::Color::Red);
+
+	highScoresElements.setFont(m_font);
+	highScoresElements.setCharacterSize(50);
+	highScoresElements.setPosition(sf::Vector2f(50, 500));
+	highScoresElements.setFillColor(sf::Color::Black);
 
 	addTextObject(gameOverText);
 	addTextObject(highScoreText);
+	addTextObject(highScoresElements);
 }
 
 void GameOver::handleButtons() {
-	quitButton.setSize(sf::Vector2f(200, 50));
-	quitButton.setPosition(sf::Vector2f(1710, 1020));
-	quitButton.setString("Quit", m_font, 50, sf::Color::Black);
+	quitButton.setSize(sf::Vector2f(350, 200));
+	quitButton.setPosition(sf::Vector2f(760, 800));
+	quitButton.setString("Quit", m_font, 150, sf::Color::Red);
+	quitButton.setColour(sf::Color::Transparent);
 
 	addGameObject(quitButton);
 }

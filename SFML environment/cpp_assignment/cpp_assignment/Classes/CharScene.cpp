@@ -199,7 +199,7 @@ void CharScene::checkInput(sf::Event event, sf::Vector2f mousePos, SceneHandler&
 					if (m_currentPlayer.m_headshot > minAmountOfSkill) {
 						availableSkillPoints += 1;
 						m_currentPlayer.m_headshot--;
-						headshotText.setString(std::to_string(m_currentPlayer.m_heal));
+						headshotText.setString(std::to_string(m_currentPlayer.m_headshot));
 					}
 					break;
 				}

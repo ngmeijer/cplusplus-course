@@ -20,6 +20,7 @@ public:
 	~Menu();
 
 	void handleText();
+	void handleHighScore();
 	void handleBackground();
 	void handleButtons();
 	void checkInput(Event event, RenderWindow& window, Vector2f mousePos, SceneHandler& handler, int& counter);

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 //Header inclusion//
 #include "../Headers/Menu.hpp"
@@ -18,7 +19,10 @@ Button eraseButton;
 Button quitButtonMenu;
 
 std::ifstream characterFileMenu("PlayerData.txt");
-
+std::ifstream highScores("HighscoreData.txt");
+std::vector<int> highScoreVec;
+sf::Text highScoreTitle;
+sf::Text highscoreText;
 
 Menu::Menu() {}
 
@@ -29,6 +33,7 @@ Menu::Menu(std::string identifier, RenderWindow& windowRef, Font& font) : Scene(
 	handleBackground();
 	handleText();
 	handleButtons();
+	handleHighScore();
 }
 
 Menu::~Menu() {  }
@@ -39,7 +44,43 @@ void Menu::handleText() {
 	title.setPosition(10, -20);
 	title.setString("Nether Fights");
 
+	highScoreTitle.setFont(m_font);
+	highScoreTitle.setCharacterSize(75);
+	highScoreTitle.setPosition(10, 400);
+	highScoreTitle.setString("Highscore:");
+
+	highscoreText.setFont(m_font);
+	highscoreText.setCharacterSize(40);
+	highscoreText.setPosition(10, 500);
+
+	addTextObject(highScoreTitle);
+	addTextObject(highscoreText);
 	addTextObject(title);
+}
+
+void Menu::handleHighScore() {
+	if (highScores.is_open())
+	{
+		std::string line;
+		while (getline(highScores, line)) {
+			highScoreVec.push_back(std::stoi(line));
+		}
+
+		if (line.empty()) {
+			highscoreText.setString("No highscores available");
+		}
+		else {
+			highscoreText.setString(
+				std::to_string(highScoreVec[0]) + "\n" +
+				std::to_string(highScoreVec[1]) + "\n" +
+				std::to_string(highScoreVec[2]) + "\n" +
+				std::to_string(highScoreVec[3]) + "\n" +
+				std::to_string(highScoreVec[4]));
+		}
+	}
+	else std::cout << "Unable to open file";
+
+	addTextObject(highscoreText);
 }
 
 void Menu::handleButtons() {
@@ -84,13 +125,17 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 			}
 
 			if (eraseButton.onClick(mousePos) == true) {
-				cout << "erased data!" << endl;
-				if (!characterFileMenu.is_open() || characterFileMenu.fail())
-				{
-					characterFileMenu.close();
-					cout << "\t\t\t Error : failed to erase file content!" << endl;
-				}
+				characterFileMenu.open("PlayerData.txt", std::ofstream::out | std::ofstream::trunc);
+
 				characterFileMenu.close();
+
+				std::ofstream highscoreFile("HighscoreData.txt", std::ostream::out | std::ofstream::trunc);
+				if (highscoreFile.is_open()) {
+					std::cout << "writing to file";
+					highscoreFile << "No current highscores" << "\n";
+				}
+
+				handleHighScore();
 			}
 		}
 	}
