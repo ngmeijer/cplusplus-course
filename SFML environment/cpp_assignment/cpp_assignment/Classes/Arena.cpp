@@ -179,7 +179,8 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 					enemyDoAction();
 
 					if (player.isDead()) {
-						std::cout << "game over." << std::endl;
+						handler.stackScene("gameover");
+						counter++;
 					}
 				}
 			}
@@ -189,8 +190,8 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 
 void Arena::enemyDoAction() {
 
-	handleActions(1, ATTACK, 50, 25);
-	updateActionText(ATTACK, playerName, 50, 0, enemyName);
+	handleActions(1, ATTACK, 100, 25);
+	updateActionText(ATTACK, playerName, 100, 0, enemyName);
 	currentTurn = PLAYER;
 }
 

@@ -27,6 +27,15 @@ void Scene::addCircleObject(sf::CircleShape& shape) {
 	this->listOfCircleShapes.push_back(&shape);
 }
 
+void Scene::removeGameObject(GameObject& object)
+{
+	for (int i = 0; i < listOfGameObjects.size(); i++) {
+		if (listOfGameObjects[i] == &object) {
+			
+		}
+	}
+}
+
 void Scene::update() {
 	for (unsigned int i = 0; i < this->listOfGameObjects.size(); i++) {
 		this->listOfGameObjects[i]->update();
@@ -43,11 +52,11 @@ void Scene::render(sf::RenderWindow& window) {
 	for (unsigned int i = 0; i < this->listOfCircleShapes.size(); i++) {
 		window.draw(*listOfCircleShapes[i]);
 	}
-	for (unsigned int i = 0; i < this->listOfTextObjects.size(); i++) {
-		window.draw(*listOfTextObjects[i]);
-	}
 	for (unsigned int i = 0; i < this->listOfSpriteObjects.size(); i++) {
 		this->listOfSpriteObjects[i]->render(window);
+	}
+	for (unsigned int i = 0; i < this->listOfTextObjects.size(); i++) {
+		window.draw(*listOfTextObjects[i]);
 	}
 }
 

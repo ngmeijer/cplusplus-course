@@ -27,6 +27,9 @@ public:
 	void addSpriteObject(SpriteObject& sprite);
 	void addRectangleObject(sf::RectangleShape& shape);
 	void addCircleObject(sf::CircleShape& shape);
+
+	void removeGameObject(GameObject& object);
+
 	void update();
 	void render(sf::RenderWindow& window);
 	std::string getIdentifier() const;

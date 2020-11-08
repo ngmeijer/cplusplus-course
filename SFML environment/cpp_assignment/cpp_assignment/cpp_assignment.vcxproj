@@ -22,6 +22,7 @@
     <ClCompile Include="Classes\Arena.cpp" />
     <ClCompile Include="Classes\Button.cpp" />
     <ClCompile Include="Classes\Character.cpp" />
+    <ClCompile Include="Classes\GameOver.cpp" />
     <ClCompile Include="Classes\Player.cpp" />
     <ClCompile Include="Classes\CharScene.cpp" />
     <ClCompile Include="Classes\Enemy.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Headers\Arena.hpp" />
     <ClInclude Include="Headers\Button.hpp" />
     <ClInclude Include="Headers\Character.hpp" />
+    <ClInclude Include="Headers\GameOver.hpp" />
     <ClInclude Include="Headers\Player.hpp" />
     <ClInclude Include="Headers\CharScene.hpp" />
     <ClInclude Include="Headers\Enemy.hpp" />

@@ -4,6 +4,7 @@
 #include "../Headers/menu.hpp"
 #include "../Headers/CharScene.hpp"
 #include "../Headers/Arena.hpp"
+#include "../Headers/GameOver.hpp"
 #include "../Headers/sceneHandler.hpp"
 #include "../Headers/Button.hpp"
 #include "../Headers/Character.hpp"
@@ -89,11 +90,13 @@ int main() {
 	Menu menu("menu", window, font);
 	CharScene characterGen("character", font);
 	Arena arena("arena", window, font);
+	GameOver gameOver("gameover", window, font);
 
 	SceneHandler handler;
 	handler.addScene(menu);
 	handler.addScene(characterGen);
 	handler.addScene(arena);
+	handler.addScene(gameOver);
 
 	characterGen.importCharacter();
 
@@ -119,6 +122,8 @@ int main() {
 				case 2:
 					arena.checkInput(event, window, mousePosition, handler, counter);
 					break;
+				case 3:
+					gameOver.checkInput(event, window, mousePosition, handler, counter);
 				}
 			}
 		}
