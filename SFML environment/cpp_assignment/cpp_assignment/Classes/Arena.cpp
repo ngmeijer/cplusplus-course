@@ -104,29 +104,29 @@ void Arena::handleTextbox() {
 
 void Arena::handleButtons() {
 	attackButtonArena.setSize(sf::Vector2f(190, 60));
-	attackButtonArena.setPosition(sf::Vector2f(520, 250));
-	attackButtonArena.setColour(sf::Color(255, 0, 0, 120));
+	attackButtonArena.setPosition(sf::Vector2f(520, 200));
+	attackButtonArena.setColour(sf::Color(0, 0, 255, 150));
 	attackButtonArena.setString("Attack", m_font, 40, sf::Color::White);
 
-	prepareButtonArena.setSize(sf::Vector2f(190, 60));
-	prepareButtonArena.setPosition(sf::Vector2f(730, 250));
-	prepareButtonArena.setColour(sf::Color(125, 125, 125, 120));
+	prepareButtonArena.setSize(sf::Vector2f(210, 60));
+	prepareButtonArena.setPosition(sf::Vector2f(730, 200));
+	prepareButtonArena.setColour(sf::Color(0, 0, 255, 150));
 	prepareButtonArena.setString("Prepare", m_font, 40, sf::Color::White);
 
-	recoverButtonArena.setSize(sf::Vector2f(190, 60));
-	recoverButtonArena.setPosition(sf::Vector2f(950, 250));
-	recoverButtonArena.setColour(sf::Color(0, 255, 0, 120));
+	recoverButtonArena.setSize(sf::Vector2f(210, 60));
+	recoverButtonArena.setPosition(sf::Vector2f(950, 200));
+	recoverButtonArena.setColour(sf::Color(0, 0, 255, 150));
 	recoverButtonArena.setString("Recover", m_font, 40, sf::Color::White);
 
-	headshotButtonArena.setSize(sf::Vector2f(210, 60));
-	headshotButtonArena.setPosition(sf::Vector2f(1190, 250));
-	headshotButtonArena.setColour(sf::Color(0, 0, 255, 120));
+	headshotButtonArena.setSize(sf::Vector2f(230, 60));
+	headshotButtonArena.setPosition(sf::Vector2f(1170, 200));
+	headshotButtonArena.setColour(sf::Color(0, 0, 255, 150));
 	headshotButtonArena.setString("Headshot", m_font, 40, sf::Color::White);
 
-	continueFightButtonArena.setSize(sf::Vector2f(300, 100));
-	continueFightButtonArena.setPosition(sf::Vector2f(810, 650));
-	continueFightButtonArena.setColour(sf::Color(0, 0, 255, 120));
-	continueFightButtonArena.setString("Continue", m_font, 50, sf::Color::Red);
+	continueFightButtonArena.setSize(sf::Vector2f(315, 90));
+	continueFightButtonArena.setPosition(sf::Vector2f(810, 300));
+	continueFightButtonArena.setColour(sf::Color(0, 0, 255, 150));
+	continueFightButtonArena.setString("Continue", m_font, 60, sf::Color::White);
 
 	quitButtonArena.setSize(sf::Vector2f(130, 60));
 	quitButtonArena.setPosition(sf::Vector2f(1700, 1000));
@@ -162,6 +162,7 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 
 				if (prepareButtonArena.onClick(mousePos) == true) {
 					updateActionText(PREPARE, "DOOMSLAYER", 0, 0, enemyName);
+					handleActions(0, PREPARE, 0, 0, 0);
 				}
 
 				if (recoverButtonArena.onClick(mousePos) == true) {
@@ -172,6 +173,10 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 				if (headshotButtonArena.onClick(mousePos) == true) {
 					updateActionText(HEADSHOT, "DOOMSLAYER", 100, 0, enemyName);
 					handleActions(0, HEADSHOT, 75, 100, 0);
+				}
+
+				if (enemy.isDead()) {
+					enemy.findNextDemon();
 				}
 			}
 
@@ -201,16 +206,6 @@ int Arena::generateRandomAction()
 	return value;
 }
 
-void Arena::enemyDoAction(int action) {
-
-	switch (action) {
-
-	}
-	handleActions(1, ATTACK, 100, 25, 0);
-	updateActionText(ATTACK, playerName, 100, 0, enemyName);
-	currentTurn = PLAYER;
-}
-
 void Arena::importCharacter()
 {
 	if (characterDataArena.is_open())
@@ -236,6 +231,7 @@ void Arena::updateSkills() {
 }
 
 void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmount, int healAmount) {
+	std::cout << "Turn: " << turn << "\n	Action: " << action << std::endl;
 	switch (turn) {
 	case PLAYER:
 		switch (action) {
@@ -286,19 +282,48 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 	case ENEMY:
 		switch (action) {
 		case ATTACK:
-			player.receiveRegDamage(damageDealt);
-			enemy.handleStamina(-staminaAmount);
+			if (enemy.checkStamina(staminaAmount)) {
+				player.receiveRegDamage(damageDealt);
+				enemy.handleStamina(-staminaAmount);
+				turn = PLAYER;
+				currentTurn = PLAYER;
+			}
+			else {
+				enemy.prepareSelf();
+				turn = PLAYER;
+				currentTurn = PLAYER;
+			}
 			break;
 
 		case PREPARE:
 			enemy.prepareSelf();
+			turn = PLAYER;
+			currentTurn = PLAYER;
 			break;
 
 		case HEAL:
-			enemy.canHealSelf(staminaAmount, healAmount);
+			if (enemy.checkStamina(staminaAmount)) {
+				enemy.canHealSelf(staminaAmount, healAmount);
+				turn = PLAYER;
+				currentTurn = PLAYER;
+			}
+			else {
+				enemy.prepareSelf();
+				turn = PLAYER;
+				currentTurn = PLAYER;
+			}
 			break;
 		case HEADSHOT:
-			player.receiveHeadshot(staminaAmount);
+			if (enemy.checkStamina(staminaAmount)) {
+				player.receiveHeadshot(staminaAmount);
+				turn = PLAYER;
+				currentTurn = PLAYER;
+			}
+			else {
+				enemy.prepareSelf();
+				turn = PLAYER;
+				currentTurn = PLAYER;
+			}
 			break;
 		}
 		break;

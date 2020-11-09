@@ -110,4 +110,5 @@ public:
 	void receiveHeadshot(int damageTaken);
 	bool isDead();
 	std::string returnCharacterName();
+	void findNextDemon();
 };

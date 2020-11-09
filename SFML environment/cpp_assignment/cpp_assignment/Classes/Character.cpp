@@ -180,9 +180,9 @@ void Character::receiveHeadshot(int damageTaken)
 bool Character::isDead() {
 	bool hasCharacterDied = false;
 
-	int enemyHealthLeft = this->characterHealth.getSize().x;
+	int healthLeft = this->characterHealth.getSize().x;
 
-	if (enemyHealthLeft <= 0) {
+	if (healthLeft <= 0) {
 		hasCharacterDied = true;
 	}
 	else hasCharacterDied = false;
@@ -195,4 +195,12 @@ std::string Character::returnCharacterName()
 	std::string name = this->characterName.getString();
 
 	return name;
+}
+
+void Character::findNextDemon()
+{
+	this->m_spriteName = "Assets/Cacodemon.png";
+	this->m_characterName = "Cacodemon";
+	this->characterSprite.setSprite(m_spriteName);
+	this->characterSprite.setPosition(sf::Vector2f(characterSpritePos.x, characterSpritePos.y - 300));
 }

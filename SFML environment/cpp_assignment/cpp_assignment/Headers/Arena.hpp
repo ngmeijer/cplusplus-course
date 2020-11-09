@@ -26,8 +26,6 @@ public:
 
 	int generateRandomAction();
 
-	void enemyDoAction(int action);
-
 	//Character import & UI update
 	void importCharacter();
 	void updateSkills();
