@@ -1,17 +1,18 @@
 #include <iostream>
 #include <fstream>
+#include <random>
 
 #include "../Headers/Arena.hpp"
 #include "../Headers/Button.hpp"
 #include "../Headers/Player.hpp"
 #include "../Headers/Enemy.hpp"
 
-Button attackButton;
-Button prepareButton;
-Button recoverButton;
-Button magicButton;
+Button attackButtonArena;
+Button prepareButtonArena;
+Button recoverButtonArena;
+Button headshotButtonArena;
 Button quitButtonArena;
-Button continueFightButton;
+Button continueFightButtonArena;
 
 SpriteObject sceneBackground("background", "Assets/FightScene.jpg");
 
@@ -102,41 +103,41 @@ void Arena::handleTextbox() {
 }
 
 void Arena::handleButtons() {
-	attackButton.setSize(sf::Vector2f(190, 60));
-	attackButton.setPosition(sf::Vector2f(520, 250));
-	attackButton.setColour(sf::Color(255, 0, 0, 120));
-	attackButton.setString("Attack", m_font, 40, sf::Color::White);
+	attackButtonArena.setSize(sf::Vector2f(190, 60));
+	attackButtonArena.setPosition(sf::Vector2f(520, 250));
+	attackButtonArena.setColour(sf::Color(255, 0, 0, 120));
+	attackButtonArena.setString("Attack", m_font, 40, sf::Color::White);
 
-	prepareButton.setSize(sf::Vector2f(190, 60));
-	prepareButton.setPosition(sf::Vector2f(730, 250));
-	prepareButton.setColour(sf::Color(125, 125, 125, 120));
-	prepareButton.setString("Prepare", m_font, 40, sf::Color::White);
+	prepareButtonArena.setSize(sf::Vector2f(190, 60));
+	prepareButtonArena.setPosition(sf::Vector2f(730, 250));
+	prepareButtonArena.setColour(sf::Color(125, 125, 125, 120));
+	prepareButtonArena.setString("Prepare", m_font, 40, sf::Color::White);
 
-	recoverButton.setSize(sf::Vector2f(190, 60));
-	recoverButton.setPosition(sf::Vector2f(950, 250));
-	recoverButton.setColour(sf::Color(0, 255, 0, 120));
-	recoverButton.setString("Recover", m_font, 40, sf::Color::White);
+	recoverButtonArena.setSize(sf::Vector2f(190, 60));
+	recoverButtonArena.setPosition(sf::Vector2f(950, 250));
+	recoverButtonArena.setColour(sf::Color(0, 255, 0, 120));
+	recoverButtonArena.setString("Recover", m_font, 40, sf::Color::White);
 
-	magicButton.setSize(sf::Vector2f(210, 60));
-	magicButton.setPosition(sf::Vector2f(1190, 250));
-	magicButton.setColour(sf::Color(0, 0, 255, 120));
-	magicButton.setString("Headshot", m_font, 40, sf::Color::White);
+	headshotButtonArena.setSize(sf::Vector2f(210, 60));
+	headshotButtonArena.setPosition(sf::Vector2f(1190, 250));
+	headshotButtonArena.setColour(sf::Color(0, 0, 255, 120));
+	headshotButtonArena.setString("Headshot", m_font, 40, sf::Color::White);
 
-	continueFightButton.setSize(sf::Vector2f(300, 100));
-	continueFightButton.setPosition(sf::Vector2f(810, 650));
-	continueFightButton.setColour(sf::Color(0, 0, 255, 120));
-	continueFightButton.setString("Continue", m_font, 50, sf::Color::Red);
+	continueFightButtonArena.setSize(sf::Vector2f(300, 100));
+	continueFightButtonArena.setPosition(sf::Vector2f(810, 650));
+	continueFightButtonArena.setColour(sf::Color(0, 0, 255, 120));
+	continueFightButtonArena.setString("Continue", m_font, 50, sf::Color::Red);
 
 	quitButtonArena.setSize(sf::Vector2f(130, 60));
 	quitButtonArena.setPosition(sf::Vector2f(1700, 1000));
 	quitButtonArena.setColour(sf::Color::Black);
 	quitButtonArena.setString("Quit", m_font, 50, sf::Color::White);
 
-	addGameObject(attackButton);
-	addGameObject(prepareButton);
-	addGameObject(recoverButton);
-	addGameObject(magicButton);
-	addGameObject(continueFightButton);
+	addGameObject(attackButtonArena);
+	addGameObject(prepareButtonArena);
+	addGameObject(recoverButtonArena);
+	addGameObject(headshotButtonArena);
+	addGameObject(continueFightButtonArena);
 	addGameObject(quitButtonArena);
 }
 
@@ -154,29 +155,30 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 			}
 
 			if (currentTurn == PLAYER) {
-				if (attackButton.onClick(mousePos) == true) {
+				if (attackButtonArena.onClick(mousePos) == true) {
 					updateActionText(ATTACK, "DOOMSLAYER", 100, 0, enemyName);
-					handleActions(0, ATTACK, 75, 100);
+					handleActions(0, ATTACK, 75, 100, 0);
 				}
 
-				if (prepareButton.onClick(mousePos) == true) {
+				if (prepareButtonArena.onClick(mousePos) == true) {
 					updateActionText(PREPARE, "DOOMSLAYER", 0, 0, enemyName);
-					handleActions(0, PREPARE, 0, 0);
 				}
 
-				if (recoverButton.onClick(mousePos) == true) {
+				if (recoverButtonArena.onClick(mousePos) == true) {
 					updateActionText(HEAL, "DOOMSLAYER", 0, 100, enemyName);
+					handleActions(0, HEAL, 0, 50, 100);
 				}
 
-				if (magicButton.onClick(mousePos) == true) {
+				if (headshotButtonArena.onClick(mousePos) == true) {
 					updateActionText(HEADSHOT, "DOOMSLAYER", 100, 0, enemyName);
-					handleActions(0, HEADSHOT, 75, 100);
+					handleActions(0, HEADSHOT, 75, 100, 0);
 				}
 			}
 
 			if (currentTurn == ENEMY) {
-				if (continueFightButton.onClick(mousePos) == true) {
-					enemyDoAction();
+				if (continueFightButtonArena.onClick(mousePos) == true) {
+					int action = generateRandomAction();
+					handleActions(1, action, 50, 50, 50);
 
 					if (player.isDead()) {
 						handler.stackScene("gameover");
@@ -188,9 +190,23 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 	}
 }
 
-void Arena::enemyDoAction() {
+int Arena::generateRandomAction()
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distr(ACTION_BUTTONS::ATTACK, ACTION_BUTTONS::HEADSHOT);
 
-	handleActions(1, ATTACK, 100, 25);
+	int value = distr(gen);
+
+	return value;
+}
+
+void Arena::enemyDoAction(int action) {
+
+	switch (action) {
+
+	}
+	handleActions(1, ATTACK, 100, 25, 0);
 	updateActionText(ATTACK, playerName, 100, 0, enemyName);
 	currentTurn = PLAYER;
 }
@@ -219,41 +235,50 @@ void Arena::updateSkills() {
 	player.characterHeadshotText.setString(std::to_string(player.m_headshot));
 }
 
-void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpent) {
+void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmount, int healAmount) {
 	switch (turn) {
 	case PLAYER:
 		switch (action) {
 		case ATTACK:
-			if (enemy.canTakeDamage(damageDealt, staminaSpent)) {
-				player.handleStamina(-staminaSpent);
+			if (player.checkStamina(staminaAmount)) {
+				enemy.receiveRegDamage(damageDealt);
+				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
 				currentTurn = ENEMY;
 			}
 			else {
-				//Trigger warning.
+				characterActionText.setString("Not enough Stamina! RECOVER to gain it!");
 			}
 			break;
+
 		case PREPARE:
 			player.prepareSelf();
+			player.handleStamina(staminaAmount);
 			turn = ENEMY;
 			currentTurn = ENEMY;
 			break;
+
 		case HEAL:
-			if (player.canHealSelf(staminaSpent)) {
+			if (player.checkStamina(staminaAmount)) {
+				player.canHealSelf(staminaAmount, healAmount);
+				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
 				currentTurn = ENEMY;
 			}
 			else {
-				//Trigger warning.
+				characterActionText.setString("Not enough Stamina! RECOVER to gain it!");
 			}
 			break;
+
 		case HEADSHOT:
-			if (enemy.canTakeHeadshot(staminaSpent)) {
+			if (player.checkStamina(staminaAmount)) {
+				enemy.receiveHeadshot(damageDealt);
+				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
 				currentTurn = ENEMY;
 			}
 			else {
-				//Trigger warning.
+				characterActionText.setString("Not enough Stamina! RECOVER to gain it!");
 			}
 			break;
 		}
@@ -261,16 +286,19 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaSpen
 	case ENEMY:
 		switch (action) {
 		case ATTACK:
-			player.canTakeDamage(damageDealt, staminaSpent);
+			player.receiveRegDamage(damageDealt);
+			enemy.handleStamina(-staminaAmount);
 			break;
+
 		case PREPARE:
 			enemy.prepareSelf();
 			break;
+
 		case HEAL:
-			enemy.canHealSelf(staminaSpent);
+			enemy.canHealSelf(staminaAmount, healAmount);
 			break;
 		case HEADSHOT:
-			player.canTakeHeadshot(staminaSpent);
+			player.receiveHeadshot(staminaAmount);
 			break;
 		}
 		break;

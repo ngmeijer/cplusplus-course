@@ -24,14 +24,15 @@ public:
 	//Input
 	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
 
-	void enemyDoAction();
+	int generateRandomAction();
+
+	void enemyDoAction(int action);
 
 	//Character import & UI update
 	void importCharacter();
 	void updateSkills();
-	void handleActions(int turn, int action, int damageDealt, int magicSpent);
+	void handleActions(int turn, int action, int damageDealt, int staminaSpent, int healAmount);
 	void updateActionText(int buttonClicked, std::string name, int damage, int health, std::string enemyName);
 
 	void adjustSkillScaling(int strength, int agility, int headshot);
 };
-

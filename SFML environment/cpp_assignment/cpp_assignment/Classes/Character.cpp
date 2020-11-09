@@ -109,21 +109,15 @@ void Character::importStats(int p_strength, int p_headshot, int p_intelligence)
 	this->m_heal = p_intelligence;
 }
 
-bool Character::canTakeDamage(int damageTaken, int staminaSpent) {
-	bool canTake = false;
-
+void Character::receiveRegDamage(int damageTaken) {
 	int healthLeft = this->characterHealth.getSize().x;
 
 	if (healthLeft - damageTaken > 0) {
-		canTake = true;
 		this->characterHealth.setSize(sf::Vector2f(healthLeft - damageTaken, 10));
 	}
 	else {
-		canTake = false;
 		this->characterHealth.setSize(sf::Vector2f(0, 10));
 	}
-
-	return canTake;
 }
 
 void Character::prepareSelf()
@@ -135,23 +129,34 @@ void Character::handleStamina(int amount) {
 	sf::Vector2f size = this->characterStamina.getSize();
 
 	if ((size.x + amount >= 0) && (size.x + amount <= staminaSize.x)) {
-		std::cout << "editing stamina bar" << std::endl;
 		this->characterStamina.setSize(sf::Vector2f(size.x + amount, staminaSize.y));
 	}
 
-	if (size.x > staminaSize.x) {
+	if (size.x + amount > staminaSize.x) {
 		this->characterStamina.setSize(staminaSize);
 	}
 }
 
-bool Character::canHealSelf(int staminaSpent)
+bool Character::checkStamina(int staminaSpent) {
+	sf::Vector2f size = this->characterStamina.getSize();
+
+	bool canSpend = false;
+	if (size.x + staminaSpent >= 0) {
+		canSpend = true;
+	}
+
+	return canSpend;
+}
+
+bool Character::canHealSelf(int staminaSpent, int healAmount)
 {
 	bool canHeal = false;
 	int staminaLeft = this->characterStamina.getSize().x;
+	int healthLeft = this->characterHealth.getSize().x;
 
 	if (staminaLeft - staminaSpent > 0) {
 		canHeal = true;
-		this->characterHealth.setSize(healthSize);
+		this->characterHealth.setSize(sf::Vector2f(healthLeft + healAmount, 10));
 	}
 	else {
 		canHeal = false;
@@ -160,11 +165,16 @@ bool Character::canHealSelf(int staminaSpent)
 	return canHeal;
 }
 
-bool Character::canTakeHeadshot(int staminaSpent)
+void Character::receiveHeadshot(int damageTaken)
 {
-	bool canTake = false;
+	int healthLeft = this->characterHealth.getSize().x;
 
-	return canTake;
+	if (healthLeft - damageTaken > 0) {
+		this->characterHealth.setSize(sf::Vector2f(healthLeft - damageTaken, 10));
+	}
+	else {
+		this->characterHealth.setSize(sf::Vector2f(0, 10));
+	}
 }
 
 bool Character::isDead() {

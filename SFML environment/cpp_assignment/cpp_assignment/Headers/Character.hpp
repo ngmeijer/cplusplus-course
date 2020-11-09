@@ -102,11 +102,12 @@ public:
 	void importStats(int p_strength, int p_headshot, int p_intelligence);
 
 	//Actions
-	bool canTakeDamage(int damageTaken, int staminaSpent);
+	void receiveRegDamage(int damageTaken);
 	void prepareSelf();
 	void handleStamina(int amount);
-	bool canHealSelf(int staminaSpent);
-	bool canTakeHeadshot(int staminaSpent);
+	bool checkStamina(int staminaSpent);
+	bool canHealSelf(int staminaSpent, int healAmount);
+	void receiveHeadshot(int damageTaken);
 	bool isDead();
 	std::string returnCharacterName();
 };

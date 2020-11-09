@@ -64,13 +64,7 @@ void Menu::handleHighScore() {
 	{
 		std::string line;
 		while (getline(highScores, line) && (highScoreVec.size() < 6)) {
-			if (line.empty()) {
-				highscoreText.setString("No highscores available.");
-				return;
-			}
-			else {
-				highScoreVec.push_back(std::stoi(line));
-			}
+			highScoreVec.push_back(std::stoi(line));
 		}
 
 		if (highScoreVec.size() > 0) {
@@ -78,6 +72,9 @@ void Menu::handleHighScore() {
 				std::string oldString = highscoreText.getString();
 				highscoreText.setString(oldString + "\n" + std::to_string(highScoreVec[i]));
 			}
+		}
+		else {
+			highscoreText.setString("No highscore available.");
 		}
 	}
 	else std::cout << "Unable to open file";
@@ -127,18 +124,18 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 			}
 
 			if (eraseButton.onClick(mousePos) == true) {
-				std::ofstream playerDataFile("PlayerData.txt", std::ostream::out | std::ofstream::trunc);
+				std::ofstream playerDataFile("PlayerData.txt");
 				if (playerDataFile.is_open()) {
-					playerDataFile << 3;
-					playerDataFile << 3;
-					playerDataFile << 3;
+					playerDataFile << 3 << std::endl;
+					playerDataFile << 3 << std::endl;
+					playerDataFile << 3 << std::endl;
 
 					playerDataFile << 9;
 				}
 
-				std::ofstream highscoreFile("HighscoreData.txt", std::ostream::out | std::ofstream::trunc);
+				std::ofstream highscoreFile("HighscoreData.txt");
 				if (highscoreFile.is_open()) {
-					highscoreFile << "No current highscores" << "\n";
+					highscoreFile << 0;
 					highscoreText.setString("No current highscores");
 				}
 			}
