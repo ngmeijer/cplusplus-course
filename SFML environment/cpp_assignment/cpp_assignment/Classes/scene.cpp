@@ -31,7 +31,7 @@ void Scene::removeGameObject(GameObject& object)
 {
 	for (int i = 0; i < listOfGameObjects.size(); i++) {
 		if (listOfGameObjects[i] == &object) {
-			
+
 		}
 	}
 }

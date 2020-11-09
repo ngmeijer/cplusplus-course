@@ -144,9 +144,8 @@ void CharScene::updateSkillPoints(int valueChange) {
 }
 
 void CharScene::writeCharacterToFile() {
-	std::ofstream characterFile("PlayerData.txt", std::ostream::out | std::ofstream::trunc);
+	std::ofstream characterFile("PlayerData.txt");
 	if (characterFile.is_open()) {
-		std::cout << "writing to file";
 		characterFile << m_currentPlayer.m_strength << "\n";
 		characterFile << m_currentPlayer.m_heal << "\n";
 		characterFile << m_currentPlayer.m_headshot << "\n";
@@ -161,7 +160,13 @@ void CharScene::importCharacter()
 	{
 		std::string line;
 		while (getline(characterDataSelect, line)) {
-			statsVecSelect.push_back(std::stoi(line));
+			if (line.empty()) {
+				return;
+			}
+			else {
+				std::cout << "value: " << line << std::endl;
+				statsVecSelect.push_back(std::stoi(line));
+			}
 		}
 
 		m_currentPlayer.m_strength = statsVecSelect[0];
@@ -169,6 +174,7 @@ void CharScene::importCharacter()
 		m_currentPlayer.m_headshot = statsVecSelect[2];
 
 		availableSkillPoints = statsVecSelect[3];
+
 	}
 	else std::cout << "Unable to open file";
 

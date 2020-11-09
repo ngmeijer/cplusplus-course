@@ -40,9 +40,9 @@ private:
 	};
 
 public:
-	int m_strength = 10;
-	int m_heal = 10;
-	int m_headshot = 10;
+	int m_strength = 3;
+	int m_heal = 3;
+	int m_headshot = 3;
 
 	STRENGTH_VALUES strengthValues;
 	HEAL_VALUES healValues;

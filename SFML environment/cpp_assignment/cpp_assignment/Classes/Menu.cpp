@@ -8,6 +8,7 @@
 //Header inclusion//
 #include "../Headers/Menu.hpp"
 #include "../Headers/Button.hpp"
+#include "../Headers/GameOver.hpp"
 
 using namespace std;
 
@@ -62,20 +63,21 @@ void Menu::handleHighScore() {
 	if (highScores.is_open())
 	{
 		std::string line;
-		while (getline(highScores, line)) {
-			highScoreVec.push_back(std::stoi(line));
+		while (getline(highScores, line) && (highScoreVec.size() < 6)) {
+			if (line.empty()) {
+				highscoreText.setString("No highscores available.");
+				return;
+			}
+			else {
+				highScoreVec.push_back(std::stoi(line));
+			}
 		}
 
-		if (line.empty()) {
-			highscoreText.setString("No highscores available");
-		}
-		else {
-			highscoreText.setString(
-				std::to_string(highScoreVec[0]) + "\n" +
-				std::to_string(highScoreVec[1]) + "\n" +
-				std::to_string(highScoreVec[2]) + "\n" +
-				std::to_string(highScoreVec[3]) + "\n" +
-				std::to_string(highScoreVec[4]));
+		if (highScoreVec.size() > 0) {
+			for (int i = 0; i < highScoreVec.size(); i++) {
+				std::string oldString = highscoreText.getString();
+				highscoreText.setString(oldString + "\n" + std::to_string(highScoreVec[i]));
+			}
 		}
 	}
 	else std::cout << "Unable to open file";
@@ -125,17 +127,20 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 			}
 
 			if (eraseButton.onClick(mousePos) == true) {
-				characterFileMenu.open("PlayerData.txt", std::ofstream::out | std::ofstream::trunc);
+				std::ofstream playerDataFile("PlayerData.txt", std::ostream::out | std::ofstream::trunc);
+				if (playerDataFile.is_open()) {
+					playerDataFile << 3;
+					playerDataFile << 3;
+					playerDataFile << 3;
 
-				characterFileMenu.close();
+					playerDataFile << 9;
+				}
 
 				std::ofstream highscoreFile("HighscoreData.txt", std::ostream::out | std::ofstream::trunc);
 				if (highscoreFile.is_open()) {
-					std::cout << "writing to file";
 					highscoreFile << "No current highscores" << "\n";
+					highscoreText.setString("No current highscores");
 				}
-
-				handleHighScore();
 			}
 		}
 	}

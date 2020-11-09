@@ -28,21 +28,25 @@ GameOver::GameOver(std::string identifier, sf::RenderWindow& windowRef, sf::Font
 	handleButtons();
 	handleText();
 
-	if (HighScoreData.is_open())
+	/*if (HighScoreData.is_open())
 	{
 		std::string line;
-		while (getline(HighScoreData, line)) {
-			highScores.push_back(std::stoi(line));
+		while (getline(HighScoreData, line) && (highScores.size() < 6)) {
+			if (!line.empty()) {
+				highScores.push_back(std::stoi(line));
+			}
+			else {
+				highScoresElements.setString("No highscores available.");
+				return;
+			}
 		}
 
-		highScoresElements.setString(
-			std::to_string(highScores[0]) + "\n" +
-			std::to_string(highScores[1]) + "\n" +
-			std::to_string(highScores[2]) + "\n" +
-			std::to_string(highScores[3]) + "\n" +
-			std::to_string(highScores[4]));
+		for (int i = 0; i < highScores.size(); i++) {
+			std::string oldString = highScoresElements.getString();
+			highScoresElements.setString(oldString + "\n" + std::to_string(highScores[i]));
+		}
 	}
-	else std::cout << "Unable to open file";
+	else std::cout << "Unable to open file";*/
 }
 
 GameOver::~GameOver() {  }

@@ -57,10 +57,6 @@ void readWritePlayerData() {
 	charStats.agility = statsVec[1];
 	charStats.intelligence = statsVec[2];
 	charStats.availablePoints = statsVec[3];
-
-	for (int i = 0; i < statsVec.size(); i++) {
-		std::cout << "current: " << statsVec[i] << std::endl;
-	}
 }
 
 void handleScenes() {
