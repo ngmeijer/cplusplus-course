@@ -125,7 +125,6 @@ void Character::handleStamina(int amount) {
 
 	if ((size.x + amount >= 0) && (size.x + amount <= staminaSize.x)) {
 		this->characterStamina.setSize(sf::Vector2f(size.x + amount, staminaSize.y));
-		std::cout << "		current stamina: " << size.x << "\n		new stamina: " << size.x + amount << std::endl;
 	}
 
 	if (size.x + amount > staminaSize.x) {
@@ -138,7 +137,10 @@ bool Character::checkStamina(int staminaSpent) {
 	sf::Vector2f size = this->characterStamina.getSize();
 
 	bool canSpend = false;
-	if (size.x + staminaSpent >= 0) {
+	if (size.x + staminaSpent < 0) {
+		canSpend = false;
+	}
+	else {
 		canSpend = true;
 	}
 
@@ -202,6 +204,16 @@ void Character::findNextDemon()
 {
 	this->m_spriteName = "Assets/Cacodemon.png";
 	this->m_characterName = "Cacodemon";
+	this->characterName.setString(m_characterName);
+	this->characterName.setPosition(sf::Vector2f(characterNamePos.x - 75, characterNamePos.y));
 	this->characterSprite.setSprite(m_spriteName);
 	this->characterSprite.setPosition(sf::Vector2f(characterSpritePos.x, characterSpritePos.y - 300));
+
+	this->characterHealth.setSize(healthSize);
+	this->characterStamina.setSize(staminaSize);
+}
+
+void Character::resetCharacterStats() {
+	this->characterHealth.setSize(healthSize);
+	this->characterStamina.setSize(staminaSize);
 }

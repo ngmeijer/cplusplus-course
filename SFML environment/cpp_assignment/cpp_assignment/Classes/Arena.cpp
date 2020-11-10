@@ -26,6 +26,8 @@ Player player;
 Enemy enemy;
 
 int currentTurn;
+int enemiesDefeated;
+int turnsUsed;
 
 enum CHARACTERS {
 	PLAYER,
@@ -157,11 +159,12 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 
 			if (currentTurn == PLAYER) {
 				if (attackButtonArena.onClick(mousePos) == true) {
-					updateActionText(currentTurn, ATTACK, 100, 0, enemyName);
-					handleActions(0, ATTACK, 75, 100, 0);
+					updateActionText(currentTurn, ATTACK, 75, 0, enemyName);
+					handleActions(0, ATTACK, 75, 75, 0);
 				}
 
 				if (prepareButtonArena.onClick(mousePos) == true) {
+					std::cout << enemyName << std::endl;
 					updateActionText(currentTurn, PREPARE, 0, 0, enemyName);
 					handleActions(0, PREPARE, 0, 150, 0);
 				}
@@ -172,12 +175,16 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 				}
 
 				if (headshotButtonArena.onClick(mousePos) == true) {
-					updateActionText(currentTurn, HEADSHOT, 100, 0, enemyName);
-					handleActions(0, HEADSHOT, 75, 100, 0);
+					updateActionText(currentTurn, HEADSHOT, 150, 0, enemyName);
+					handleActions(0, HEADSHOT, 150, 150, 0);
 				}
 
 				if (enemy.isDead()) {
+					enemiesDefeated++;
+					showBattleWonScreen(handler, counter);
 					enemy.findNextDemon();
+					player.resetCharacterStats();
+					enemyName = enemy.returnCharacterName();
 				}
 			}
 
@@ -196,11 +203,21 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 	}
 }
 
+void Arena::showBattleWonScreen(SceneHandler& handler, int& counter) {
+	characterActionText.setString(enemyName + " has been defeated!");
+
+	if (enemiesDefeated >= 2) {
+		handler.stackScene("gameover");
+		counter++;
+	}
+}
+
+
 int Arena::generateRandomAction()
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> distr(ACTION_BUTTONS::ATTACK, ACTION_BUTTONS::HEADSHOT);
+	std::uniform_int_distribution<> distr(ACTION_BUTTONS::ATTACK, ACTION_BUTTONS::DO_NOTHING);
 
 	int value = distr(gen);
 
@@ -232,12 +249,12 @@ void Arena::updateSkills() {
 }
 
 void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmount, int healAmount) {
-	std::cout << "Turn: " << turn << "\n	Action: " << action << std::endl;
 	switch (turn) {
 	case PLAYER:
+		turnsUsed++;
 		switch (action) {
 		case ATTACK:
-			if (player.checkStamina(staminaAmount)) {
+			if (player.checkStamina(-staminaAmount)) {
 				enemy.receiveRegDamage(damageDealt);
 				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
@@ -250,13 +267,12 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 
 		case PREPARE:
 			player.handleStamina(staminaAmount);
-			std::cout << "stamina amount: " << staminaAmount << std::endl;
 			turn = ENEMY;
 			currentTurn = ENEMY;
 			break;
 
 		case HEAL:
-			if (player.checkStamina(staminaAmount)) {
+			if (player.checkStamina(-staminaAmount)) {
 				player.canHealSelf(staminaAmount, healAmount);
 				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
@@ -268,7 +284,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 			break;
 
 		case HEADSHOT:
-			if (player.checkStamina(staminaAmount)) {
+			if (player.checkStamina(-staminaAmount)) {
 				enemy.receiveHeadshot(damageDealt);
 				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
@@ -332,6 +348,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 }
 
 void Arena::updateActionText(int turn, int buttonClicked, int damageDone, int healthGained, std::string enemyName) {
+	std::cout << "enemy's name: " << enemyName << std::endl;
 	switch (turn) {
 	case PLAYER:
 		turnText.setString(enemyName + "'s turn!");
@@ -366,7 +383,7 @@ void Arena::updateActionText(int turn, int buttonClicked, int damageDone, int he
 			characterActionText.setString((enemyName + " has dealt " + std::to_string(damageDone) + " headshot damage!"));
 			break;
 		case DO_NOTHING:
-			characterActionText.setString(enemyName + "has... done nothing?! \n Perhaps he wants peace.");
+			characterActionText.setString(enemyName + " has... done nothing?! \nPerhaps he wants peace.....");
 		}
 		break;
 	}

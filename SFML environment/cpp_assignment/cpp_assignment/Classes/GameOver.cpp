@@ -14,6 +14,7 @@ SpriteObject backgroundGO("background", "Assets/GameOverBackground.jpg");
 sf::Text gameOverText;
 sf::Text highScoreText;
 sf::Text highScoresElements;
+sf::Text scoreDescription;
 
 std::ifstream HighScoreData("HighscoreData.txt");
 std::vector<int> highScores;
@@ -28,7 +29,7 @@ GameOver::GameOver(std::string identifier, sf::RenderWindow& windowRef, sf::Font
 	handleButtons();
 	handleText();
 
-	/*if (HighScoreData.is_open())
+	if (HighScoreData.is_open())
 	{
 		std::string line;
 		while (getline(HighScoreData, line) && (highScores.size() < 6)) {
@@ -46,7 +47,7 @@ GameOver::GameOver(std::string identifier, sf::RenderWindow& windowRef, sf::Font
 			highScoresElements.setString(oldString + "\n" + std::to_string(highScores[i]));
 		}
 	}
-	else std::cout << "Unable to open file";*/
+	else std::cout << "Unable to open file";
 }
 
 GameOver::~GameOver() {  }
@@ -69,6 +70,13 @@ void GameOver::handleText() {
 	highScoresElements.setPosition(sf::Vector2f(50, 500));
 	highScoresElements.setFillColor(sf::Color::Black);
 
+	scoreDescription.setString("Lower is better");
+	scoreDescription.setFont(m_font);
+	scoreDescription.setCharacterSize(50);
+	scoreDescription.setPosition(sf::Vector2f(50, 500));
+	scoreDescription.setFillColor(sf::Color::Black);
+
+	addTextObject(scoreDescription);
 	addTextObject(gameOverText);
 	addTextObject(highScoreText);
 	addTextObject(highScoresElements);

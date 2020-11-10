@@ -110,4 +110,5 @@ public:
 	bool isDead();
 	std::string returnCharacterName();
 	void findNextDemon();
+	void resetCharacterStats();
 };
