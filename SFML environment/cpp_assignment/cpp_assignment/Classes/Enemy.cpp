@@ -13,9 +13,7 @@ Enemy::Enemy() { }
 
 Enemy::Enemy(std::string identifier) : Character(identifier) { }
 
-Enemy::Enemy(Scene& scene, sf::Font& font) {
-	/*m_font = font;*/
-}
+Enemy::Enemy(Scene& scene, sf::Font& font) { }
 
 Enemy::~Enemy() { }
 

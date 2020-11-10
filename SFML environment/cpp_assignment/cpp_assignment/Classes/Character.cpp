@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <random>
 #include "../Headers/Character.hpp"
 #include "../Headers/scene.hpp"
 #include "../Headers/gameObject.hpp"
@@ -101,6 +102,22 @@ void Character::handleCharacterSprites(Scene& scene) {
 void Character::render(sf::RenderWindow& window) { }
 
 void Character::update() { }
+
+void Character::generateCharacter() {
+	m_strength = generateCharacterSkill(3, 10);
+	m_heal = generateCharacterSkill(3, 10);
+	m_headshot = generateCharacterSkill(3, 10);
+}
+
+int Character::generateCharacterSkill(int min, int max) {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> distr(min, max);
+
+	int value = distr(gen);
+
+	return value;
+}
 
 void Character::importStats(int p_strength, int p_headshot, int p_intelligence)
 {

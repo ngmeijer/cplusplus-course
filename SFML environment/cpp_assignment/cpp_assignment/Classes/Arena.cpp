@@ -42,14 +42,9 @@ enum ACTION_BUTTONS {
 	DO_NOTHING,
 };
 
-struct ACTION_VALUES {
-	int attackDamage = 50;
-	int healAmount = 50;
-	int headshotDamage = 200;
-};
-
 ACTION_BUTTONS selectionAction;
-ACTION_VALUES actionValues;
+Arena::ACTION_VALUES actionValuesPlayer;
+Arena::ACTION_VALUES actionValuesEnemy;
 CHARACTERS characters;
 
 std::ifstream characterDataArena("PlayerData.txt");
@@ -66,20 +61,22 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 
 	//
 	player.initializeVariablesPlayer();
-	player.handleCharacter(*this);
 	enemy.initializeVariablesEnemy();
+	enemy.generateCharacter();
+	adjustSkillScaling(actionValuesEnemy, enemy, enemy.m_strength, enemy.m_heal, enemy.m_headshot);
 	enemy.handleCharacter(*this);
+	adjustSkillScaling(actionValuesPlayer, player, player.m_strength, player.m_heal, player.m_headshot);
+	player.handleCharacter(*this);
 
 	importCharacter();
-
 	//
+
 	handleBackground();
-	adjustSkillScaling(player.m_strength, player.m_heal, player.m_headshot);
 	handleTextbox();
 	handleButtons();
-
 	enemyName = enemy.returnCharacterName();
 	playerName = player.returnCharacterName();
+
 }
 
 Arena::~Arena() { }
@@ -212,7 +209,6 @@ void Arena::showBattleWonScreen(SceneHandler& handler, int& counter) {
 	}
 }
 
-
 int Arena::generateRandomAction()
 {
 	std::random_device rd;
@@ -236,9 +232,11 @@ void Arena::importCharacter()
 		player.m_strength = statsVecArena[0];
 		player.m_heal = statsVecArena[1];
 		player.m_headshot = statsVecArena[2];
+		std::cout << "reimporting character" << std::endl;
 	}
-	else std::cout << "Unable to open file";
+	else std::cout << "Unable to open file" << std::endl;
 
+	characterDataArena.close();
 	updateSkills();
 }
 
@@ -255,7 +253,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 		switch (action) {
 		case ATTACK:
 			if (player.checkStamina(-staminaAmount)) {
-				enemy.receiveRegDamage(damageDealt);
+				enemy.receiveRegDamage(actionValuesPlayer.attackDamage);
 				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
 				currentTurn = ENEMY;
@@ -273,7 +271,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 
 		case HEAL:
 			if (player.checkStamina(-staminaAmount)) {
-				player.canHealSelf(staminaAmount, healAmount);
+				player.canHealSelf(staminaAmount, actionValuesPlayer.healAmount);
 				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
 				currentTurn = ENEMY;
@@ -285,7 +283,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 
 		case HEADSHOT:
 			if (player.checkStamina(-staminaAmount)) {
-				enemy.receiveHeadshot(damageDealt);
+				enemy.receiveHeadshot(actionValuesPlayer.headshotDamage);
 				player.handleStamina(-staminaAmount);
 				turn = ENEMY;
 				currentTurn = ENEMY;
@@ -300,7 +298,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 		switch (action) {
 		case ATTACK:
 			if (enemy.checkStamina(staminaAmount)) {
-				player.receiveRegDamage(damageDealt);
+				player.receiveRegDamage(actionValuesEnemy.attackDamage);
 				enemy.handleStamina(-staminaAmount);
 			}
 			else {
@@ -318,7 +316,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 
 		case HEAL:
 			if (enemy.checkStamina(staminaAmount)) {
-				enemy.canHealSelf(staminaAmount, healAmount);
+				enemy.canHealSelf(staminaAmount, actionValuesEnemy.healAmount);
 			}
 			else {
 				enemy.handleStamina(staminaAmount);
@@ -329,7 +327,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 
 		case HEADSHOT:
 			if (enemy.checkStamina(staminaAmount)) {
-				player.receiveHeadshot(staminaAmount);
+				player.receiveHeadshot(actionValuesEnemy.headshotDamage);
 			}
 			else {
 				enemy.handleStamina(staminaAmount);
@@ -389,85 +387,85 @@ void Arena::updateActionText(int turn, int buttonClicked, int damageDone, int he
 	}
 }
 
-void Arena::adjustSkillScaling(int strength, int heal, int headshot) {
+void Arena::adjustSkillScaling(ACTION_VALUES values, Character& character, int strength, int heal, int headshot) {
 	switch (strength) {
 	case 3:
-		actionValues.attackDamage = player.strengthValues.strength3;
+		values.attackDamage = character.strengthValues.strength3;
 		break;
 	case 4:
-		actionValues.attackDamage = player.strengthValues.strength4;
+		values.attackDamage = character.strengthValues.strength4;
 		break;
 	case 5:
-		actionValues.attackDamage = player.strengthValues.strength5;
+		values.attackDamage = character.strengthValues.strength5;
 		break;
 	case 6:
-		actionValues.attackDamage = player.strengthValues.strength6;
+		values.attackDamage = character.strengthValues.strength6;
 		break;
 	case 7:
-		actionValues.attackDamage = player.strengthValues.strength7;
+		values.attackDamage = character.strengthValues.strength7;
 		break;
 	case 8:
-		actionValues.attackDamage = player.strengthValues.strength8;
+		values.attackDamage = character.strengthValues.strength8;
 		break;
 	case 9:
-		actionValues.attackDamage = player.strengthValues.strength9;
+		values.attackDamage = character.strengthValues.strength9;
 		break;
 	case 10:
-		actionValues.attackDamage = player.strengthValues.strength10;
+		values.attackDamage = character.strengthValues.strength10;
 		break;
 	}
 
 	switch (heal) {
 	case 3:
-		actionValues.healAmount = player.healValues.heal3;
+		values.healAmount = character.healValues.heal3;
 		break;
 	case 4:
-		actionValues.healAmount = player.healValues.heal4;
+		values.healAmount = character.healValues.heal4;
 		break;
 	case 5:
-		actionValues.healAmount = player.healValues.heal5;
+		values.healAmount = character.healValues.heal5;
 		break;
 	case 6:
-		actionValues.healAmount = player.healValues.heal6;
+		values.healAmount = character.healValues.heal6;
 		break;
 	case 7:
-		actionValues.healAmount = player.healValues.heal7;
+		values.healAmount = character.healValues.heal7;
 		break;
 	case 8:
-		actionValues.healAmount = player.healValues.heal8;
+		values.healAmount = character.healValues.heal8;
 		break;
 	case 9:
-		actionValues.healAmount = player.healValues.heal9;
+		values.healAmount = character.healValues.heal9;
 		break;
 	case 10:
-		actionValues.healAmount = player.healValues.heal10;
+		values.healAmount = character.healValues.heal10;
 		break;
 	}
 
 	switch (headshot) {
 	case 3:
-		actionValues.headshotDamage = player.headshotValues.headshot3;
+		values.headshotDamage = character.headshotValues.headshot3;
 		break;
 	case 4:
-		actionValues.headshotDamage = player.headshotValues.headshot4;
+		values.headshotDamage = character.headshotValues.headshot4;
 		break;
 	case 5:
-		actionValues.headshotDamage = player.headshotValues.headshot5;
+		values.headshotDamage = character.headshotValues.headshot5;
 		break;
 	case 6:
-		actionValues.headshotDamage = player.headshotValues.headshot6;
+		values.headshotDamage = character.headshotValues.headshot6;
 		break;
 	case 7:
-		actionValues.headshotDamage = player.headshotValues.headshot7;
+		values.headshotDamage = character.headshotValues.headshot7;
 		break;
 	case 8:
-		actionValues.headshotDamage = player.headshotValues.headshot8;
+		values.headshotDamage = character.headshotValues.headshot8;
 		break;
 	case 9:
-		actionValues.headshotDamage = player.headshotValues.headshot9;
+		values.headshotDamage = character.headshotValues.headshot9;
 		break;
 	case 10:
-		actionValues.headshotDamage = player.headshotValues.headshot10;
+		values.headshotDamage = character.headshotValues.headshot10;
 		break;
 	}
 }

@@ -73,9 +73,6 @@ void Menu::handleHighScore() {
 				highscoreText.setString(oldString + "\n" + std::to_string(highScoreVec[i]));
 			}
 		}
-		else {
-			highscoreText.setString("No highscore available.");
-		}
 	}
 	else std::cout << "Unable to open file";
 

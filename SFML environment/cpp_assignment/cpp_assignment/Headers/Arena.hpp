@@ -5,9 +5,17 @@
 #include "../Headers/gameObject.hpp"
 #include "../Headers/spriteObject.hpp"
 #include "../Headers/sceneHandler.hpp"
+#include "../Headers/Character.hpp"
 
 class Arena : public Scene
 {
+public:
+	struct ACTION_VALUES {
+		int attackDamage = 100;
+		int healAmount = 50;
+		int headshotDamage = 200;
+	};
+
 private:
 	sf::Font m_font;
 
@@ -34,5 +42,5 @@ public:
 	void handleActions(int turn, int action, int damageDealt, int staminaSpent, int healAmount);
 	void updateActionText(int turn, int buttonClicked, int damage, int health, std::string enemyName);
 
-	void adjustSkillScaling(int strength, int agility, int headshot);
+	void adjustSkillScaling(ACTION_VALUES values, Character& character, int strength, int heal, int headshot);
 };

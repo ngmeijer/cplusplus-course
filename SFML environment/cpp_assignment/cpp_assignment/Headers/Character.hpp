@@ -6,36 +6,36 @@ class Character : public GameObject
 {
 private:
 	struct STRENGTH_VALUES {
-		int strength3 = 3;
-		int strength4 = 4;
-		int strength5 = 5;
-		int strength6 = 6;
-		int strength7 = 7;
-		int strength8 = 8;
-		int strength9 = 9;
-		int strength10 = 10;
+		int strength3 = 25;
+		int strength4 = 35;
+		int strength5 = 50;
+		int strength6 = 65;
+		int strength7 = 75;
+		int strength8 = 85;
+		int strength9 = 100;
+		int strength10 = 115;
 	};
 
 	struct HEAL_VALUES {
-		int heal3 = 3;
-		int heal4 = 4;
-		int heal5 = 5;
-		int heal6 = 6;
-		int heal7 = 7;
-		int heal8 = 8;
-		int heal9 = 9;
-		int heal10 = 10;
+		int heal3 = 35;
+		int heal4 = 50;
+		int heal5 = 75;
+		int heal6 = 100;
+		int heal7 = 125;
+		int heal8 = 150;
+		int heal9 = 175;
+		int heal10 = 200;
 	};
 
 	struct HEADSHOT_VALUES {
-		int headshot3 = 3;
-		int headshot4 = 4;
-		int headshot5 = 5;
-		int headshot6 = 6;
-		int headshot7 = 7;
-		int headshot8 = 8;
-		int headshot9 = 9;
-		int headshot10 = 10;
+		int headshot3 = 35;
+		int headshot4 = 45;
+		int headshot5 = 60;
+		int headshot6 = 85;
+		int headshot7 = 125;
+		int headshot8 = 150;
+		int headshot9 = 175;
+		int headshot10 = 200;
 	};
 
 public:
@@ -95,6 +95,8 @@ public:
 	virtual void render(sf::RenderWindow& window);
 	virtual void update();
 
+
+
 	//Initiliazation
 	void handleCharacter(Scene& scene);
 	void handleCharacterText(Scene& scene);
@@ -102,6 +104,8 @@ public:
 	void importStats(int p_strength, int p_headshot, int p_intelligence);
 
 	//Actions
+	int generateCharacterSkill(int min, int max);
+	void generateCharacter();
 	void receiveRegDamage(int damageTaken);
 	void handleStamina(int amount);
 	bool checkStamina(int staminaSpent);

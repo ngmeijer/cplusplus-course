@@ -17,7 +17,7 @@ std::ifstream characterData("PlayerData.txt");
 sf::Music backgroundMusic;
 
 Font font;
-
+bool hasImportedPlayer = false;
 int counter = 0;
 int* counterPtr = &counter;
 
@@ -59,10 +59,6 @@ void readWritePlayerData() {
 	charStats.availablePoints = statsVec[3];
 }
 
-void handleScenes() {
-
-}
-
 void handleAudio() {
 	if (!backgroundMusic.openFromFile("Assets/BackgroundMusic.wav")) {
 		std::cout << "Could not find the background track." << std::endl;
@@ -98,6 +94,7 @@ int main() {
 
 	while (window.isOpen()) {
 		{
+
 			sf::Event event;
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::Closed) {
@@ -116,6 +113,10 @@ int main() {
 					characterGen.checkInput(event, mousePosition, handler, counter);
 					break;
 				case 2:
+					if (!hasImportedPlayer) {
+						arena.importCharacter();
+						hasImportedPlayer = true;
+					}
 					arena.checkInput(event, window, mousePosition, handler, counter);
 					break;
 				case 3:
