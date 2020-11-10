@@ -37,6 +37,7 @@ enum ACTION_BUTTONS {
 	PREPARE,
 	HEAL,
 	HEADSHOT,
+	DO_NOTHING,
 };
 
 struct ACTION_VALUES {
@@ -95,7 +96,7 @@ void Arena::handleTextbox() {
 
 	turnText.setFont(m_font);
 	turnText.setString(turnString);
-	turnText.setPosition(sf::Vector2f(525, 100));
+	turnText.setPosition(sf::Vector2f(525, 130));
 	turnText.setCharacterSize(40);
 
 	addTextObject(characterActionText);
@@ -156,22 +157,22 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 
 			if (currentTurn == PLAYER) {
 				if (attackButtonArena.onClick(mousePos) == true) {
-					updateActionText(ATTACK, "DOOMSLAYER", 100, 0, enemyName);
+					updateActionText(currentTurn, ATTACK, 100, 0, enemyName);
 					handleActions(0, ATTACK, 75, 100, 0);
 				}
 
 				if (prepareButtonArena.onClick(mousePos) == true) {
-					updateActionText(PREPARE, "DOOMSLAYER", 0, 0, enemyName);
-					handleActions(0, PREPARE, 0, 0, 0);
+					updateActionText(currentTurn, PREPARE, 0, 0, enemyName);
+					handleActions(0, PREPARE, 0, 150, 0);
 				}
 
 				if (recoverButtonArena.onClick(mousePos) == true) {
-					updateActionText(HEAL, "DOOMSLAYER", 0, 100, enemyName);
+					updateActionText(currentTurn, HEAL, 0, 100, enemyName);
 					handleActions(0, HEAL, 0, 50, 100);
 				}
 
 				if (headshotButtonArena.onClick(mousePos) == true) {
-					updateActionText(HEADSHOT, "DOOMSLAYER", 100, 0, enemyName);
+					updateActionText(currentTurn, HEADSHOT, 100, 0, enemyName);
 					handleActions(0, HEADSHOT, 75, 100, 0);
 				}
 
@@ -183,8 +184,8 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 			if (currentTurn == ENEMY) {
 				if (continueFightButtonArena.onClick(mousePos) == true) {
 					int action = generateRandomAction();
+					updateActionText(currentTurn, action, 100, 50, enemyName);
 					handleActions(1, action, 50, 50, 50);
-
 					if (player.isDead()) {
 						handler.stackScene("gameover");
 						counter++;
@@ -243,13 +244,13 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 				currentTurn = ENEMY;
 			}
 			else {
-				characterActionText.setString("Not enough Stamina! RECOVER to gain it!");
+				characterActionText.setString("Not enough Stamina! PREPARE to gain it!");
 			}
 			break;
 
 		case PREPARE:
-			player.prepareSelf();
 			player.handleStamina(staminaAmount);
+			std::cout << "stamina amount: " << staminaAmount << std::endl;
 			turn = ENEMY;
 			currentTurn = ENEMY;
 			break;
@@ -262,7 +263,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 				currentTurn = ENEMY;
 			}
 			else {
-				characterActionText.setString("Not enough Stamina! RECOVER to gain it!");
+				characterActionText.setString("Not enough Stamina! PREPARE to gain it!");
 			}
 			break;
 
@@ -274,7 +275,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 				currentTurn = ENEMY;
 			}
 			else {
-				characterActionText.setString("Not enough Stamina! RECOVER to gain it!");
+				characterActionText.setString("Not enough Stamina! PREPARE to gain it!");
 			}
 			break;
 		}
@@ -285,18 +286,16 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 			if (enemy.checkStamina(staminaAmount)) {
 				player.receiveRegDamage(damageDealt);
 				enemy.handleStamina(-staminaAmount);
-				turn = PLAYER;
-				currentTurn = PLAYER;
 			}
 			else {
-				enemy.prepareSelf();
-				turn = PLAYER;
-				currentTurn = PLAYER;
+				enemy.handleStamina(staminaAmount);
 			}
+			turn = PLAYER;
+			currentTurn = PLAYER;
 			break;
 
 		case PREPARE:
-			enemy.prepareSelf();
+			enemy.handleStamina(staminaAmount);
 			turn = PLAYER;
 			currentTurn = PLAYER;
 			break;
@@ -304,46 +303,71 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 		case HEAL:
 			if (enemy.checkStamina(staminaAmount)) {
 				enemy.canHealSelf(staminaAmount, healAmount);
-				turn = PLAYER;
-				currentTurn = PLAYER;
 			}
 			else {
-				enemy.prepareSelf();
-				turn = PLAYER;
-				currentTurn = PLAYER;
+				enemy.handleStamina(staminaAmount);
 			}
+			turn = PLAYER;
+			currentTurn = PLAYER;
 			break;
+
 		case HEADSHOT:
 			if (enemy.checkStamina(staminaAmount)) {
 				player.receiveHeadshot(staminaAmount);
-				turn = PLAYER;
-				currentTurn = PLAYER;
 			}
 			else {
-				enemy.prepareSelf();
-				turn = PLAYER;
-				currentTurn = PLAYER;
+				enemy.handleStamina(staminaAmount);
 			}
+			turn = PLAYER;
+			currentTurn = PLAYER;
+			break;
+
+		case DO_NOTHING:
+			turn = PLAYER;
+			currentTurn = PLAYER;
 			break;
 		}
 		break;
 	}
 }
 
-void Arena::updateActionText(int buttonClicked, std::string characterName, int damageDone, int healthGained, std::string enemyName) {
-	turnText.setString(enemyName + "'s turn!");
-	switch (buttonClicked) {
-	case ATTACK:
-		characterActionText.setString((characterName + " has attacked for: " + std::to_string(damageDone) + " damage!"));
+void Arena::updateActionText(int turn, int buttonClicked, int damageDone, int healthGained, std::string enemyName) {
+	switch (turn) {
+	case PLAYER:
+		turnText.setString(enemyName + "'s turn!");
+		switch (buttonClicked) {
+		case ATTACK:
+			characterActionText.setString(("DOOMSLAYER has attacked for: " + std::to_string(damageDone) + " damage!"));
+			break;
+		case PREPARE:
+			characterActionText.setString(("DOOMSLAYER has regained stamina!"));
+			break;
+		case HEAL:
+			characterActionText.setString(("DOOMSLAYER has healed for: " + std::to_string(healthGained) + " HP!"));
+			break;
+		case HEADSHOT:
+			characterActionText.setString(("DOOMSLAYER has dealt " + std::to_string(damageDone) + " headshot damage!"));
+			break;
+		}
 		break;
-	case PREPARE:
-		characterActionText.setString((characterName + " has prepared for a powerful next attack!"));
-		break;
-	case HEAL:
-		characterActionText.setString((characterName + " has healed for: " + std::to_string(healthGained) + " HP!"));
-		break;
-	case HEADSHOT:
-		characterActionText.setString((characterName + " has dealt " + std::to_string(damageDone) + " headshot damage!"));
+	case ENEMY:
+		turnText.setString("DOOMSLAYERS turn!");
+		switch (buttonClicked) {
+		case ATTACK:
+			characterActionText.setString((enemyName + " has attacked for: " + std::to_string(damageDone) + " damage!"));
+			break;
+		case PREPARE:
+			characterActionText.setString((enemyName + " has regained stamina!"));
+			break;
+		case HEAL:
+			characterActionText.setString((enemyName + " has healed for: " + std::to_string(healthGained) + " HP!"));
+			break;
+		case HEADSHOT:
+			characterActionText.setString((enemyName + " has dealt " + std::to_string(damageDone) + " headshot damage!"));
+			break;
+		case DO_NOTHING:
+			characterActionText.setString(enemyName + "has... done nothing?! \n Perhaps he wants peace.");
+		}
 		break;
 	}
 }

@@ -120,21 +120,18 @@ void Character::receiveRegDamage(int damageTaken) {
 	}
 }
 
-void Character::prepareSelf()
-{
-	handleStamina(staminaSize.x);
-}
-
 void Character::handleStamina(int amount) {
 	sf::Vector2f size = this->characterStamina.getSize();
 
 	if ((size.x + amount >= 0) && (size.x + amount <= staminaSize.x)) {
 		this->characterStamina.setSize(sf::Vector2f(size.x + amount, staminaSize.y));
+		std::cout << "		current stamina: " << size.x << "\n		new stamina: " << size.x + amount << std::endl;
 	}
 
 	if (size.x + amount > staminaSize.x) {
 		this->characterStamina.setSize(staminaSize);
 	}
+
 }
 
 bool Character::checkStamina(int staminaSpent) {
@@ -154,9 +151,13 @@ bool Character::canHealSelf(int staminaSpent, int healAmount)
 	int staminaLeft = this->characterStamina.getSize().x;
 	int healthLeft = this->characterHealth.getSize().x;
 
-	if (staminaLeft - staminaSpent > 0) {
+	if ((staminaLeft - staminaSpent > 0) && (healthLeft + healAmount <= healthSize.x)) {
 		canHeal = true;
 		this->characterHealth.setSize(sf::Vector2f(healthLeft + healAmount, 10));
+	}
+	else if ((staminaLeft - staminaSpent > 0) && (healthLeft + healAmount > healthSize.x)) {
+		canHeal = true;
+		this->characterHealth.setSize(sf::Vector2f(healthSize.x, 10));
 	}
 	else {
 		canHeal = false;

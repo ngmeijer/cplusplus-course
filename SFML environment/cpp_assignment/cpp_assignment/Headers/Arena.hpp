@@ -30,7 +30,7 @@ public:
 	void importCharacter();
 	void updateSkills();
 	void handleActions(int turn, int action, int damageDealt, int staminaSpent, int healAmount);
-	void updateActionText(int buttonClicked, std::string name, int damage, int health, std::string enemyName);
+	void updateActionText(int turn, int buttonClicked, int damage, int health, std::string enemyName);
 
 	void adjustSkillScaling(int strength, int agility, int headshot);
 };

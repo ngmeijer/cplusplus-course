@@ -103,7 +103,6 @@ public:
 
 	//Actions
 	void receiveRegDamage(int damageTaken);
-	void prepareSelf();
 	void handleStamina(int amount);
 	bool checkStamina(int staminaSpent);
 	bool canHealSelf(int staminaSpent, int healAmount);
