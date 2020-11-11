@@ -28,6 +28,7 @@ Enemy enemy;
 int currentTurn;
 int enemiesDefeated;
 int turnsUsed;
+bool hasWonGame;
 
 enum CHARACTERS {
 	PLAYER,
@@ -160,7 +161,6 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 				}
 
 				if (prepareButtonArena.onClick(mousePos) == true) {
-					std::cout << enemyName << std::endl;
 					updateActionText(currentTurn, PREPARE, 0, 0, enemyName);
 					handleActions(0, PREPARE, 0, 150, 0);
 				}
@@ -175,7 +175,7 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 					handleActions(0, HEADSHOT, 150, 150, 0);
 				}
 
-				if (enemy.isDead()) {
+				if (enemy.isDead() && enemiesDefeated >= 1) {
 					enemiesDefeated++;
 					showBattleWonScreen(handler, counter);
 					enemy.findNextDemon();
@@ -201,10 +201,18 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 
 void Arena::showBattleWonScreen(SceneHandler& handler, int& counter) {
 	characterActionText.setString(enemyName + " has been defeated!");
+	//saveHighScore();
 
 	if (enemiesDefeated >= 2) {
 		handler.stackScene("gameover");
 		counter++;
+	}
+}
+
+void Arena::saveHighScore() {
+	std::ofstream highscoreFile("Save data/HighscoreData.cmgt", std::ios::app);
+	if (highscoreFile.is_open()) {
+		highscoreFile << turnsUsed << "\n";
 	}
 }
 
@@ -233,15 +241,9 @@ void Arena::importCharacter()
 		player.m_heal = statsVecArena[1];
 		player.m_headshot = statsVecArena[2];
 
-		std::cout << "reimporting character in Arena.cpp" << std::endl;
-
 		characterDataArena.close();
 	}
 	else std::cout << "Unable to open PlayerData.cmgt in Arena.cpp" << std::endl;
-
-	for (int i = 0; i < statsVecArena.size(); i++) {
-		std::cout << "vector element: " << statsVecArena[i] << std::endl;
-	}
 
 	updateSkills();
 }
@@ -352,7 +354,6 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 }
 
 void Arena::updateActionText(int turn, int buttonClicked, int damageDone, int healthGained, std::string enemyName) {
-	std::cout << "enemy's name: " << enemyName << std::endl;
 	switch (turn) {
 	case PLAYER:
 		turnText.setString(enemyName + "'s turn!");

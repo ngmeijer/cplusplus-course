@@ -21,6 +21,8 @@ public:
 	void handleButtons();
 	void handleText();
 
+	void handleHighscores();
+
 	//Input
 	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
 };

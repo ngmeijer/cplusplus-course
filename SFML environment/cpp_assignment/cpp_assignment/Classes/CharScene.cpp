@@ -165,7 +165,6 @@ void CharScene::importCharacter()
 				return;
 			}
 			else {
-				std::cout << "value: " << line << std::endl;
 				statsVecSelect.push_back(std::stoi(line));
 			}
 		}

@@ -18,6 +18,7 @@ sf::Music backgroundMusic;
 
 Font font;
 bool hasImportedPlayer = false;
+bool hasRefreshedHighscore = false;
 int counter = 0;
 int* counterPtr = &counter;
 
@@ -115,12 +116,15 @@ int main() {
 					if (!hasImportedPlayer) {
 						arena.importCharacter();
 						arena.updateSkills();
-						std::cout << "reimport the damn character" << std::endl;
 						hasImportedPlayer = true;
 					}
 					arena.checkInput(event, window, mousePosition, handler, counter);
 					break;
 				case 3:
+					if (!hasRefreshedHighscore) {
+						gameOver.handleHighscores();
+						hasRefreshedHighscore = true;
+					}
 					gameOver.checkInput(event, window, mousePosition, handler, counter);
 				}
 			}

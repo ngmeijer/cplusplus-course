@@ -28,26 +28,6 @@ GameOver::GameOver(std::string identifier, sf::RenderWindow& windowRef, sf::Font
 	handleBackground();
 	handleButtons();
 	handleText();
-
-	if (HighScoreData.is_open())
-	{
-		std::string line;
-		while (getline(HighScoreData, line) && (highScores.size() < 6)) {
-			if (!line.empty()) {
-				highScores.push_back(std::stoi(line));
-			}
-			else {
-				highScoresElements.setString("No highscores available.");
-				return;
-			}
-		}
-
-		for (int i = 0; i < highScores.size(); i++) {
-			std::string oldString = highScoresElements.getString();
-			highScoresElements.setString(oldString + "\n" + std::to_string(highScores[i]));
-		}
-	}
-	else std::cout << "Unable to open Highscore.cmgt in Gameover.cpp" << std::endl;
 }
 
 GameOver::~GameOver() {  }
@@ -80,6 +60,33 @@ void GameOver::handleText() {
 	addTextObject(gameOverText);
 	addTextObject(highScoreText);
 	addTextObject(highScoresElements);
+}
+
+void GameOver::handleHighscores()
+{
+	if (HighScoreData.is_open())
+	{
+		std::string line;
+		if (highScores.size() < 6)
+		{
+			while (getline(HighScoreData, line)) {
+				if (!line.empty()) {
+					highScores.push_back(std::stoi(line));
+					//sort(highScores.end(), highScores.begin());
+				}
+				else {
+					highScoresElements.setString("No highscores available.");
+					return;
+				}
+			}
+		}
+
+		for (int i = 0; i < highScores.size(); i++) {
+			std::string oldString = highScoresElements.getString();
+			highScoresElements.setString(oldString + "\n" + std::to_string(highScores[i]));
+		}
+	}
+	else std::cout << "Unable to open Highscore.cmgt in Gameover.cpp" << std::endl;
 }
 
 void GameOver::handleButtons() {

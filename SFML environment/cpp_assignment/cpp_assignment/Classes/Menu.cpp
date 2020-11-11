@@ -22,8 +22,9 @@ Button quitButtonMenu;
 std::ifstream characterFileMenu("Save data/PlayerData.cmgt");
 std::ifstream highScores("Save data/HighscoreData.cmgt");
 std::vector<int> highScoreVec;
-sf::Text highScoreTitle;
+sf::Text highscoreTitle;
 sf::Text highscoreText;
+sf::Text highscoreDescription;
 
 Menu::Menu() {}
 
@@ -45,16 +46,22 @@ void Menu::handleText() {
 	title.setPosition(10, -20);
 	title.setString("Nether Fights");
 
-	highScoreTitle.setFont(m_font);
-	highScoreTitle.setCharacterSize(75);
-	highScoreTitle.setPosition(10, 400);
-	highScoreTitle.setString("Highscore:");
+	highscoreTitle.setFont(m_font);
+	highscoreTitle.setCharacterSize(75);
+	highscoreTitle.setPosition(10, 400);
+	highscoreTitle.setString("Highscore: ");
+
+	highscoreDescription.setFont(m_font);
+	highscoreDescription.setCharacterSize(50);
+	highscoreDescription.setPosition(10, 485);
+	highscoreDescription.setString("Lower is better");
 
 	highscoreText.setFont(m_font);
 	highscoreText.setCharacterSize(40);
-	highscoreText.setPosition(10, 500);
+	highscoreText.setPosition(10, 550);
 
-	addTextObject(highScoreTitle);
+	addTextObject(highscoreTitle);
+	addTextObject(highscoreDescription);
 	addTextObject(highscoreText);
 	addTextObject(title);
 }
@@ -65,12 +72,13 @@ void Menu::handleHighScore() {
 		std::string line;
 		while (getline(highScores, line) && (highScoreVec.size() < 6)) {
 			highScoreVec.push_back(std::stoi(line));
+			sort(highScoreVec.begin(), highScoreVec.end());
 		}
 
 		if (highScoreVec.size() > 0) {
 			for (int i = 0; i < highScoreVec.size(); i++) {
 				std::string oldString = highscoreText.getString();
-				highscoreText.setString(oldString + "\n" + std::to_string(highScoreVec[i]));
+				highscoreText.setString(oldString + std::to_string(highScoreVec[i]) + "\n");
 			}
 		}
 	}
@@ -128,12 +136,16 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 					playerDataFile << 3 << std::endl;
 
 					playerDataFile << 9;
+
+					playerDataFile.close();
 				}
 
-				std::ofstream highscoreFile("HighscoreData.txt");
+				std::ofstream highscoreFile("HighscoreData.txt", std::ios::trunc);
 				if (highscoreFile.is_open()) {
-					highscoreFile << 0;
+					highscoreFile << 0 << std::endl;
 					highscoreText.setString("No current highscores");
+
+					highscoreFile.close();
 				}
 			}
 		}

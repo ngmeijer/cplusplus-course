@@ -41,6 +41,6 @@ public:
 	void updateSkills();
 	void handleActions(int turn, int action, int damageDealt, int staminaSpent, int healAmount);
 	void updateActionText(int turn, int buttonClicked, int damage, int health, std::string enemyName);
-
 	void adjustSkillScaling(ACTION_VALUES values, Character& character, int strength, int heal, int headshot);
+	void saveHighScore();
 };
