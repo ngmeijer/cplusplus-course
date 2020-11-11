@@ -74,7 +74,7 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "NETHER FIGHTS!");
 
 	readWritePlayerData();
-	//handleAudio();
+	handleAudio();
 
 	if (!font.loadFromFile("Assets/font.ttf")) {
 		std::cout << "Missing font." << std::endl;

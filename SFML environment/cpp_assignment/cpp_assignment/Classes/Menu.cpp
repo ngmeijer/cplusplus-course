@@ -12,6 +12,11 @@
 
 using namespace std;
 
+typedef sf::Text TextObject;
+typedef std::string StringObject;
+typedef sf::RectangleShape RectShape;
+typedef std::ifstream InputFile;
+
 Text title;
 SpriteObject background("background", "Assets/titleBG.jpg");
 
@@ -19,12 +24,12 @@ Button playButton;
 Button eraseButton;
 Button quitButtonMenu;
 
-std::ifstream characterFileMenu("Save data/PlayerData.cmgt");
-std::ifstream highScores("Save data/HighscoreData.cmgt");
+InputFile characterFileMenu("Save data/PlayerData.cmgt");
+InputFile highScores("Save data/HighscoreData.cmgt");
 std::vector<int> highScoreVec;
-sf::Text highscoreTitle;
-sf::Text highscoreText;
-sf::Text highscoreDescription;
+TextObject highscoreTitle;
+TextObject highscoreText;
+TextObject highscoreDescription;
 
 Menu::Menu() {}
 

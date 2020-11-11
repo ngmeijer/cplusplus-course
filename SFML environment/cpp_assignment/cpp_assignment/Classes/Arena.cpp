@@ -7,6 +7,10 @@
 #include "../Headers/Player.hpp"
 #include "../Headers/Enemy.hpp"
 
+typedef sf::Text TextObject;
+typedef std::string StringObject;
+typedef sf::RectangleShape RectShape;
+
 Button attackButtonArena;
 Button prepareButtonArena;
 Button recoverButtonArena;
@@ -16,18 +20,21 @@ Button continueFightButtonArena;
 
 SpriteObject sceneBackground("background", "Assets/FightScene.jpg");
 
-sf::RectangleShape textBoxBackground;
-sf::Text characterActionText;
-sf::Text turnText;
-std::string currentAction = "DOOMSLAYER attacked for 50 damage";
-std::string turnString = "Your turn!";
+RectShape textBoxBackground;
+TextObject characterActionText;
+TextObject turnText;
+StringObject currentAction = "DOOMSLAYER attacked for 50 damage";
+StringObject turnString = "Your turn!";
 
 Player player;
 Enemy enemy;
 
-int currentTurn;
-int enemiesDefeated;
-int turnsUsed;
+typedef unsigned int counter;
+
+counter currentTurn;
+counter enemiesDefeated;
+counter turnsUsed;
+
 bool hasWonGame;
 
 enum CHARACTERS {
@@ -51,8 +58,8 @@ CHARACTERS characters;
 std::ifstream characterDataArena("Save data/PlayerData.cmgt");
 std::vector<int> statsVecArena;
 
-std::string enemyName;
-std::string playerName;
+StringObject enemyName;
+StringObject playerName;
 
 Arena::Arena() { }
 
