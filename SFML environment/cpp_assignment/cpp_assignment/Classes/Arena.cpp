@@ -150,6 +150,8 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {
 			if (quitButtonArena.onClick(mousePos) == true) {
+				player.resetCharacterStats();
+				enemy.resetCharacterStats();
 				handler.stackScene("menu");
 				counter = 0;
 			}
@@ -175,12 +177,15 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 					handleActions(0, HEADSHOT, 150, 150, 0);
 				}
 
-				if (enemy.isDead() && enemiesDefeated >= 1) {
+				if (enemy.isDead()) {
 					enemiesDefeated++;
-					showBattleWonScreen(handler, counter);
 					enemy.findNextDemon();
 					player.resetCharacterStats();
 					enemyName = enemy.returnCharacterName();
+
+					if (enemiesDefeated == 2) {
+						showBattleWonScreen(handler, counter);
+					}
 				}
 			}
 
@@ -201,7 +206,7 @@ void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f m
 
 void Arena::showBattleWonScreen(SceneHandler& handler, int& counter) {
 	characterActionText.setString(enemyName + " has been defeated!");
-	//saveHighScore();
+	saveHighScore();
 
 	if (enemiesDefeated >= 2) {
 		handler.stackScene("gameover");

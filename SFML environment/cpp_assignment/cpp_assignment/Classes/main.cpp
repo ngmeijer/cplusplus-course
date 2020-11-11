@@ -71,7 +71,7 @@ void handleAudio() {
 }
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "NETHER FIGHTS!", sf::Style::None);
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "NETHER FIGHTS!");
 
 	readWritePlayerData();
 	//handleAudio();

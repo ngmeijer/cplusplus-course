@@ -71,8 +71,10 @@ void GameOver::handleHighscores()
 		{
 			while (getline(HighScoreData, line)) {
 				if (!line.empty()) {
-					highScores.push_back(std::stoi(line));
-					//sort(highScores.end(), highScores.begin());
+					if (std::stoi(line) != 0) {
+						highScores.push_back(std::stoi(line));
+						sort(highScores.begin(), highScores.end());
+					}
 				}
 				else {
 					highScoresElements.setString("No highscores available.");

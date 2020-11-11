@@ -71,8 +71,10 @@ void Menu::handleHighScore() {
 	{
 		std::string line;
 		while (getline(highScores, line) && (highScoreVec.size() < 6)) {
-			highScoreVec.push_back(std::stoi(line));
-			sort(highScoreVec.begin(), highScoreVec.end());
+			if (std::stoi(line) != 0) {
+				highScoreVec.push_back(std::stoi(line));
+				sort(highScoreVec.begin(), highScoreVec.end());
+			}
 		}
 
 		if (highScoreVec.size() > 0) {
@@ -129,7 +131,7 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 			}
 
 			if (eraseButton.onClick(mousePos) == true) {
-				std::ofstream playerDataFile("PlayerData.txt");
+				std::ofstream playerDataFile("Save data/PlayerData.cmgt");
 				if (playerDataFile.is_open()) {
 					playerDataFile << 3 << std::endl;
 					playerDataFile << 3 << std::endl;
@@ -140,7 +142,7 @@ void Menu::checkInput(Event event, RenderWindow& window, Vector2f mousePos, Scen
 					playerDataFile.close();
 				}
 
-				std::ofstream highscoreFile("HighscoreData.txt", std::ios::trunc);
+				std::ofstream highscoreFile("Save data/HighscoreData.cmgt", std::ios::trunc);
 				if (highscoreFile.is_open()) {
 					highscoreFile << 0 << std::endl;
 					highscoreText.setString("No current highscores");
