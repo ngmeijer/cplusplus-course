@@ -16,7 +16,7 @@ sf::Text highScoreText;
 sf::Text highScoresElements;
 sf::Text scoreDescription;
 
-std::ifstream HighScoreData("HighscoreData.txt");
+std::ifstream HighScoreData("Save data/HighscoreData.cmgt");
 std::vector<int> highScores;
 
 GameOver::GameOver() {}
@@ -47,7 +47,7 @@ GameOver::GameOver(std::string identifier, sf::RenderWindow& windowRef, sf::Font
 			highScoresElements.setString(oldString + "\n" + std::to_string(highScores[i]));
 		}
 	}
-	else std::cout << "Unable to open file";
+	else std::cout << "Unable to open Highscore.cmgt in Gameover.cpp" << std::endl;
 }
 
 GameOver::~GameOver() {  }

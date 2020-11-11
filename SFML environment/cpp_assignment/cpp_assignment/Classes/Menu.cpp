@@ -19,8 +19,8 @@ Button playButton;
 Button eraseButton;
 Button quitButtonMenu;
 
-std::ifstream characterFileMenu("PlayerData.txt");
-std::ifstream highScores("HighscoreData.txt");
+std::ifstream characterFileMenu("Save data/PlayerData.cmgt");
+std::ifstream highScores("Save data/HighscoreData.cmgt");
 std::vector<int> highScoreVec;
 sf::Text highScoreTitle;
 sf::Text highscoreText;

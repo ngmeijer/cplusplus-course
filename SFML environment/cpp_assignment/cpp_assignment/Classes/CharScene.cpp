@@ -25,7 +25,7 @@ sf::Text healText;
 
 sf::Text availablePointsText;
 
-std::ifstream characterDataSelect("PlayerData.txt");
+std::ifstream characterDataSelect("Save data/PlayerData.cmgt");
 std::vector<int> statsVecSelect;
 
 enum Stats {
@@ -144,8 +144,9 @@ void CharScene::updateSkillPoints(int valueChange) {
 }
 
 void CharScene::writeCharacterToFile() {
-	std::ofstream characterFile("PlayerData.txt");
+	std::ofstream characterFile("Save data/PlayerData.cmgt");
 	if (characterFile.is_open()) {
+		characterFile.clear();
 		characterFile << m_currentPlayer.m_strength << "\n";
 		characterFile << m_currentPlayer.m_heal << "\n";
 		characterFile << m_currentPlayer.m_headshot << "\n";

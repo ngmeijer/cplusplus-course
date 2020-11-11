@@ -47,7 +47,7 @@ Arena::ACTION_VALUES actionValuesPlayer;
 Arena::ACTION_VALUES actionValuesEnemy;
 CHARACTERS characters;
 
-std::ifstream characterDataArena("PlayerData.txt");
+std::ifstream characterDataArena("Save data/PlayerData.cmgt");
 std::vector<int> statsVecArena;
 
 std::string enemyName;
@@ -68,7 +68,6 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 	adjustSkillScaling(actionValuesPlayer, player, player.m_strength, player.m_heal, player.m_headshot);
 	player.handleCharacter(*this);
 
-	importCharacter();
 	//
 
 	handleBackground();
@@ -211,8 +210,8 @@ void Arena::showBattleWonScreen(SceneHandler& handler, int& counter) {
 
 int Arena::generateRandomAction()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
 	std::uniform_int_distribution<> distr(ACTION_BUTTONS::ATTACK, ACTION_BUTTONS::DO_NOTHING);
 
 	int value = distr(gen);
@@ -224,6 +223,7 @@ void Arena::importCharacter()
 {
 	if (characterDataArena.is_open())
 	{
+		//Variables don't get replaced so old values are used in vector, therefore not updating character skills?
 		std::string line;
 		while (getline(characterDataArena, line)) {
 			statsVecArena.push_back(std::stoi(line));
@@ -232,11 +232,17 @@ void Arena::importCharacter()
 		player.m_strength = statsVecArena[0];
 		player.m_heal = statsVecArena[1];
 		player.m_headshot = statsVecArena[2];
-		std::cout << "reimporting character" << std::endl;
-	}
-	else std::cout << "Unable to open file" << std::endl;
 
-	characterDataArena.close();
+		std::cout << "reimporting character in Arena.cpp" << std::endl;
+
+		characterDataArena.close();
+	}
+	else std::cout << "Unable to open PlayerData.cmgt in Arena.cpp" << std::endl;
+
+	for (int i = 0; i < statsVecArena.size(); i++) {
+		std::cout << "vector element: " << statsVecArena[i] << std::endl;
+	}
+
 	updateSkills();
 }
 

@@ -13,7 +13,7 @@
 
 #include <fstream>
 
-std::ifstream characterData("PlayerData.txt");
+std::ifstream characterData("Save data/PlayerData.cmgt");
 sf::Music backgroundMusic;
 
 Font font;
@@ -43,7 +43,7 @@ void backToMenu() {
 
 void readWritePlayerData() {
 	if (characterData.fail()) {
-		std::cout << "\n" << "Failed opening the PlayerData.txt file in main.cpp." << std::endl << "\n";
+		std::cout << "\n" << "Failed opening the PlayerData.cmgt file in main.cpp." << std::endl << "\n";
 	}
 	else {
 		std::string line;
@@ -94,7 +94,6 @@ int main() {
 
 	while (window.isOpen()) {
 		{
-
 			sf::Event event;
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::Closed) {
@@ -115,6 +114,8 @@ int main() {
 				case 2:
 					if (!hasImportedPlayer) {
 						arena.importCharacter();
+						arena.updateSkills();
+						std::cout << "reimport the damn character" << std::endl;
 						hasImportedPlayer = true;
 					}
 					arena.checkInput(event, window, mousePosition, handler, counter);
