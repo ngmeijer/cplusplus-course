@@ -59,7 +59,7 @@ std::ifstream characterDataArena("Save data/PlayerData.cmgt");
 std::vector<int> statsVecArena;
 
 StringObject enemyName;
-StringObject playerName;
+const StringObject playerName = "DOOMSLAYER";
 
 Arena::Arena() { }
 
@@ -82,8 +82,6 @@ Arena::Arena(std::string identifier, sf::RenderWindow& windowRef, sf::Font& font
 	handleTextbox();
 	handleButtons();
 	enemyName = enemy.returnCharacterName();
-	playerName = player.returnCharacterName();
-
 }
 
 Arena::~Arena() { }
