@@ -67,6 +67,7 @@ public:
 
 	std::string m_spriteName;
 	std::string m_characterName;
+	std::string* characterNamePtr;
 
 	Scene m_scene;
 

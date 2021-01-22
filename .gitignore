@@ -350,3 +350,53 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+SFML environment/Game/Assets/BackgroundMusic.wav
+
+SFML environment/Game/Assets/Cacodemon.png
+
+SFML environment/Game/Assets/charBackground.jpg
+
+SFML environment/Game/Assets/DoomSlayer.png
+
+SFML environment/Game/Assets/FightScene.jpg
+
+SFML environment/Game/Assets/font.ttf
+
+SFML environment/Game/Assets/GameOverBackground.jpg
+
+SFML environment/Game/Assets/HeadshotIcon.png
+
+SFML environment/Game/Assets/HealIcon.png
+
+SFML environment/Game/Assets/MinusButton.png
+
+SFML environment/Game/Assets/PlusButton.png
+
+SFML environment/Game/Assets/StrengthIcon.png
+
+SFML environment/Game/Assets/titleBG.jpg
+
+SFML environment/Game/Assets/Zombie.png
+
+SFML environment/Game/cpp_assignment.exe
+
+SFML environment/Game/openal32.dll
+
+SFML environment/Game/Save data/HighscoreData.cmgt
+
+SFML environment/Game/Save data/PlayerData.cmgt
+
+SFML environment/Game/sfml-audio-2.dll
+
+SFML environment/Game/sfml-graphics-2.dll
+
+SFML environment/Game/sfml-network-2.dll
+
+SFML environment/Game/sfml-system-2.dll
+
+SFML environment/Game/sfml-window-2.dll
+
+SFML environment/Related Hand-ins/Libraries.txt
+
+*.zip

@@ -152,7 +152,7 @@ void Arena::handleBackground() {
 	addGameObject(sceneBackground);
 }
 
-void Arena::checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter)
+void Arena::checkInput(sf::Event event, sf::Vector2f mousePos, SceneHandler& handler, int& counter)
 {
 	if (event.type == sf::Event::MouseButtonPressed) {
 		if (event.mouseButton.button == sf::Mouse::Left) {

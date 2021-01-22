@@ -118,7 +118,7 @@ int main() {
 						arena.updateSkills();
 						hasImportedPlayer = true;
 					}
-					arena.checkInput(event, window, mousePosition, handler, counter);
+					arena.checkInput(event, mousePosition, handler, counter);
 					break;
 				case 3:
 					if (!hasRefreshedHighscore) {

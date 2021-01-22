@@ -30,7 +30,7 @@ public:
 	void handleTextbox();
 
 	//Input
-	void checkInput(sf::Event event, sf::RenderWindow& window, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
+	void checkInput(sf::Event event, sf::Vector2f mousePos, SceneHandler& handler, int& counter);
 
 	void showBattleWonScreen(SceneHandler& handler, int& counter);
 

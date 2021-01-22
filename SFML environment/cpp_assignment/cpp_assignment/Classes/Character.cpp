@@ -65,7 +65,8 @@ void Character::handleCharacterSprites(Scene& scene) {
 	this->windowBackground.setPosition(windowBackgroundPos);
 	this->windowBackground.setFillColor(sf::Color(120, 120, 120, 150));
 
-	this->characterName.setString(m_characterName);
+	characterNamePtr = &m_characterName;
+	this->characterName.setString(*characterNamePtr);
 
 	this->characterSprite.setSprite(m_spriteName);
 	this->characterSprite.setPosition(characterSpritePos);
