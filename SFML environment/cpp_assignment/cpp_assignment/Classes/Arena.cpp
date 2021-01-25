@@ -264,7 +264,7 @@ void Arena::updateSkills() {
 	player.characterHeadshotText.setString(std::to_string(player.m_headshot));
 }
 
-void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmount, int healAmount) {
+void Arena::handleActions(int turn, const int action, const int damageDealt, const int staminaAmount, const int healAmount) {
 	switch (turn) {
 	case PLAYER:
 		turnsUsed++;
@@ -363,7 +363,7 @@ void Arena::handleActions(int turn, int action, int damageDealt, int staminaAmou
 	}
 }
 
-void Arena::updateActionText(int turn, int buttonClicked, int damageDone, int healthGained, std::string enemyName) {
+void Arena::updateActionText(int turn, const int buttonClicked, const int damageDone, const int healthGained, const std::string enemyName) {
 	switch (turn) {
 	case PLAYER:
 		turnText.setString(enemyName + "'s turn!");

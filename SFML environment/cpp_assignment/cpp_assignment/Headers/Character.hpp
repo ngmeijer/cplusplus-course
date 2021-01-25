@@ -113,7 +113,7 @@ public:
 	bool canHealSelf(int staminaSpent, int healAmount);
 	void receiveHeadshot(int damageTaken);
 	bool isDead();
-	std::string returnCharacterName();
+	std::string returnCharacterName() const;
 	void findNextDemon();
 	void resetCharacterStats();
 };

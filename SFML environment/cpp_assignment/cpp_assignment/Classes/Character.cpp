@@ -211,7 +211,7 @@ bool Character::isDead() {
 	return hasCharacterDied;
 }
 
-std::string Character::returnCharacterName()
+std::string Character::returnCharacterName() const
 {
 	std::string name = this->characterName.getString();
 
